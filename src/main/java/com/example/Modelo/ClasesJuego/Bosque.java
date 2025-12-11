@@ -1,10 +1,16 @@
 package com.example.Modelo.ClasesJuego;
+import java.util.List;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,7 +26,10 @@ public class Bosque {
     private String nombre;
     private int nivelPeligro;
     
-    @OneToOne(cascade = CascadeType.ALL) // Relación uno a uno con Monstruo
+    @OneToMany(cascade = CascadeType.ALL) // Relación uno a N con Monstruo
+    private List<Monstruo> monstruosJefes;
+
+    @ManyToOne(cascade = CascadeType.ALL) // Relación muchos a uno con Monstruo
     private Monstruo monstruoJefe;
     
     // CONSTRUCTORES
@@ -28,11 +37,14 @@ public class Bosque {
     public Bosque(){}
 
     // Constructor con parámetros
-    public Bosque(int id, String nombre, int nivelPeligro, Monstruo monstruoJefe) {
+    public Bosque(int id, String nombre, int nivelPeligro, List<Monstruo> monstruosJefes) {
         this.id = id;
         this.nombre = nombre;
         this.nivelPeligro = nivelPeligro;
-        this.monstruoJefe = monstruoJefe;
+        this.monstruosJefes = monstruosJefes;
+
+        // Monstruo jefe aleatorio del bosque
+        this.monstruoJefe = monstruosJefes.get((int)(Math.random() * monstruosJefes.size()));
     }
 
     // GETTERS
@@ -65,8 +77,29 @@ public class Bosque {
         this.nivelPeligro = nivelPeligro;
     }
 
+    /**
+     * Establece la lista de monstruos jefes del bosque.
+     * Si el monstruo jefe actual no está en la nueva lista, se selecciona uno aleatoriamente.
+     * @param monstruosJefes
+     */
+    public void setMonstruosJefes(List<Monstruo> monstruosJefes) {
+        this.monstruosJefes = monstruosJefes;
+        if (!monstruosJefes.contains(monstruoJefe)) {
+            this.monstruoJefe = monstruosJefes.get((int)(Math.random() * monstruosJefes.size()));
+        }
+    }
+
+    /**
+     * Establece el monstruo jefe del bosque.
+     * Si el monstruo jefe no está en la lista de monstruos jefes, se añade a la lista.
+     * @param monstruoJefe
+     */
     public void setMonstruoJefe(Monstruo monstruoJefe) {
         this.monstruoJefe = monstruoJefe;
+
+        if (!monstruosJefes.contains(monstruoJefe)) {
+            this.monstruosJefes.add(monstruoJefe);
+        }
     }
 
     // TO STRING
@@ -93,5 +126,4 @@ public class Bosque {
     public void cambiarJefe(Monstruo monstruo) {
         setMonstruoJefe(monstruo);
     }
-    
 }

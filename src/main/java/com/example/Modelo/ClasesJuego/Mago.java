@@ -16,14 +16,15 @@ public class Mago {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Generación automática del ID
 
-    private  int id;
-    private  String nombre;
-    private  int vida;
-    private  int nivelMagia;
+    private int id;
+    private String nombre;
+    private int vida;
+    private int nivelMagia;
 
     // Constructor
     // Constructor vacío requerido por Hibernate
-    public Mago(){}
+    public Mago() {
+    }
 
     // Constructor con parámetros
     public Mago(String nombre, int vida, int nivelMagia) {
@@ -32,7 +33,8 @@ public class Mago {
         // Asegurar que la vida no sea menor o igual a 0
         if (vida <= 0) {
             this.vida = 1;
-        } else this.vida = vida;
+        } else
+            this.vida = vida;
 
         this.nivelMagia = nivelMagia;
     }
@@ -64,20 +66,25 @@ public class Mago {
     }
 
     public void setVida(int vida) {
-        this.vida = vida;
+        if (vida <= 0) {
+            this.vida = 0;
+        } else {
+            this.vida = vida;
+        }
     }
 
     public void setNivelMagia(int nivelMagia) {
         this.nivelMagia = nivelMagia;
     }
-    
+
     // MÉTODOS
     /**
      * Lanza un hechizo contra un monstruo, reduciendo su vida.
+     * 
      * @param monstruo
      */
     public void lanzarHechizo(Monstruo monstruo) {
-        monstruo.setVida(monstruo.getVida()-nivelMagia);
+        monstruo.setVida(monstruo.getVida() - nivelMagia);
     }
 
     // TO STRING
