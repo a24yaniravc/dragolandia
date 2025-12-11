@@ -87,6 +87,10 @@ public class Monstruo {
         this.nombre = nombre;
     }
 
+    /**
+     * Establece la vida del monstruo, asegurando que no sea menor a 0.
+     * @param vida
+     */
     public void setVida(int vida) {
         if (vida < 0) {
             this.vida = 0;

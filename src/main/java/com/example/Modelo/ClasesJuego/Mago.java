@@ -65,6 +65,10 @@ public class Mago {
         this.nombre = nombre;
     }
 
+    /**
+     * Establece la vida del mago, asegurando que no sea menor a 0.
+     * @param vida
+     */
     public void setVida(int vida) {
         if (vida <= 0) {
             this.vida = 0;
