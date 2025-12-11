@@ -64,6 +64,10 @@ public class Bosque {
         return monstruoJefe;
     }
 
+    public List<Monstruo> getMonstruosJefes() {
+        return monstruosJefes;
+    }
+
     // SETTERS
     public void setId(int id) {
         this.id = id;
