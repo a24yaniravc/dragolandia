@@ -49,7 +49,7 @@ public class Modelo {
      * Inicializa el juego creando las entidades principales.
      */
     public final void inicializarJuego() {
-        // Entidades aleatorias de ejemplo
+        // Entidades de ejemplo
         listaMonstruos.add(new Monstruo("Espectro de fuego", 100, "espectro", 30));
         listaMonstruos.add(new Monstruo("Gorgo el Terrible", 150, "ogro", 40));
         listaMonstruos.add(new Monstruo("Pepe el Troll", 80, "troll", 20));
