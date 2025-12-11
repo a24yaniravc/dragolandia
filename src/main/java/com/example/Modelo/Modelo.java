@@ -79,4 +79,8 @@ public class Modelo {
     public Bosque getBosque() {
         return bosque;
     }
+
+    public Monstruo getMonstruo() {
+        return monstruo;
+    }
 }
