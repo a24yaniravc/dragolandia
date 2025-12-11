@@ -63,13 +63,12 @@ public class Modelo {
         listaBosques.add(new Bosque(3, "Pantano tenebroso", 3, listaMonstruos));
 
         // Selección aleatoria de las entidades para el juego
-        int num_monstruo = (int)(Math.random() * listaMonstruos.size());
         int num_mago = (int)(Math.random() * listaMagos.size());
         int num_bosque = (int)(Math.random() * listaBosques.size());
-
-        this.monstruo = listaMonstruos.get(num_monstruo);
+;
         this.mago = listaMagos.get(num_mago);
         this.bosque = listaBosques.get(num_bosque);
+        this.monstruo = bosque.getMonstruoJefe();
     }
 
     // GETTERS
