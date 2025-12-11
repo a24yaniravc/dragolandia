@@ -1,6 +1,5 @@
 package com.example.Modelo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.example.Modelo.ClasesJuego.Bosque;
@@ -13,13 +12,16 @@ import com.example.Modelo.ClasesJuego.Monstruo;
 public class Modelo {
     private static Modelo instancia; // Instancia única de la clase Modelo (SINGLETON)
 
-    private List<Monstruo> listaMonstruos = new ArrayList<>();
-    private List<Mago> listaMagos = new ArrayList<>();
-    private List<Bosque> listaBosques = new ArrayList<>();
+    // Listas de entidades disponibles en el juego
+    private List<Monstruo> listaMonstruos = List.of(new Monstruo("Espectro de fuego", 100, "espectro", 30),
+            new Monstruo("Gorgo el Terrible", 150, "ogro", 40), new Monstruo("Pepe el Troll", 80, "troll", 20));
+    private List<Mago> listaMagos = List.of(new Mago("Patosaurio", 100, 30), new Mago("Fenixdor", 120, 40),
+            new Mago("Lunargenta", 90, 25));
+    private List<Bosque> listaBosques = List.of(new Bosque(1, "Bosque maldito", 1, listaMonstruos), new Bosque(2, "Selva oscura", 2, listaMonstruos), new Bosque(3, "Pantano tenebroso", 3, listaMonstruos));
 
-    private  Monstruo monstruo;
-    private  Mago mago;
-    private  Bosque bosque;
+    private Monstruo monstruo;
+    private Mago mago;
+    private Bosque bosque;
 
     // CONSTRUCTORES
 
@@ -29,9 +31,10 @@ public class Modelo {
     public Modelo() {
         inicializarJuego();
     }
-    
+
     /**
      * Obtiene la instancia única de la clase Modelo (SINGLETON).
+     * 
      * @return
      */
     public static Modelo getInstancia() {
@@ -49,23 +52,10 @@ public class Modelo {
      * Inicializa el juego creando las entidades principales.
      */
     public final void inicializarJuego() {
-        // Entidades de ejemplo
-        listaMonstruos.add(new Monstruo("Espectro de fuego", 100, "espectro", 30));
-        listaMonstruos.add(new Monstruo("Gorgo el Terrible", 150, "ogro", 40));
-        listaMonstruos.add(new Monstruo("Pepe el Troll", 80, "troll", 20));
-        
-        listaMagos.add(new Mago("Patosaurio", 100, 30));
-        listaMagos.add(new Mago("Fenixdor", 120, 40));
-        listaMagos.add(new Mago("Lunargenta", 90, 25));
-
-        listaBosques.add(new Bosque(1, "Bosque maldito", 1, listaMonstruos));
-        listaBosques.add(new Bosque(2, "Selva oscura", 2, listaMonstruos));
-        listaBosques.add(new Bosque(3, "Pantano tenebroso", 3, listaMonstruos));
-
         // Selección aleatoria de las entidades para el juego
-        int num_mago = (int)(Math.random() * listaMagos.size());
-        int num_bosque = (int)(Math.random() * listaBosques.size());
-;
+        int num_mago = (int) (Math.random() * listaMagos.size());
+        int num_bosque = (int) (Math.random() * listaBosques.size());
+
         this.mago = listaMagos.get(num_mago);
         this.bosque = listaBosques.get(num_bosque);
         this.monstruo = bosque.getMonstruoJefe();
@@ -82,5 +72,17 @@ public class Modelo {
 
     public Monstruo getMonstruo() {
         return monstruo;
+    }
+
+    public List<Monstruo> getListaMonstruos() {
+        return listaMonstruos;
+    }
+
+    public List<Mago> getListaMagos() {
+        return listaMagos;
+    }
+
+    public List<Bosque> getListaBosques() {
+        return listaBosques;
     }
 }
