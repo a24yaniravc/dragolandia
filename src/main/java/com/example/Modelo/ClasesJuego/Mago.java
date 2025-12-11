@@ -1,4 +1,4 @@
-package com.example.Modelo;
+package com.example.Modelo.ClasesJuego;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

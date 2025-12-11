@@ -1,5 +1,9 @@
 package com.example.Modelo;
 
+import com.example.Modelo.ClasesJuego.Bosque;
+import com.example.Modelo.ClasesJuego.Mago;
+import com.example.Modelo.ClasesJuego.Monstruo;
+
 /**
  * Clase Modelo que representa el modelo del juego.
  */
@@ -36,12 +40,12 @@ public class Modelo {
      * Inicializa el juego creando las entidades principales.
      */
     public final void inicializarJuego() {
-        monstruo = new Monstruo("Troll Gigante", 100, "ogro", 30);
-        mago = new Mago("Merlín", 100, 30);
+        monstruo = new Monstruo("Espectro de fuego", 100, "espectro", 30);
+        mago = new Mago("Patosaurio", 100, 30);
         bosque = new Bosque(1, "Bosque encantado", 1, monstruo);
     }
 
-    //GETTERS
+    // GETTERS
     public Mago getMago() {
         return mago;
     }

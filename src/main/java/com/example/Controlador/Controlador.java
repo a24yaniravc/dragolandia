@@ -1,9 +1,9 @@
 package com.example.Controlador;
 
-import com.example.Modelo.Bosque;
-import com.example.Modelo.Mago;
 import com.example.Modelo.Modelo;
-import com.example.Modelo.Monstruo;
+import com.example.Modelo.ClasesJuego.Bosque;
+import com.example.Modelo.ClasesJuego.Mago;
+import com.example.Modelo.ClasesJuego.Monstruo;
 import com.example.Vista.Vista;
 
 /**
@@ -49,23 +49,24 @@ public class Controlador {
         Bosque bosque = modelo.getBosque();
         Monstruo monstruo = bosque.getMonstruoJefe();
 
-        vista.imprimirMensaje("\n---------------------------------------------------------------------------------------------------------------------------");
-        vista.imprimirMensaje("Comienza el combate entre el mago " + mago.getNombre() + " en el " + bosque.getNombre() + " contra el monstruo " + monstruo.getNombre());
-        vista.imprimirMensaje("----------------------------------------------------------------------------------------------------------------------------");
+        vista.imprimirMensaje("\n**********************************");
+        vista.imprimirMensaje("Comienza el combate en el " + bosque.getNombre() + ": \nEl mago " + mago.getNombre() + "\nVS\nEl monstruo " + monstruo.getNombre());
+        vista.imprimirMensaje("**********************************\n");
 
         // Bucle del combate
         while (!juegan) {
+            vista.imprimirMensaje("\n**********************************");
             vista.imprimirMensaje("Turno: " + turno);
             mago.lanzarHechizo(monstruo);
 
             if (monstruo.getVida() <= 0) {
-                vista.imprimirMensaje("El mago es el vencedor en el bosque\n");
+                vista.imprimirMensaje("El mago es el vencedor en el " + bosque.getNombre() + "\n");
                 juegan = true;
             } else {
                 monstruo.atacar(mago);
 
                 if (mago.getVida() <= 0) {
-                    vista.imprimirMensaje("El monstruo es el vencedor en el bosque");
+                    vista.imprimirMensaje("El monstruo es el vencedor en el " + bosque.getNombre() + "\n");
                     juegan = true; // también afecta la condición
                 }
             }
@@ -73,7 +74,7 @@ public class Controlador {
             turno++;
             vista.imprimirMensaje("HP mago: " + mago.getVida());
             vista.imprimirMensaje("HP monstruo: " + monstruo.getVida());
-            vista.imprimirMensaje("**********************************");
+            vista.imprimirMensaje("**********************************\n");
         }
     }
 }

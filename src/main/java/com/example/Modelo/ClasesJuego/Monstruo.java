@@ -1,4 +1,4 @@
-package com.example.Modelo;
+package com.example.Modelo.ClasesJuego;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -88,7 +88,11 @@ public class Monstruo {
     }
 
     public void setVida(int vida) {
-        this.vida = vida;
+        if (vida < 0) {
+            this.vida = 0;
+        } else {
+            this.vida = vida;
+        }
     }
 
     /**

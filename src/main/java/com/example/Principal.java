@@ -7,9 +7,9 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.Transaction;
 
 import com.example.Controlador.Controlador;
-import com.example.Modelo.Mago;
-import com.example.Modelo.Monstruo;
-import com.example.Modelo.Bosque;
+import com.example.Modelo.ClasesJuego.Bosque;
+import com.example.Modelo.ClasesJuego.Mago;
+import com.example.Modelo.ClasesJuego.Monstruo;
 
 /**
  * Clase principal para iniciar la aplicación.
