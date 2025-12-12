@@ -18,10 +18,11 @@ public class Controlador {
      * Constructor de la clase Controlador.
      */
     public Controlador() {
-        this.modelo = new Modelo();
+        this.modelo = Modelo.getInstancia();
         this.vista = new Vista();
     }
 
+    // GETTERS
     /**
      * Obtiene el modelo asociado al controlador.
      * @return
@@ -38,6 +39,8 @@ public class Controlador {
         return vista;
     }
 
+
+    // MÉTODOS
     /**
      * Inicia el combate entre el mago y el monstruo jefe del bosque.
      */
@@ -49,6 +52,11 @@ public class Controlador {
         Bosque bosque = modelo.getBosque();
         Monstruo monstruo = bosque.getMonstruoJefe();
 
+        vista.imprimirMensaje("");
+        vista.imprimirMensaje("**********************************");
+        vista.imprimirMensaje("¡Encuentro randomizado obtenido!");
+        vista.imprimirMensaje("**********************************");
+
         vista.imprimirMensaje("\n**********************************");
         vista.imprimirMensaje("Comienza el combate en el " + bosque.getNombre() + ": \nEl mago " + mago.getNombre() + "\nVS\nEl monstruo " + monstruo.getNombre());
         vista.imprimirMensaje("**********************************\n");
@@ -57,6 +65,7 @@ public class Controlador {
         while (!juegan) {
             vista.imprimirMensaje("\n**********************************");
             vista.imprimirMensaje("Turno: " + turno);
+
             mago.lanzarHechizo(monstruo);
 
             if (monstruo.getVida() <= 0) {

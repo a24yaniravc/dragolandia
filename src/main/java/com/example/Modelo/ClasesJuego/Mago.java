@@ -1,5 +1,9 @@
 package com.example.Modelo.ClasesJuego;
 
+import java.util.List;
+
+import com.example.Modelo.ClasesJuego.Hechizos.Hechizo;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +24,7 @@ public class Mago {
     private String nombre;
     private int vida;
     private int nivelMagia;
+    private List<Hechizo> conjuros = new java.util.ArrayList<>();
 
     // Constructor
     // Constructor vacío requerido por Hibernate
@@ -56,11 +61,11 @@ public class Mago {
         return nivelMagia;
     }
 
-    // SETTERS
-    public void setId(int id) {
-        this.id = id;
+    public List<Hechizo> getConjuros() {
+        return conjuros;
     }
 
+    // SETTERS
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -81,6 +86,10 @@ public class Mago {
         this.nivelMagia = nivelMagia;
     }
 
+    public void setConjuros(List<Hechizo> conjuros) {
+        this.conjuros = conjuros;
+    }
+
     // MÉTODOS
     /**
      * Lanza un hechizo contra un monstruo, reduciendo su vida.
@@ -89,6 +98,20 @@ public class Mago {
      */
     public void lanzarHechizo(Monstruo monstruo) {
         monstruo.setVida(monstruo.getVida() - nivelMagia);
+    }
+
+    /**
+     * Lanza un hechizo específico contra un monstruo, reduciendo su vida si el mago conoce el hechizo.
+     * De lo contrario, el mago pierde 1 punto de vida.
+     * @param monstruo
+     * @param hechizo
+     */
+    public void lanzarHechizo(List<Monstruo> monstruos, Hechizo hechizo) {
+        if (conjuros.contains(hechizo)) {
+            hechizo.efecto(monstruos);
+        } else {
+            setVida(getVida()-1);
+        }
     }
 
     // TO STRING

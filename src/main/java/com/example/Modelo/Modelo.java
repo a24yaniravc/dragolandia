@@ -5,22 +5,22 @@ import java.util.List;
 import com.example.Modelo.ClasesJuego.Bosque;
 import com.example.Modelo.ClasesJuego.Mago;
 import com.example.Modelo.ClasesJuego.Monstruo;
+import com.example.Vista.Vista;
 
 /**
  * Clase Modelo que representa el modelo del juego.
  */
 public class Modelo {
     private static Modelo instancia; // Instancia única de la clase Modelo (SINGLETON)
+    private static Vista view = new Vista(); // Vista asociada al modelo
 
     // Listas de entidades disponibles en el juego
-    private List<Monstruo> listaMonstruos = List.of(new Monstruo("Espectro de fuego", 100, "espectro", 30),
-            new Monstruo("Gorgo el Terrible", 150, "ogro", 40), new Monstruo("Pepe el Troll", 80, "troll", 20));
-    private List<Mago> listaMagos = List.of(new Mago("Patosaurio", 100, 30), new Mago("Fenixdor", 120, 40),
-            new Mago("Lunargenta", 90, 25));
-    private List<Bosque> listaBosques = List.of(new Bosque(1, "Bosque maldito", 1, listaMonstruos), new Bosque(2, "Selva oscura", 2, listaMonstruos), new Bosque(3, "Pantano tenebroso", 3, listaMonstruos));
+    private List<Monstruo> listaMonstruos = new java.util.ArrayList<>();
+    private List<Mago> listaMagos = new java.util.ArrayList<>();
+    private List<Bosque> listaBosques = new java.util.ArrayList<>();
 
     private Monstruo monstruo;
-    private Mago mago;
+    private Mago mago = null;
     private Bosque bosque;
 
     // CONSTRUCTORES
@@ -49,16 +49,31 @@ public class Modelo {
     }
 
     /**
-     * Inicializa el juego creando las entidades principales.
+     * Inicializa el juego seleccionando aleatoriamente un bosque y un monstruo,
+     * 
+     * @param nombreMago
      */
     public final void inicializarJuego() {
         // Selección aleatoria de las entidades para el juego
-        int num_mago = (int) (Math.random() * listaMagos.size());
-        int num_bosque = (int) (Math.random() * listaBosques.size());
+        if (!listaBosques.isEmpty() && !listaMonstruos.isEmpty()) {
+            int num_bosque = (int) (Math.random() * listaBosques.size());
+            this.bosque = listaBosques.get(num_bosque);
+            this.monstruo = bosque.getMonstruoJefe();
 
-        this.mago = listaMagos.get(num_mago);
-        this.bosque = listaBosques.get(num_bosque);
-        this.monstruo = bosque.getMonstruoJefe();
+            // Selección del mago por parte del usuario
+            view.seleccionMago();            
+        } else {
+            view.imprimirMensaje("Error al inicializar el juego: Asegúrate de haber seleccionado un mago y de que las listas no estén vacías.");
+        }
+    }
+
+    /**
+     * Establece el mago del juego.
+     * 
+     * @param mago
+     */
+    public void setMago(Mago mago) {
+        this.mago = mago;
     }
 
     // GETTERS
@@ -84,5 +99,28 @@ public class Modelo {
 
     public List<Bosque> getListaBosques() {
         return listaBosques;
+    }
+
+    // MÉTODOS
+    public void addMagoToLista(Mago mago) {
+        this.listaMagos.add(mago);
+    }
+
+    /**
+     * Añade un monstruo a la lista de monstruos del juego.
+     * 
+     * @param monstruo
+     */
+    public void addMonstruoToLista(Monstruo monstruo) {
+        this.listaMonstruos.add(monstruo);
+    }
+
+    /**
+     * Añade un bosque a la lista de bosques del juego.
+     * 
+     * @param bosque
+     */
+    public void addBosqueToLista(Bosque bosque) {
+        this.listaBosques.add(bosque);
     }
 }
