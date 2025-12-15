@@ -73,7 +73,7 @@ public final class Principal {
 
         // Iniciar el juego
         controlador.getModelo().inicializarJuego();
-        controlador.ComenzarCombate();
+        controlador.comenzarCombate();
     }
 
     /**

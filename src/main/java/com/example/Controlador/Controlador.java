@@ -10,13 +10,13 @@ import com.example.Vista.Vista;
  * Clase Controlador para manejar la lógica del juego.
  */
 public class Controlador {
-    // Atributos
+
     private static Controlador instancia;
     private final Modelo modelo;
     private final Vista vista;
 
     /**
-     * Constructor privado para implementar el patrón Singleton.
+     * Constructor privado (Singleton).
      */
     private Controlador() {
         this.vista = new Vista();
@@ -24,8 +24,7 @@ public class Controlador {
     }
 
     /**
-     * Obtiene la instancia única de ControladorMago.
-     * @return
+     * Devuelve la instancia única del controlador.
      */
     public static Controlador getInstancia() {
         if (instancia == null) {
@@ -35,34 +34,36 @@ public class Controlador {
     }
 
     // GETTERS
-    /**
-     * Obtiene el modelo asociado al controlador.
-     * @return
-     */
     public Modelo getModelo() {
         return modelo;
     }
 
-    /**
-     * Obtiene la vista asociada al controlador.
-     * @return
-     */
     public Vista getVista() {
         return vista;
     }
 
-
-    // MÉTODOS
     /**
      * Inicia el combate entre el mago y el monstruo jefe del bosque.
      */
-    public void ComenzarCombate() {
-        int turno = 1;
-        Boolean juegan = false;
+    public void comenzarCombate() {
+
+        // Validaciones básicas
+        if (modelo.getMago() == null || modelo.getBosque() == null) {
+            vista.imprimirMensaje("Error: el juego no ha sido inicializado.");
+            return;
+        }
 
         Mago mago = modelo.getMago();
         Bosque bosque = modelo.getBosque();
         Monstruo monstruo = bosque.getMonstruoJefe();
+
+        if (monstruo == null) {
+            vista.imprimirMensaje("Error: el bosque no tiene monstruo jefe.");
+            return;
+        }
+
+        int turno = 1;
+        boolean combateTerminado = false;
 
         vista.imprimirMensaje("");
         vista.imprimirMensaje("**********************************");
@@ -70,32 +71,39 @@ public class Controlador {
         vista.imprimirMensaje("**********************************");
 
         vista.imprimirMensaje("\n**********************************");
-        vista.imprimirMensaje("Comienza el combate en el " + bosque.getNombre() + ": \nEl mago " + mago.getNombre() + "\nVS\nEl monstruo " + monstruo.getNombre());
+        vista.imprimirMensaje(
+                "Comienza el combate en el " + bosque.getNombre() +
+                "\nEl mago " + mago.getNombre() +
+                "\nVS\nEl monstruo " + monstruo.getNombre()
+        );
         vista.imprimirMensaje("**********************************\n");
 
         // Bucle del combate
-        while (!juegan) {
-            vista.imprimirMensaje("\n**********************************");
+        while (!combateTerminado) {
+
             vista.imprimirMensaje("Turno: " + turno);
 
+            // Turno del mago
             mago.lanzarHechizo(monstruo);
 
             if (monstruo.getVida() <= 0) {
-                vista.imprimirMensaje("El mago es el vencedor en el " + bosque.getNombre() + "\n");
-                juegan = true;
+                vista.imprimirMensaje("El mago es el vencedor en el " + bosque.getNombre());
+                combateTerminado = true;
             } else {
+                // Turno del monstruo
                 monstruo.atacar(mago);
 
                 if (mago.getVida() <= 0) {
-                    vista.imprimirMensaje("El monstruo es el vencedor en el " + bosque.getNombre() + "\n");
-                    juegan = true; // también afecta la condición
+                    vista.imprimirMensaje("El monstruo es el vencedor en el " + bosque.getNombre());
+                    combateTerminado = true;
                 }
             }
 
-            turno++;
             vista.imprimirMensaje("HP mago: " + mago.getVida());
             vista.imprimirMensaje("HP monstruo: " + monstruo.getVida());
-            vista.imprimirMensaje("**********************************\n");
+            vista.imprimirMensaje("----------------------------------");
+
+            turno++;
         }
     }
 }
