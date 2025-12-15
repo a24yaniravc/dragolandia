@@ -27,5 +27,7 @@
         <mapping class="com.example.Modelo.ClasesJuego.Bosque"/>
         <mapping class="com.example.Modelo.ClasesJuego.Monstruo"/>
         <mapping class="com.example.Modelo.ClasesJuego.Mago"/>
+        <mapping class="com.example.Modelo.ClasesJuego.Dragon"/>
+        <mapping class="com.example.Modelo.ClasesJuego.Hechizo"/>
     </session-factory>
 </hibernate-configuration>

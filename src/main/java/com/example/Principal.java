@@ -1,7 +1,5 @@
 package com.example;
 
-import java.util.List;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,27 +8,44 @@ import org.hibernate.Transaction;
 
 import com.example.Controlador.Controlador;
 import com.example.Modelo.ClasesJuego.Bosque;
+import com.example.Modelo.ClasesJuego.Dragon;
 import com.example.Modelo.ClasesJuego.Mago;
 import com.example.Modelo.ClasesJuego.Monstruo;
+import com.example.Modelo.ClasesJuego.Hechizos.AgujeroNegro;
+import com.example.Modelo.ClasesJuego.Hechizos.BolaDeFuego;
+import com.example.Modelo.ClasesJuego.Hechizos.BolaDeNieve;
+import com.example.Modelo.ClasesJuego.Hechizos.Rayo;
+import com.example.Modelo.ClasesJuego.Hechizos.RisaDeTasha;
+
+import com.example.Modelo.ClasesJuego.Hechizo;
 
 /**
  * Clase principal para iniciar la aplicación.
  */
 public final class Principal {
-    private final Controlador controlador = new Controlador();
+    private final Controlador controlador = Controlador.getInstancia();
+
+    // Revisar hechizos
+    private static Hechizo hechizo1 = new Hechizo();
+    private static Hechizo hechizo2 = new Hechizo(BolaDeFuego.getNombre());
+    private static Hechizo hechizo3 = new Hechizo(BolaDeNieve.getNombre());
+    private static Hechizo hechizo4 = new Hechizo(Rayo.getNombre());
+    private static Hechizo hechizo5 = new Hechizo(RisaDeTasha.getNombre());
+
+    private static Dragon dragon1 = new Dragon("Draco", 200, 50);
 
     // Datos de prueba
     private static Monstruo monstruo1 = new Monstruo("Espectro de fuego", 100, "espectro", 30);
     private static Monstruo monstruo2 = new Monstruo("Gorgo el Terrible", 150, "ogro", 40);
-    private static Monstruo monstruo3 = new Monstruo("Pepe el Troll", 80, "troll", 20);
+    private static Monstruo monstruo3 = new Monstruo("Pepe el Troll", 400, "troll", 50);
 
     private static Mago mago1 = new Mago("Patosaurio", 100, 30);
     private static Mago mago2 = new Mago("Fenixdor", 120, 40);
     private static Mago mago3 = new Mago("Lunargenta", 90, 25);
 
-    private static Bosque bosque1 = new Bosque("Bosque maldito", 1, List.of(monstruo1, monstruo2), monstruo1);
-    private static Bosque bosque2 = new Bosque("Selva oscura", 2, List.of(monstruo2, monstruo3), monstruo2);
-    private static Bosque bosque3 = new Bosque("Pantano tenebroso", 3, List.of(monstruo1, monstruo3), monstruo3);
+    private static Bosque bosque1 = new Bosque("Bosque maldito", 1, null, monstruo1);
+    private static Bosque bosque2 = new Bosque("Selva oscura", 2, null, monstruo2);
+    private static Bosque bosque3 = new Bosque("Pantano tenebroso", 5, null, monstruo3);
 
     public static void main(String[] args) {
         Principal principal = new Principal();
@@ -104,9 +119,26 @@ public final class Principal {
             controlador.getVista().imprimirMensaje(
                     "Bosques: " + bosque1.getNombre() + ", " + bosque2.getNombre() + ", " + bosque3.getNombre());
 
+            // Hechizos
+            session.merge(hechizo1);
+            session.merge(hechizo2);
+            session.merge(hechizo3);
+            session.merge(hechizo4);
+            session.merge(hechizo5);
+            controlador.getVista().imprimirMensaje("Se ha insertado correctamente: ");
+            controlador.getVista().imprimirMensaje("Hechizos: " + hechizo1.getNombre() + ", " + hechizo2.getNombre() + ", "
+                    + hechizo3.getNombre() + ", " + hechizo4.getNombre() + ", " + hechizo5.getNombre());
+            
+            // Dragones
+            session.merge(dragon1);
+
+            controlador.getVista().imprimirMensaje("Se ha insertado correctamente: ");
+            controlador.getVista().imprimirMensaje("Dragones: " + dragon1.getNombre());
+
             tx.commit(); // Confirmar la transacción para guardar los cambios
         } catch (HibernateException e) {
             System.out.println("Hibernate ha dado un error: " + e.getMessage());
+             e.printStackTrace();
         }
     }
 }

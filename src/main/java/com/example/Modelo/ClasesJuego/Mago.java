@@ -2,12 +2,12 @@ package com.example.Modelo.ClasesJuego;
 
 import java.util.List;
 
-import com.example.Modelo.ClasesJuego.Hechizos.Hechizo;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,7 +24,11 @@ public class Mago {
     private String nombre;
     private int vida;
     private int nivelMagia;
-    private List<Hechizo> conjuros = new java.util.ArrayList<>();
+    private List<Hechizo> conjuros;
+
+    // Lista de conjuros conocidos por el mago
+    @OneToOne(cascade = CascadeType.ALL)
+    private Hechizo hechizo;
 
     // Constructor
     // Constructor vacío requerido por Hibernate
@@ -110,7 +114,8 @@ public class Mago {
         if (conjuros.contains(hechizo)) {
             hechizo.efecto(monstruos);
         } else {
-            setVida(getVida()-1);
+            // El mago pierde 1 punto de vida si no conoce el hechizo
+            setVida(this.vida - 1);
         }
     }
 

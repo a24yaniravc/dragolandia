@@ -18,7 +18,7 @@ public class Vista {
     }
 
     public void seleccionMago(){
-        controlador = new Controlador();
+        controlador = Controlador.getInstancia();
 
         // Obtener los nombres de los magos disponibles
         List<String> opciones = controlador.getModelo().getListaMagos().stream()

@@ -11,15 +11,27 @@ import com.example.Vista.Vista;
  */
 public class Controlador {
     // Atributos
+    private static Controlador instancia;
     private final Modelo modelo;
     private final Vista vista;
 
     /**
-     * Constructor de la clase Controlador.
+     * Constructor privado para implementar el patrón Singleton.
      */
-    public Controlador() {
-        this.modelo = Modelo.getInstancia();
+    private Controlador() {
         this.vista = new Vista();
+        this.modelo = Modelo.getInstancia();
+    }
+
+    /**
+     * Obtiene la instancia única de ControladorMago.
+     * @return
+     */
+    public static Controlador getInstancia() {
+        if (instancia == null) {
+            instancia = new Controlador();
+        }
+        return instancia;
     }
 
     // GETTERS

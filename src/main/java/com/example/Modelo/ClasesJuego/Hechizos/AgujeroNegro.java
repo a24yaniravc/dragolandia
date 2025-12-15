@@ -2,6 +2,7 @@ package com.example.Modelo.ClasesJuego.Hechizos;
 
 import java.util.List;
 
+import com.example.Modelo.ClasesJuego.Hechizo;
 import com.example.Modelo.ClasesJuego.Monstruo;
 
 public class AgujeroNegro extends Hechizo {
