@@ -3,6 +3,8 @@ package com.example.Modelo;
 import java.util.List;
 
 import com.example.Modelo.ClasesJuego.Bosque;
+import com.example.Modelo.ClasesJuego.Dragon;
+import com.example.Modelo.ClasesJuego.Hechizo;
 import com.example.Modelo.ClasesJuego.Mago;
 import com.example.Modelo.ClasesJuego.Monstruo;
 import com.example.Vista.Vista;
@@ -18,10 +20,14 @@ public class Modelo {
     private List<Monstruo> listaMonstruos = new java.util.ArrayList<>();
     private List<Mago> listaMagos = new java.util.ArrayList<>();
     private List<Bosque> listaBosques = new java.util.ArrayList<>();
+    private List<Hechizo> listaHechizos = new java.util.ArrayList<>();
+    private List<Dragon> listaDragones = new java.util.ArrayList<>();
 
     private Monstruo monstruo;
     private Mago mago = null;
     private Bosque bosque;
+    private Dragon dragon;
+    private Hechizo hechizo;
 
     // CONSTRUCTORES
 
@@ -89,6 +95,14 @@ public class Modelo {
         return monstruo;
     }
 
+    public Dragon getDragon() {
+        return dragon;
+    }
+
+    public Hechizo getHechizo() {
+        return hechizo;
+    }
+
     public List<Monstruo> getListaMonstruos() {
         return listaMonstruos;
     }
@@ -99,6 +113,14 @@ public class Modelo {
 
     public List<Bosque> getListaBosques() {
         return listaBosques;
+    }
+
+    public List<Hechizo> getListaHechizos() {
+        return listaHechizos;
+    }
+
+    public List<Dragon> getListaDragones() {
+        return listaDragones;
     }
 
     // MÉTODOS

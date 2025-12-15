@@ -1,33 +1,36 @@
-package com.example.Controlador;
+package com.example.Controlador.ControladorTablas;
 
 import java.util.Scanner;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import com.example.Controlador.Controlador;
 import com.example.Modelo.ClasesJuego.Mago;
 import com.example.Vista.Vista;
 
 /**
- * Clase ControladorMago para controlar inserciones, modificaciones y eliminaciones de magos.
+ * Controlador para gestionar las operaciones CRUD de la entidad Mago.
  */
 public class ControladorMago {
+    // Singleton
     private static ControladorMago instancia;
+
+    // Atributos
     private final Vista vista;
     private final Scanner sc = new Scanner(System.in);
 
     /**
-     * Constructor privado para implementar el patrón Singleton.
+     * Constructor privado para el patrón Singleton.
      */
     private ControladorMago() {
         this.vista = new Vista();
     }
 
     /**
-     * Obtiene la instancia única de ControladorMago.
+     * Obtiene la instancia única del controlador de Mago.
      * @return
      */
     public static ControladorMago getInstancia() {
@@ -40,42 +43,38 @@ public class ControladorMago {
     /**
      * Inserta un nuevo mago en la base de datos.
      */
-    private void insertarMago() {
-        System.out.println("---- Insertar nuevo mago ----");
-        System.out.print("Nombre del mago: ");
+    public void insertarMago() {
+        vista.imprimirMensaje("---- Insertar nuevo mago ----");
+
+        System.out.print("Nombre: ");
         String nombre = sc.nextLine();
-        System.out.print("Vida del mago: ");
+
+        System.out.print("Vida: ");
         int vida = Integer.parseInt(sc.nextLine());
-        System.out.print("Nivel de magia del mago: ");
+
+        System.out.print("Nivel de magia: ");
         int nivelMagia = Integer.parseInt(sc.nextLine());
-        System.out.println("Opciones de hechizo:");
-        System.out.println("1. Bola de Fuego");
-        System.out.println("2. Rayo");
-        System.out.println("3. Bola de Nieve");
-        System.out.println("4. Risa de Tasha");
-        System.out.println("5. Agujero Negro");
-        System.out.print("Seleccione un máximo de 3 hechizos: ");
-        System.out.println();
-        
-        Mago nuevoMago = new Mago(nombre, vida, nivelMagia);
 
-        try (SessionFactory factory = new Configuration().configure().buildSessionFactory();) {
-            Session session = factory.getCurrentSession();
+        Mago mago = new Mago(nombre, vida, nivelMagia);
 
-            session.getTransaction().begin();
-            session.persist(nuevoMago);
+        try (SessionFactory factory = new Configuration().configure().buildSessionFactory();
+             Session session = factory.openSession()) {
+
+            session.beginTransaction();
+            session.persist(mago);
             session.getTransaction().commit();
 
-            System.out.println("Mago insertado correctamente: " + nuevoMago.getNombre());
-        } catch(HibernateException e) {
-            System.out.println("Error al insertar el mago: " + e.getMessage());
+            vista.imprimirMensaje("Mago insertado correctamente.");
+        } catch (HibernateException e) {
+            vista.imprimirMensaje("Error al insertar mago: " + e.getMessage());
         }
     }
 
+    
     /**
      * Modifica un mago existente en la base de datos.
      */
-    private void modificarMago() {
+    public void modificarMago() {
         // Lógica para modificar un mago en la base de datos
         System.out.println("---- Modificar mago ----");
         System.out.println("Magos disponibles:");
@@ -136,35 +135,16 @@ public class ControladorMago {
     }
 
     /**
-     * Elimina un mago de la base de datos.
+     * Elimina un mago existente en la base de datos.
+     * @param mago
      */
-    private void eliminarMago() {
-        // Lógica para eliminar un mago de la base de datos
-        System.out.println("---- Eliminar mago ----");
-        System.out.println("Magos disponibles:");
-        for (Mago m : Controlador.getInstancia().getModelo().getListaMagos()) {
-            System.out.println("- " + m.getNombre());
-        }
-        System.out.print("Seleccione el mago a eliminar por su nombre: ");
-        String nombreSeleccionado = sc.nextLine();
-        Mago magoEliminar = Controlador.getInstancia().getModelo().getListaMagos().stream()
-                .filter(m -> m.getNombre().equals(nombreSeleccionado))
-                .findFirst()
-                .orElse(null);
-        if (magoEliminar == null) {
-            System.out.println("Mago no encontrado.");
-            return;
-        }
+    public void eliminarMago(Mago mago) {
+        try (SessionFactory factory = new Configuration().configure().buildSessionFactory();
+             Session session = factory.openSession()) {
 
-        // Eliminar de la base de datos
-        try (SessionFactory factory = new Configuration().configure().buildSessionFactory();) {
-            Session session = factory.getCurrentSession();
-            session.getTransaction().begin();
-            session.remove(magoEliminar);
+            session.beginTransaction();
+            session.remove(session.merge(mago));
             session.getTransaction().commit();
-            System.out.println("Mago eliminado correctamente: " + magoEliminar.getNombre());
-        } catch(HibernateException e) {
-            System.out.println("Error al eliminar el mago: " + e.getMessage());
         }
     }
 }

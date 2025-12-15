@@ -20,7 +20,7 @@ public class Monstruo {
     private String nombre;
     private int vida;
     private int fuerza;
-    private enum Tipo { ogro, troll, espectro }
+    public enum Tipo { ogro, troll, espectro }
     private Tipo tipo;
 
     // CONSTRUCTORES
@@ -37,7 +37,7 @@ public class Monstruo {
      * @param tipo
      * @param fuerza
      */
-    public Monstruo(String nombre, int vida ,String tipo, int fuerza) {
+    public Monstruo(String nombre, int vida, String tipo, int fuerza) {
         this.nombre = nombre;
 
         // Asegurar que la vida sea mayor a 0

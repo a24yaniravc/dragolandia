@@ -11,11 +11,6 @@ import com.example.Modelo.ClasesJuego.Bosque;
 import com.example.Modelo.ClasesJuego.Dragon;
 import com.example.Modelo.ClasesJuego.Mago;
 import com.example.Modelo.ClasesJuego.Monstruo;
-import com.example.Modelo.ClasesJuego.Hechizos.AgujeroNegro;
-import com.example.Modelo.ClasesJuego.Hechizos.BolaDeFuego;
-import com.example.Modelo.ClasesJuego.Hechizos.BolaDeNieve;
-import com.example.Modelo.ClasesJuego.Hechizos.Rayo;
-import com.example.Modelo.ClasesJuego.Hechizos.RisaDeTasha;
 
 import com.example.Modelo.ClasesJuego.Hechizo;
 
@@ -25,14 +20,14 @@ import com.example.Modelo.ClasesJuego.Hechizo;
 public final class Principal {
     private final Controlador controlador = Controlador.getInstancia();
 
-    // Revisar hechizos
-    private static Hechizo hechizo1 = new Hechizo();
-    private static Hechizo hechizo2 = new Hechizo(BolaDeFuego.getNombre());
-    private static Hechizo hechizo3 = new Hechizo(BolaDeNieve.getNombre());
-    private static Hechizo hechizo4 = new Hechizo(Rayo.getNombre());
-    private static Hechizo hechizo5 = new Hechizo(RisaDeTasha.getNombre());
-
     private static Dragon dragon1 = new Dragon("Draco", 200, 50);
+
+    // Hechizos (para que funcionen las relaciones ManyToMany) [Solo deben crearse UNA vez]
+    Hechizo bolaFuego = new Hechizo("Bola de Fuego");
+    Hechizo bolaNieve = new Hechizo("Bola de Nieve");
+    Hechizo rayo = new Hechizo("Rayo");
+    Hechizo risaTasha = new Hechizo("Risa de Tasha");
+    Hechizo agujeroNegro = new Hechizo("Agujero Negro");
 
     // Datos de prueba
     private static Monstruo monstruo1 = new Monstruo("Espectro de fuego", 100, "espectro", 30);
@@ -92,15 +87,6 @@ public final class Principal {
             Transaction tx = session.beginTransaction();
 
             // Guardado de las entidades en la base de datos
-            // Magos
-            session.merge(mago1);
-            session.merge(mago2);
-            session.merge(mago3);
-
-            controlador.getVista().imprimirMensaje("Se ha insertado correctamente: ");
-            controlador.getVista().imprimirMensaje(
-                    "Magos: " + mago1.getNombre() + ", " + mago2.getNombre() + ", " + mago3.getNombre());
-
             // Monstruos
             session.merge(monstruo1);
             session.merge(monstruo2);
@@ -120,14 +106,35 @@ public final class Principal {
                     "Bosques: " + bosque1.getNombre() + ", " + bosque2.getNombre() + ", " + bosque3.getNombre());
 
             // Hechizos
-            session.merge(hechizo1);
-            session.merge(hechizo2);
-            session.merge(hechizo3);
-            session.merge(hechizo4);
-            session.merge(hechizo5);
+            mago1.aprenderHechizo(bolaFuego);
+            mago1.aprenderHechizo(bolaNieve);
+
+            mago2.aprenderHechizo(rayo);
+            mago3.aprenderHechizo(risaTasha);
+
+            session.persist(bolaFuego);
+            session.persist(bolaNieve);
+            session.persist(rayo);
+            session.persist(risaTasha);
+            session.persist(agujeroNegro);
+
             controlador.getVista().imprimirMensaje("Se ha insertado correctamente: ");
-            controlador.getVista().imprimirMensaje("Hechizos: " + hechizo1.getNombre() + ", " + hechizo2.getNombre() + ", "
-                    + hechizo3.getNombre() + ", " + hechizo4.getNombre() + ", " + hechizo5.getNombre());
+            controlador.getVista().imprimirMensaje("Hechizos: " + bolaFuego.getNombre() + ", " + bolaNieve.getNombre()
+                    + ", " + rayo.getNombre() + ", " + risaTasha.getNombre() + ", " + agujeroNegro.getNombre());
+
+            // Magos
+            session.merge(mago1);
+            session.merge(mago2);
+            session.merge(mago3);
+
+            controlador.getVista().imprimirMensaje("Se ha insertado correctamente: ");
+            controlador.getVista().imprimirMensaje(
+                    "Magos: " + mago1.getNombre() + ", " + mago2.getNombre() + ", " + mago3.getNombre());
+
+            session.persist(mago1);
+            session.persist(mago2);
+            session.persist(mago3);
+
             
             // Dragones
             session.merge(dragon1);
