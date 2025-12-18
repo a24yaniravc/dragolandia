@@ -38,7 +38,6 @@ public class Vista {
 
         imprimirMensaje("");
         imprimirMensaje("Seleccione un mago por su nombre:");
-        scanner.nextLine(); // Limpiar el buffer
         input = scanner.nextLine();
 
         while (input.isEmpty() || !opciones.contains(input)) {

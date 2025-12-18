@@ -1,18 +1,22 @@
 package com.example.Modelo.ClasesJuego;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Bosques")
+@Table(name = "bosques")
 
 /**
  * Clase Bosque que representa un bosque en el juego.
@@ -21,16 +25,25 @@ public class Bosque {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Generación automática del ID
     private int id;
+    
+    @Column(unique = true, nullable = false)
     private String nombre;
+    
+    @Column(nullable = false)
     private int nivelPeligro;
     
-    @OneToMany(cascade = CascadeType.ALL) // Relación uno a N con Monstruo
-    private List<Monstruo> monstruos;
+    @ManyToMany
+    @JoinTable(
+        name = "bosque_monstruo",
+        joinColumns = @JoinColumn(name = "bosque_id"),
+        inverseJoinColumns = @JoinColumn(name = "monstruo_id")
+    )
+    private List<Monstruo> monstruos = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL) // Relación muchos a uno con Monstruo
+    @ManyToOne(cascade = CascadeType.MERGE) // Relación muchos a uno con Monstruo
     private Monstruo monstruoJefe;
     
-    @OneToOne (cascade = CascadeType.ALL) // Relación uno a uno con Dragon
+    @OneToOne (cascade = CascadeType.MERGE) // Relación uno a uno con Dragon
     private Dragon dragon;
 
     // CONSTRUCTORES
@@ -38,11 +51,12 @@ public class Bosque {
     public Bosque(){}
 
     // Constructor con parámetros
-    public Bosque(String nombre, int nivelPeligro, List<Monstruo> monstruos, Monstruo monstruoJefe) {
+    public Bosque(String nombre, int nivelPeligro, List<Monstruo> monstruos, Monstruo monstruoJefe, Dragon dragon) {
         this.nombre = nombre;
         this.nivelPeligro = nivelPeligro;
         this.monstruos = monstruos;
         this.monstruoJefe = monstruoJefe;
+        this.dragon = dragon;
     }
 
     // GETTERS

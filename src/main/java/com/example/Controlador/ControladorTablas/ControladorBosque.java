@@ -46,7 +46,7 @@ public class ControladorBosque {
         System.out.print("Nivel de peligro: ");
         int nivel = Integer.parseInt(sc.nextLine());
 
-        Bosque bosque = new Bosque(nombre, nivel, null, null);
+        Bosque bosque = new Bosque(nombre, nivel, null, null, null);
 
         try (Session session = new Configuration().configure()
                 .buildSessionFactory().openSession()) {

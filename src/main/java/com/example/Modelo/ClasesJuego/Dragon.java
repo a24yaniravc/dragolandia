@@ -1,5 +1,6 @@
 package com.example.Modelo.ClasesJuego;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Dragones")
+@Table(name = "dragones")
 
 /**
  * Clase Dragon que representa un dragón en el juego.
@@ -17,8 +18,14 @@ public class Dragon {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Generación automática del ID
 
     private int id;
+
+    @Column(unique = true, nullable = false)
     private String nombre;
+
+    @Column(nullable = false)
     private int intensidadFuego; // Poder de ataque del dragón
+    
+    @Column(nullable = false)
     private int resistencia; // Vida del dragón
 
     // Constructor

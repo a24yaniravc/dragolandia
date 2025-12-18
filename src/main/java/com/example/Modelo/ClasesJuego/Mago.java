@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Magos")
+@Table(name = "magos")
 
 /**
  * Clase Mago que representa un mago en el juego.
@@ -25,8 +26,13 @@ public class Mago {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Generación automática del ID
     private int id;
 
+        @Column(unique = true, nullable = false)
     private String nombre;
+
+    @Column(nullable = false)
     private int vida;
+    
+    @Column(nullable = false)
     private int nivelMagia;
 
     // Lista de conjuros conocidos por el mago
@@ -116,14 +122,6 @@ public class Mago {
     }
 
     /**
-     * Añade un hechizo a la lista de conjuros del mago.
-     * @param h
-     */
-    public void aprenderHechizo(Hechizo h) {
-        conjuros.add(h);
-    }
-
-    /**
      * Lanza un hechizo específico contra varios monstruos, aplicando su efecto
      * si el mago conoce el hechizo. De lo contrario, el mago pierde 1 punto de vida.
      * 
@@ -137,6 +135,14 @@ public class Mago {
             // El mago pierde 1 punto de vida si no conoce el hechizo
             setVida(this.vida - 1);
         }
+    }
+
+    /**
+     * Añade un hechizo a la lista de conjuros del mago.
+     * @param h
+     */
+    public void aprenderHechizo(Hechizo h) {
+        conjuros.add(h);
     }
 
     // TO STRING

@@ -2,6 +2,11 @@ package com.example.Modelo;
 
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
 import com.example.Modelo.ClasesJuego.Bosque;
 import com.example.Modelo.ClasesJuego.Dragon;
 import com.example.Modelo.ClasesJuego.Hechizo;
@@ -124,6 +129,44 @@ public class Modelo {
     }
 
     // MÉTODOS
+    /**
+     * Método para cargar los personajes desde la base de datos.
+     */
+    public void loadFromDatabase() {
+        try (SessionFactory factory = new Configuration().configure().buildSessionFactory();
+                Session session = factory.getCurrentSession();) {
+            Transaction tx = session.beginTransaction();
+
+            List<Mago> magos = session.createQuery("SELECT a FROM Mago a", Mago.class).list();
+            for (Mago m : magos) {
+                addMagoToLista(m);
+            }
+
+            List<Dragon> dragones = session.createQuery("SELECT a FROM Dragon a", Dragon.class).list();
+            for (Dragon d : dragones) {
+                addDragonToLista(d);
+            }
+
+            List<Hechizo> hechizos = session.createQuery("SELECT a FROM Hechizo a", Hechizo.class).list();
+            for (Hechizo h : hechizos) {
+                addHechizoToLista(h);
+            }
+
+            List<Bosque> bosques = session.createQuery("SELECT a FROM Bosque a", Bosque.class).list();
+            for (Bosque b : bosques) {
+                addBosqueToLista(b);
+            }
+
+            List<Monstruo> monstruos = session.createQuery("SELECT a FROM Monstruo a", Monstruo.class).list();
+            for (Monstruo m : monstruos) {
+                addMonstruoToLista(m);
+            }
+
+            tx.commit();
+        }
+    }
+
+
     /**
      * Añade un hechizo a la lista de hechizos del juego.
      * @param mago
