@@ -157,16 +157,18 @@ Bosque o-- "0..*" Monstruo : contiene
 Mago o-- "0..*" Hechizo : hechizos
 Bosque o-- Dragon
 Principal ..> Controlador : usa
-Principal ..> ControladorMonstruo : usa
+Controlador ..> ControladorMonstruo : usa
 Controlador ..> ControladorMago : usa
 Controlador ..> ControladorDragon : usa
 Controlador ..> ControladorHechizo : usa
 Controlador ..> ControladorBosque : usa
 Controlador --> Vista
 Controlador --> Modelo
+Modelo --> Vista
 Modelo --> Monstruo
 Modelo --> Mago
 Modelo --> Bosque
+Vista --> Controlador
 
 ```
 
