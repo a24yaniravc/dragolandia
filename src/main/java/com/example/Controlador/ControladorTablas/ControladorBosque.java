@@ -133,4 +133,18 @@ public class ControladorBosque {
             session.getTransaction().commit();
         }
     }
+
+    /**
+     * Selecciona y muestra todos los bosques de la base de datos.
+     */
+    public void seleccionarTodosBosques() {
+        try (Session session = new Configuration().configure()
+                .buildSessionFactory().openSession()) {
+
+            System.out.println("---- Lista de Bosques ----");
+            for (Bosque b : session.createQuery("FROM Bosque", Bosque.class).list()) {
+                System.out.println("- " + b.getNombre() + " (Nivel de peligro: " + b.getNivelPeligro() + ")");
+            }
+        }
+    }
 }

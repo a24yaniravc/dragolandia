@@ -147,4 +147,18 @@ public class ControladorMago {
             session.getTransaction().commit();
         }
     }
+
+    /**
+     * Lista todos los magos en la base de datos.
+     */
+    public void seleccionarTodosMagos() {
+        try (Session session = new Configuration().configure()
+                .buildSessionFactory().openSession()) {
+
+            System.out.println("---- Lista de Magos ----");
+            for (Mago m : session.createQuery("FROM Mago", Mago.class).list()) {
+                System.out.println("- " + m.getNombre());
+            }
+        }
+    }
 }

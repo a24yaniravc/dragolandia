@@ -30,12 +30,13 @@ public class Mago {
     private int nivelMagia;
 
     // Lista de conjuros conocidos por el mago
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
         name = "mago_hechizos",
         joinColumns = @JoinColumn(name = "mago_id"),
         inverseJoinColumns = @JoinColumn(name = "hechizo_id")
     )
+    
     private List<Hechizo> conjuros = new ArrayList<>();
 
     // Constructor vacío requerido por Hibernate

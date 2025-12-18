@@ -1,5 +1,8 @@
 package com.example;
 
+import java.util.List;
+import java.util.Scanner;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,15 +22,17 @@ import com.example.Modelo.ClasesJuego.Hechizo;
  */
 public final class Principal {
     private final Controlador controlador = Controlador.getInstancia();
+    private static Scanner sc = new Scanner(System.in);
 
     private static Dragon dragon1 = new Dragon("Draco", 200, 50);
 
-    // Hechizos (para que funcionen las relaciones ManyToMany) [Solo deben crearse UNA vez]
-    Hechizo bolaFuego = new Hechizo("Bola de Fuego");
-    Hechizo bolaNieve = new Hechizo("Bola de Nieve");
-    Hechizo rayo = new Hechizo("Rayo");
-    Hechizo risaTasha = new Hechizo("Risa de Tasha");
-    Hechizo agujeroNegro = new Hechizo("Agujero Negro");
+    // Hechizos (para que funcionen las relaciones ManyToMany) [Solo deben crearse
+    // UNA vez]
+    private static Hechizo bolaFuego = new Hechizo("Bola de Fuego");
+    private static Hechizo bolaNieve = new Hechizo("Bola de Nieve");
+    private static Hechizo rayo = new Hechizo("Rayo");
+    private static Hechizo risaTasha = new Hechizo("Risa de Tasha");
+    private static Hechizo agujeroNegro = new Hechizo("Agujero Negro");
 
     // Datos de prueba
     private static Monstruo monstruo1 = new Monstruo("Espectro de fuego", 100, "espectro", 30);
@@ -44,36 +49,55 @@ public final class Principal {
 
     public static void main(String[] args) {
         Principal principal = new Principal();
-        Controlador controlador = principal.controlador;
+        Controlador controlador = Controlador.getInstancia();
 
-        // Añadir personajes a la base de datos
-        controlador.getVista().imprimirMensaje("Desea añadir los personajes a la base de datos? (S/N)");
-        try {
-            int entrada = System.in.read();
-            controlador.getVista().imprimirMensaje("");
-            if (entrada == 's' || entrada == 'S') {
-                principal.addCharacters();
-            }
-        } catch (Exception e) {
-            controlador.getVista().imprimirMensaje("Error al leer la entrada: " + e.getMessage());
+        controlador.getVista().imprimirMensaje("¿Desea añadir los personajes a la base de datos? (S/N)");
+
+        if (sc.nextLine().equalsIgnoreCase("s")) {
+            principal.addCharacters();
         }
 
-        // Añadir personajes a las listas del modelo
-        controlador.getModelo().addMagoToLista(mago1);
-        controlador.getModelo().addMagoToLista(mago2);
-        controlador.getModelo().addMagoToLista(mago3);
+        principal.loadFromDatabase();
 
-        controlador.getModelo().addMonstruoToLista(monstruo1);
-        controlador.getModelo().addMonstruoToLista(monstruo2);
-        controlador.getModelo().addMonstruoToLista(monstruo3);
-
-        controlador.getModelo().addBosqueToLista(bosque1);
-        controlador.getModelo().addBosqueToLista(bosque2);
-        controlador.getModelo().addBosqueToLista(bosque3);
-
-        // Iniciar el juego
         controlador.getModelo().inicializarJuego();
         controlador.comenzarCombate();
+    }
+
+    /**
+     * Método para cargar los personajes desde la base de datos.
+     */
+    public void loadFromDatabase() {
+        try (SessionFactory factory = new Configuration().configure().buildSessionFactory();
+                Session session = factory.getCurrentSession();) {
+            Transaction tx = session.beginTransaction();
+
+            List<Mago> magos = session.createQuery("SELECT a FROM Mago a", Mago.class).list();
+            for (Mago m : magos) {
+                controlador.getModelo().addMagoToLista(m);
+            }
+
+            List<Dragon> dragones = session.createQuery("SELECT a FROM Dragon a", Dragon.class).list();
+            for (Dragon d : dragones) {
+                controlador.getModelo().addDragonToLista(d);
+            }
+
+            List<Hechizo> hechizos = session.createQuery("SELECT a FROM Hechizo a", Hechizo.class).list();
+            for (Hechizo h : hechizos) {
+                controlador.getModelo().addHechizoToLista(h);
+            }
+
+            List<Bosque> bosques = session.createQuery("SELECT a FROM Bosque a", Bosque.class).list();
+            for (Bosque b : bosques) {
+                controlador.getModelo().addBosqueToLista(b);
+            }
+
+            List<Monstruo> monstruos = session.createQuery("SELECT a FROM Monstruo a", Monstruo.class).list();
+            for (Monstruo m : monstruos) {
+                controlador.getModelo().addMonstruoToLista(m);
+            }
+
+            tx.commit();
+        }
     }
 
     /**
@@ -81,9 +105,8 @@ public final class Principal {
      */
     public void addCharacters() {
         // Creación del SessionFactory
-        try (SessionFactory factory = new Configuration().configure().buildSessionFactory();) {
-
-            Session session = factory.getCurrentSession();
+        try (SessionFactory factory = new Configuration().configure().buildSessionFactory();
+                Session session = factory.getCurrentSession();) {
             Transaction tx = session.beginTransaction();
 
             // Guardado de las entidades en la base de datos
@@ -112,11 +135,11 @@ public final class Principal {
             mago2.aprenderHechizo(rayo);
             mago3.aprenderHechizo(risaTasha);
 
-            session.persist(bolaFuego);
-            session.persist(bolaNieve);
-            session.persist(rayo);
-            session.persist(risaTasha);
-            session.persist(agujeroNegro);
+            session.merge(bolaFuego);
+            session.merge(bolaNieve);
+            session.merge(rayo);
+            session.merge(risaTasha);
+            session.merge(agujeroNegro);
 
             controlador.getVista().imprimirMensaje("Se ha insertado correctamente: ");
             controlador.getVista().imprimirMensaje("Hechizos: " + bolaFuego.getNombre() + ", " + bolaNieve.getNombre()
@@ -131,11 +154,6 @@ public final class Principal {
             controlador.getVista().imprimirMensaje(
                     "Magos: " + mago1.getNombre() + ", " + mago2.getNombre() + ", " + mago3.getNombre());
 
-            session.persist(mago1);
-            session.persist(mago2);
-            session.persist(mago3);
-
-            
             // Dragones
             session.merge(dragon1);
 
@@ -145,7 +163,7 @@ public final class Principal {
             tx.commit(); // Confirmar la transacción para guardar los cambios
         } catch (HibernateException e) {
             System.out.println("Hibernate ha dado un error: " + e.getMessage());
-             e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }

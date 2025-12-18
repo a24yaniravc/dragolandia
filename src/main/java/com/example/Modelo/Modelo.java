@@ -124,6 +124,10 @@ public class Modelo {
     }
 
     // MÉTODOS
+    /**
+     * Añade un hechizo a la lista de hechizos del juego.
+     * @param mago
+     */
     public void addMagoToLista(Mago mago) {
         this.listaMagos.add(mago);
     }
@@ -144,5 +148,21 @@ public class Modelo {
      */
     public void addBosqueToLista(Bosque bosque) {
         this.listaBosques.add(bosque);
+    }
+
+    /**
+     * Añade un hechizo a la lista de hechizos del juego.
+     * @param hechizo
+     */
+    public void addHechizoToLista(Hechizo hechizo) {
+        this.listaHechizos.add(hechizo);
+    }
+
+    /**
+     * Añade un dragón a la lista de dragones del juego.
+     * @param dragon
+     */
+    public void addDragonToLista(Dragon dragon) {
+        this.listaDragones.add(dragon);
     }
 }

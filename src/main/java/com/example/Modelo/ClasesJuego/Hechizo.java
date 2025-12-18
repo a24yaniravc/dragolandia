@@ -48,4 +48,10 @@ public class Hechizo implements Serializable {
     public int hashCode() {
         return nombre.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
+
 }

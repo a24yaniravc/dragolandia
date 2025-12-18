@@ -142,4 +142,15 @@ public class ControladorMonstruo {
             session.getTransaction().commit();
         }
     }
+
+    public void seleccionarTodosMonstruos() {
+        try (Session session = new Configuration().configure()
+                .buildSessionFactory().openSession()) {
+
+            System.out.println("---- Lista de Monstruos ----");
+            for (Monstruo m : session.createQuery("FROM Monstruo", Monstruo.class).list()) {
+                System.out.println("- " + m.getNombre());
+            }
+        }
+    }
 }

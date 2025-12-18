@@ -113,4 +113,15 @@ public class ControladorHechizo {
             session.getTransaction().commit();
         }
     }
+
+    public void seleccionarTodosHechizos() {
+        try (Session session = new Configuration().configure()
+                .buildSessionFactory().openSession()) {
+
+            System.out.println("---- Lista de Hechizos ----");
+            for (Hechizo h : session.createQuery("FROM Hechizo", Hechizo.class).list()) {
+                System.out.println("- " + h.getNombre());
+            }
+        }
+    }
 }

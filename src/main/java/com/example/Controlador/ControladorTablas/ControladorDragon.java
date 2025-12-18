@@ -1,5 +1,6 @@
 package com.example.Controlador.ControladorTablas;
 
+import java.util.List;
 import java.util.Scanner;
 
 import org.hibernate.HibernateException;
@@ -138,6 +139,27 @@ public class ControladorDragon {
             session.beginTransaction();
             session.remove(dragon);
             session.getTransaction().commit();
+        }
+    }
+
+
+    /**
+     * Selecciona e imprime todos los dragones de la base de datos.
+     */
+    public void seleccionarTodosDragones() {
+        try (Session session = new Configuration().configure()
+                .buildSessionFactory().openSession()) {
+
+            List<Dragon> listaDragones = session.createQuery("FROM Dragon", Dragon.class).list();
+
+            System.out.println("---- Lista de Dragones ----");
+            for (Dragon d : listaDragones) {
+                System.out.println("Nombre: " + d.getNombre() +
+                                   ", Intensidad de fuego: " + d.getIntensidadFuego() +
+                                   ", Resistencia: " + d.getResistencia());
+            }
+        } catch (HibernateException e) {
+            System.out.println("Error al seleccionar los dragones: " + e.getMessage());
         }
     }
 }
