@@ -1,6 +1,6 @@
 # DragoLandia
 ## Introducción
-Este proyecto pretende probar Hybernate a través de su utilización en un pequeño sistema de peleas automatizado. El programa consiste en que un mago se enfrenta contra un monstruo (ambos elegidos aleatoriamente) y aquel que sobreviva es el ganador.
+Este proyecto pretende probar Hybernate a través de su utilización en un pequeño sistema de peleas automatizado. El programa consiste en que un mago se enfrenta contra un monstruo en un bosque y aquel que sobreviva es el ganador.
 
 ## Análisis
 ### Diagrama de Clases
@@ -8,6 +8,10 @@ Este proyecto pretende probar Hybernate a través de su utilización en un peque
 ```mermaid
 classDiagram
 direction TB
+
+class Principal {
+    +addCharacters()
+}
 
 class Monstruo {
     +int id
@@ -71,13 +75,62 @@ class Dragon {
 
 class Vista {
     +imprimirMensaje(mensaje:String)
+    +seleccionMago()
 }
 
 class Controlador {
+    -Controlador instancia
+    -Modelo modelo
+    -Vista vista
     +Controlador()
     +comenzarCombate()
     +getModelo():Modelo
     +getVista():Vista
+}
+
+class ControladorBosque {
+    -ControladorBosque instancia
+    +ControladorBosque()
+    +insertarBosque()
+    +modificarBosque()
+    +eliminarBosque()
+    +seleccionarTodosBosques()
+}
+
+class ControladorDragon {
+    -CotroladorDragon instancia
+    +ControladorDragon()
+    +insertarDragon()
+    +modificarDragon()
+    +eliminarDragon()
+    +seleccionarTodosDragon()
+}
+
+class ControladorHechizo{
+    -CotroladorHechizo instancia
+    +ControladorHechizo()
+    +insertarHechizo()
+    +modificarHechizo()
+    +eliminarHechizo()
+    +seleccionarTodosHechizo()
+}
+
+class ControladorMago {
+    -CotroladorMago instancia
+    +ControladorMago()
+    +insertarMago()
+    +modificarMago()
+    +eliminarMago()
+    +seleccionarTodosMago()
+}
+
+class ControladorMonstruo {
+    -CotroladorMonstruo instancia
+    +ControladorMonstruo()
+    +insertarMonstruo()
+    +modificarMonstruo()
+    +eliminarMonstruo()
+    +seleccionarTodosMonstruo()
 }
 
 class Modelo {
@@ -95,6 +148,7 @@ class Modelo {
     +addMonstruoToLista(m:Monstruo)
     +addBosqueToLista(b:Bosque)
     +getListaMagos():List~Mago~
+    +loadFromDatabase()
 }
 
 Monstruo --> Tipo
@@ -103,6 +157,11 @@ Bosque o-- "0..*" Monstruo : contiene
 Mago o-- "0..*" Hechizo : hechizos
 Bosque o-- Dragon
 Principal ..> Controlador : usa
+Principal ..> ControladorMonstruo : usa
+Controlador ..> ControladorMago : usa
+Controlador ..> ControladorDragon : usa
+Controlador ..> ControladorHechizo : usa
+Controlador ..> ControladorBosque : usa
 Controlador --> Vista
 Controlador --> Modelo
 Modelo --> Monstruo
@@ -155,6 +214,11 @@ HECHIZO {
 MAGOS_HECHIZOS {
     int mago_id FK
     int hechizo_id FK
+}
+
+BOSQUE_MONSTRUO {
+    int bosque_id FK
+    int monstruo_id FK
 }
 
 BOSQUE ||--|| MONSTRUO : "tiene jefe"
