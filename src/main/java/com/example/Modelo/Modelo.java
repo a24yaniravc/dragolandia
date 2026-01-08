@@ -15,7 +15,7 @@ import com.example.Vista.Vista;
 public class Modelo {
     // Atributos
     private static Modelo instancia; // Instancia única de la clase Modelo (SINGLETON)
-    private static Vista view = new Vista(); // Vista asociada al modelo
+    private Vista view; // Vista asociada al modelo
 
     // Listas de entidades disponibles en el juego
     private List<Monstruo> listaMonstruos = new java.util.ArrayList<>();
@@ -56,21 +56,31 @@ public class Modelo {
     }
 
     /**
+     * Establece la vista asociada al modelo.
+     * @param view
+     */
+    public void setVista(Vista view) {
+        this.view = view;
+    }
+
+    /**
      * Inicializa el juego seleccionando aleatoriamente un bosque y un monstruo,
      * 
      * @param nombreMago
      */
     public final void inicializarJuego() {
         // Selección aleatoria de las entidades para el juego
-        if (!listaBosques.isEmpty() && !listaMonstruos.isEmpty()) {
-            int num_bosque = (int) (Math.random() * listaBosques.size());
-            this.bosque = listaBosques.get(num_bosque);
+         if (!listaBosques.isEmpty() && !listaMonstruos.isEmpty() && view != null) {
+            int indexBosque = (int) (Math.random() * listaBosques.size());
+            this.bosque = listaBosques.get(indexBosque);
             this.monstruo = bosque.getMonstruoJefe();
 
-            // Selección del mago por parte del usuario
-            view.seleccionMago();            
+            // Selección de magos usando la vista
+            this.magos = view.seleccionMago(listaMagos);
         } else {
-            view.imprimirMensaje("Error al inicializar el juego: Asegúrate de haber seleccionado un mago y de que las listas no estén vacías.");
+            if (view != null) {
+                view.imprimirMensaje("Error: No se puede inicializar el juego. Listas vacías o vista no configurada.");
+            }
         }
     }
 

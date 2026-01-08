@@ -9,11 +9,6 @@ import com.example.Controlador.GestorTablas.GestorHechizo;
 import com.example.Controlador.GestorTablas.GestorMago;
 import com.example.Controlador.GestorTablas.GestorMonstruo;
 import com.example.Modelo.Modelo;
-import com.example.Modelo.ClasesJuego.Bosque;
-import com.example.Modelo.ClasesJuego.Dragon;
-import com.example.Modelo.ClasesJuego.Hechizo;
-import com.example.Modelo.ClasesJuego.Mago;
-import com.example.Modelo.ClasesJuego.Monstruo;
 import com.example.Vista.Vista;
 
 /**
@@ -28,7 +23,7 @@ public class Controlador {
      * Constructor privado (Singleton).
      */
     private Controlador() {
-        this.vista = new Vista();
+        this.vista = new Vista(new java.util.Scanner(System.in));
         this.modelo = Modelo.getInstancia();
     }
 

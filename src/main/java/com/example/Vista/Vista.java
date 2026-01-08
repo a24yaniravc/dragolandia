@@ -1,92 +1,100 @@
 package com.example.Vista;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.example.Controlador.Controlador;
 import com.example.Modelo.ClasesJuego.Mago;
 
 /**
  * Clase Vista para manejar la presentación de mensajes.
  */
 public class Vista {
-    Controlador controlador;
-    Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
+
+    public Vista(Scanner scanner) {
+        this.scanner = scanner;
+    }
 
     public void imprimirMensaje(String mensaje) {
         System.out.println(mensaje);
     }
 
-    public void seleccionMago() {
-        controlador = Controlador.getInstancia();
+    /**
+     * Permite al usuario seleccionar magos de la lista disponible.
+     *
+     * @param listaMagos Lista de magos disponibles para selección
+     * @return Lista de magos seleccionados
+     */
+    public List<Mago> seleccionMago(List<Mago> listaMagos) {
+        List<String> nombres = listaMagos.stream()
+                                         .map(Mago::getNombre)
+                                         .toList();
 
-        // Obtener los nombres de los magos disponibles
-        List<String> opciones = controlador.getModelo().getListaMagos().stream()
-                .map(Mago::getNombre)
-                .toList();
-        List<String> stats = controlador.getModelo().getListaMagos().stream()
-                .map(m -> "[Vida: " + m.getVida() + ", Nivel de magia: " + m.getNivelMagia() + ", Conjuros: "
-                        + m.getConjuros() + "]")
-                .toList();
-        String input = "";
+        List<String> stats = listaMagos.stream()
+                                       .map(m -> "[Vida: " + m.getVida() + ", Magia: " + m.getNivelMagia() + ", Conjuros: " + m.getConjuros() + "]")
+                                       .toList();
 
-        imprimirMensaje("---- Selección de personaje ----");
-
+        imprimirMensaje("---- Selección de personajes ----");
         imprimirMensaje("Magos disponibles:");
-        for (String opcion : opciones) {
-            imprimirMensaje("- " + opcion + " " + stats.get(opciones.indexOf(opcion)));
+        for (int i = 0; i < nombres.size(); i++) {
+            imprimirMensaje("- " + nombres.get(i) + " " + stats.get(i));
         }
 
-        imprimirMensaje("");
-        imprimirMensaje("¿Cuántos magos quieres seleccionar? (min 2, max 4):");
-        int cantidadMagos = 0;
-        
-        boolean validInput = false;
-        
-        while (!validInput) {
-            try {
-                cantidadMagos = scanner.nextInt();
-                scanner.nextLine(); // Consumir el salto de línea pendiente
+        int cantidadMagos = pedirCantidadMagos();
+        List<Mago> seleccionados = new ArrayList<>();
 
-                while (cantidadMagos < 2 || cantidadMagos > 4) {
-                    imprimirMensaje("");
-                    imprimirMensaje("Cantidad inválida. Por favor, ingresa un número entre 2 y 4:");
-                    cantidadMagos = scanner.nextInt();
-                    scanner.nextLine(); // Consumir el salto de línea pendiente
+        for (int i = 1; i <= cantidadMagos; i++) {
+            Mago mago = pedirMagoPorNombre("Selecciona el mago número " + i + ":", listaMagos, nombres);
+            seleccionados.add(mago);
+            imprimirMensaje("Has seleccionado a " + mago.getNombre() + " como tu mago.");
+        }
+
+        return seleccionados;
+    }
+
+    // ---------------- Métodos privados de ayuda ----------------
+
+    private int pedirCantidadMagos() {
+        int cantidad = 0;
+        boolean valido = false;
+
+        imprimirMensaje("\n¿Cuántos magos quieres seleccionar? (min 2, max 4):");
+
+        while (!valido) {
+            try {
+                cantidad = scanner.nextInt();
+                scanner.nextLine(); // Consumir salto de línea
+                if (cantidad >= 2 && cantidad <= 4) {
+                    valido = true;
+                } else {
+                    imprimirMensaje("Cantidad inválida. Ingresa un número entre 2 y 4:");
                 }
-                
-                validInput = true;
             } catch (java.util.InputMismatchException e) {
-                scanner.nextLine(); // Limpiar el buffer
+                scanner.nextLine(); // Limpiar buffer
                 imprimirMensaje("Por favor, ingresa un número válido:");
             }
         }
 
-        List<Mago> magosSeleccionados = new java.util.ArrayList<>();
+        return cantidad;
+    }
 
-        for (int i = 0; i < cantidadMagos; i++) {
-            imprimirMensaje("");
-            imprimirMensaje("Selecciona el mago número " + (i + 1) + " por su nombre:");
-            input = scanner.nextLine();
+    private Mago pedirMagoPorNombre(String mensaje, List<Mago> listaMagos, List<String> nombres) {
+        String input = "";
+        Mago seleccionado = null;
 
-            while (input.isEmpty() || !opciones.contains(input)) {
-                imprimirMensaje("");
+        imprimirMensaje("\n" + mensaje);
+
+        while (seleccionado == null) {
+            input = scanner.nextLine().trim();
+            if (nombres.contains(input)) {
+                int index = nombres.indexOf(input);
+                seleccionado = listaMagos.get(index);
+            } else {
                 imprimirMensaje("Selección inválida. Por favor, elige un mago válido:");
-                input = scanner.nextLine();
-            }
-
-            String seleccion = input;
-            Mago magoSeleccionado = controlador.getModelo().getListaMagos().stream()
-                    .filter(m -> m.getNombre().equals(seleccion))
-                    .findFirst()
-                    .orElse(null);
-
-            if (magoSeleccionado != null) {
-                magosSeleccionados.add(magoSeleccionado);
-                imprimirMensaje("Has seleccionado a " + magoSeleccionado.getNombre() + " como tu mago.");
             }
         }
 
-        controlador.getModelo().setMagos(magosSeleccionados);
+        return seleccionado;
     }
 }
