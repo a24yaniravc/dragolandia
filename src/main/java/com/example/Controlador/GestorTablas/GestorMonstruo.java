@@ -1,14 +1,12 @@
 package com.example.Controlador.GestorTablas;
 
-import java.util.Scanner;
+import java.util.List;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
-import com.example.Controlador.Controlador;
+import com.example.Controlador.ControladorSesion;
 import com.example.Modelo.ClasesJuego.Monstruo;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 
 /**
  * Controlador para gestionar las operaciones CRUD de la entidad Monstruo.
@@ -16,9 +14,6 @@ import com.example.Modelo.ClasesJuego.Monstruo;
 public class GestorMonstruo {
     // Singleton
     private static GestorMonstruo instancia;
-    
-    // Atributos
-    private final Scanner sc = new Scanner(System.in);
 
     /**
      * Constructor privado para el patrón Singleton.
@@ -38,119 +33,79 @@ public class GestorMonstruo {
 
     /**
      * Inserta un nuevo monstruo en la base de datos.
+     * @param monstruo
      */
-    public void insertarMonstruo() {
-        System.out.print("Nombre: ");
-        String nombre = sc.nextLine();
+    public void insertarMonstruo(Monstruo monstruo) {
+        EntityManager em = ControladorSesion.getInstancia()
+                .getHybernateUtil().getSesion();
+        EntityTransaction tx = em.getTransaction();
 
-        System.out.print("Vida: ");
-        int vida = Integer.parseInt(sc.nextLine());
-
-        System.out.print("Fuerza: ");
-        int fuerza = Integer.parseInt(sc.nextLine());
-
-        System.out.print("Tipo (ogro/troll/espectro): ");
-        Monstruo.Tipo tipo = Monstruo.Tipo.valueOf(sc.nextLine());
-
-        Monstruo monstruo = new Monstruo(nombre, vida, tipo.name(), fuerza);
-
-        try (Session session = new Configuration().configure()
-                .buildSessionFactory().openSession()) {
-
-            session.beginTransaction();
-            session.persist(monstruo);
-            session.getTransaction().commit();
+        try {
+            tx.begin();
+            em.persist(monstruo);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
+        } finally {
+            em.close();
         }
     }
 
     /**
      * Modifica un monstruo existente en la base de datos.
+     * @param monstruo
      */
-    public void modificarMonstruo() {
-        System.out.println("---- Modificar monstruo ----");
-        System.out.println("Monstruos disponibles:");
-        for (Monstruo m : Controlador.getInstancia().getModelo().getListaMonstruos()) {
-            System.out.println("- " + m.getNombre());
-        }
+    public void modificarMonstruo(Monstruo monstruo) {
+        EntityManager em = ControladorSesion.getInstancia()
+                .getHybernateUtil().getSesion();
+        EntityTransaction tx = em.getTransaction();
 
-        System.out.print("Seleccione el monstruo a modificar por su nombre: ");
-        String nombreSeleccionado = sc.nextLine();
-
-        Monstruo monstruoModificar = Controlador.getInstancia().getModelo().getListaMonstruos().stream()
-                .filter(m -> m.getNombre().equals(nombreSeleccionado))
-                .findFirst()
-                .orElse(null);
-
-        if (monstruoModificar == null) {
-            System.out.println("Monstruo no encontrado.");
-            return;
-        }
-
-        System.out.println("Qué desea modificar?");
-        System.out.println("1. Nombre");
-        System.out.println("2. Vida");
-        System.out.println("3. Fuerza");
-        System.out.print("Seleccione una opción: ");
-        String opcion = sc.nextLine();
-
-        switch (opcion) {
-            case "1":
-                System.out.print("Nuevo nombre: ");
-                monstruoModificar.setNombre(sc.nextLine());
-                break;
-            case "2":
-                System.out.print("Nueva vida: ");
-                monstruoModificar.setVida(Integer.parseInt(sc.nextLine()));
-                break;
-            case "3":
-                System.out.print("Nueva fuerza: ");
-                monstruoModificar.setFuerza(Integer.parseInt(sc.nextLine()));
-                break;
-            default:
-                System.out.println("Opción inválida.");
-                return;
-        }
-
-        try (SessionFactory factory = new Configuration().configure().buildSessionFactory()) {
-            Session session = factory.getCurrentSession();
-            session.getTransaction().begin();
-            session.merge(monstruoModificar);
-            session.getTransaction().commit();
-            System.out.println("Monstruo modificado correctamente: " + monstruoModificar.getNombre());
-        } catch (HibernateException e) {
-            System.out.println("Error al modificar el monstruo: " + e.getMessage());
+        try {
+            tx.begin();
+            em.merge(monstruo);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
+        } finally {
+            em.close();
         }
     }
 
     /**
-     * Elimina un monstruo existente en la base de datos.
+     * Elimina un monstruo de la base de datos.
+     * @param monstruo
      */
-     public void eliminarMonstruo() {
-        System.out.print("Nombre del monstruo a eliminar: ");
-        String nombre = sc.nextLine();
+    public void eliminarMonstruo(Monstruo monstruo) {
+        EntityManager em = ControladorSesion.getInstancia()
+                .getHybernateUtil().getSesion();
+        EntityTransaction tx = em.getTransaction();
 
-        try (Session session = new Configuration().configure()
-                .buildSessionFactory().openSession()) {
-
-            Monstruo monstruo = session.createQuery(
-                    "FROM Monstruo WHERE nombre = :nombre", Monstruo.class)
-                    .setParameter("nombre", nombre)
-                    .uniqueResult();
-
-            session.beginTransaction();
-            session.remove(monstruo);
-            session.getTransaction().commit();
+        try {
+            tx.begin();
+            em.remove(em.merge(monstruo));
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
+        } finally {
+            em.close();
         }
     }
 
-    public void seleccionarTodosMonstruos() {
-        try (Session session = new Configuration().configure()
-                .buildSessionFactory().openSession()) {
-
-            System.out.println("---- Lista de Monstruos ----");
-            for (Monstruo m : session.createQuery("FROM Monstruo", Monstruo.class).list()) {
-                System.out.println("- " + m.getNombre());
-            }
+    /**
+     * Obtiene todos los monstruos de la base de datos.
+     * @return
+     */
+    public List<Monstruo> obtenerTodos() {
+        EntityManager em = ControladorSesion.getInstancia()
+                .getHybernateUtil().getSesion();
+        try {
+            return em.createQuery("FROM Monstruo", Monstruo.class)
+                    .getResultList();
+        } finally {
+            em.close();
         }
     }
 }

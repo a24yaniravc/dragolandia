@@ -1,14 +1,12 @@
 package com.example.Controlador.GestorTablas;
 
-import java.util.Scanner;
+import java.util.List;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
-import com.example.Controlador.Controlador;
+import com.example.Controlador.ControladorSesion;
 import com.example.Modelo.ClasesJuego.Hechizo;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 
 /**
  * Controlador para gestionar las operaciones CRUD de la entidad Hechizo.
@@ -16,9 +14,6 @@ import com.example.Modelo.ClasesJuego.Hechizo;
 public class GestorHechizo {
     // Singleton
     private static GestorHechizo instancia;
-
-    // Atributos
-    private final Scanner sc = new Scanner(System.in);
 
     /**
      * Constructor privado para el patrón Singleton.
@@ -38,90 +33,79 @@ public class GestorHechizo {
 
     /**
      * Inserta un nuevo hechizo en la base de datos.
+     * @param hechizo
      */
-    public void insertarHechizo() {
-        System.out.print("Nombre del hechizo: ");
-        String nombre = sc.nextLine();
+    public void insertarHechizo(Hechizo hechizo) {
+        EntityManager em = ControladorSesion.getInstancia()
+                .getHybernateUtil().getSesion();
+        EntityTransaction tx = em.getTransaction();
 
-        Hechizo hechizo = new Hechizo(nombre);
-
-        try (Session session = new Configuration().configure()
-                .buildSessionFactory().openSession()) {
-
-            session.beginTransaction();
-            session.persist(hechizo);
-            session.getTransaction().commit();
+        try {
+            tx.begin();
+            em.persist(hechizo);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
+        } finally {
+            em.close();
         }
     }
 
     /**
      * Modifica un hechizo existente en la base de datos.
+     * @param hechizo
      */
-    public void modificarHechizo() {
-        System.out.println("---- Modificar hechizo ----");
-        System.out.println("Hechizos disponibles:");
-        for (Hechizo h : Controlador.getInstancia().getModelo().getListaHechizos()) {
-            System.out.println("- " + h.getNombre());
-        }
+    public void modificarHechizo(Hechizo hechizo) {
+        EntityManager em = ControladorSesion.getInstancia()
+                .getHybernateUtil().getSesion();
+        EntityTransaction tx = em.getTransaction();
 
-        System.out.print("Seleccione el hechizo a modificar por su nombre: ");
-        String nombreSeleccionado = sc.nextLine();
-
-        Hechizo hechizoModificar = Controlador.getInstancia().getModelo().getListaHechizos().stream()
-                .filter(h -> h.getNombre().equals(nombreSeleccionado))
-                .findFirst()
-                .orElse(null);
-
-        if (hechizoModificar == null) {
-            System.out.println("Hechizo no encontrado.");
-            return;
-        }
-
-        System.out.print("Nuevo nombre del hechizo: ");
-        hechizoModificar.setNombre(sc.nextLine());
-
-        // Guardar los cambios en la base de datos
-        try (SessionFactory factory = new Configuration().configure().buildSessionFactory()) {
-            Session session = factory.getCurrentSession();
-            session.getTransaction().begin();
-            session.merge(hechizoModificar);
-            session.getTransaction().commit();
-            System.out.println("Hechizo modificado correctamente: " + hechizoModificar.getNombre());
-        } catch (HibernateException e) {
-            System.out.println("Error al modificar el hechizo: " + e.getMessage());
+        try {
+            tx.begin();
+            em.merge(hechizo);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
+        } finally {
+            em.close();
         }
     }
-
 
     /**
-     * Elimina un hechizo existente en la base de datos.
+     * Elimina un hechizo de la base de datos.
+     * @param hechizo
      */
-    public void eliminarHechizo() {
-        System.out.print("Nombre del hechizo a eliminar: ");
-        String nombre = sc.nextLine();
+    public void eliminarHechizo(Hechizo hechizo) {
+        EntityManager em = ControladorSesion.getInstancia()
+                .getHybernateUtil().getSesion();
+        EntityTransaction tx = em.getTransaction();
 
-        try (Session session = new Configuration().configure()
-                .buildSessionFactory().openSession()) {
-
-            Hechizo hechizo = session.createQuery(
-                    "FROM Hechizo WHERE nombre = :nombre", Hechizo.class)
-                    .setParameter("nombre", nombre)
-                    .uniqueResult();
-
-            session.beginTransaction();
-            session.remove(hechizo);
-            session.getTransaction().commit();
+        try {
+            tx.begin();
+            em.remove(em.merge(hechizo));
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
+        } finally {
+            em.close();
         }
     }
 
-    public void seleccionarTodosHechizos() {
-        try (Session session = new Configuration().configure()
-                .buildSessionFactory().openSession()) {
-
-            System.out.println("---- Lista de Hechizos ----");
-            for (Hechizo h : session.createQuery("FROM Hechizo", Hechizo.class).list()) {
-                System.out.println("- " + h.getNombre());
-            }
+    /**
+     * Obtiene todos los hechizos de la base de datos.
+     * @return
+     */
+    public List<Hechizo> obtenerTodos() {
+        EntityManager em = ControladorSesion.getInstancia()
+                .getHybernateUtil().getSesion();
+        try {
+            return em.createQuery("FROM Hechizo", Hechizo.class)
+                    .getResultList();
+        } finally {
+            em.close();
         }
     }
 }
