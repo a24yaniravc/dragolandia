@@ -18,10 +18,6 @@ public final class Principal {
         controlador.getVista()
                 .imprimirMensaje("¿Desea añadir los personajes a la base de datos? (S/N)");
 
-        if (sc.nextLine().equalsIgnoreCase("s")) {
-            controlador.addCharacters();
-        }
-
         controlador.loadFromDatabase();
         controlador.getModelo().inicializarJuego();
         controlador.comenzarCombate();
