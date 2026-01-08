@@ -17,7 +17,7 @@ public class Vista {
         System.out.println(mensaje);
     }
 
-    public void seleccionMago(){
+    public void seleccionMago() {
         controlador = Controlador.getInstancia();
 
         // Obtener los nombres de los magos disponibles
@@ -25,7 +25,8 @@ public class Vista {
                 .map(Mago::getNombre)
                 .toList();
         List<String> stats = controlador.getModelo().getListaMagos().stream()
-                .map(m -> "[Vida: " + m.getVida() + ", Nivel de magia: " + m.getNivelMagia() + ", Conjuros: " + m.getConjuros() + "]")
+                .map(m -> "[Vida: " + m.getVida() + ", Nivel de magia: " + m.getNivelMagia() + ", Conjuros: "
+                        + m.getConjuros() + "]")
                 .toList();
         String input = "";
 
@@ -37,21 +38,47 @@ public class Vista {
         }
 
         imprimirMensaje("");
-        imprimirMensaje("Seleccione un mago por su nombre:");
-        input = scanner.nextLine();
-
-        while (input.isEmpty() || !opciones.contains(input)) {
-            imprimirMensaje("");
-            imprimirMensaje("Selección inválida. Por favor, elige un mago válido:");
-            input = scanner.nextLine();
+        imprimirMensaje("¿Cuántos magos quieres seleccionar?");
+        int cantidadMagos = 0;
+        
+        boolean validInput = false;
+        
+        while (!validInput) {
+            try {
+                cantidadMagos = scanner.nextInt();
+                scanner.nextLine(); // Consumir el salto de línea pendiente
+                validInput = true;
+            } catch (java.util.InputMismatchException e) {
+                scanner.nextLine(); // Limpiar el buffer
+                imprimirMensaje("Por favor, ingresa un número válido:");
+            }
         }
 
-        String seleccion = input;
-        Mago magoSeleccionado = controlador.getModelo().getListaMagos().stream()
-                .filter(m -> m.getNombre().equals(seleccion))
-                .findFirst()
-                .orElse(null);
+        List<Mago> magosSeleccionados = new java.util.ArrayList<>();
 
-        controlador.getModelo().setMago(magoSeleccionado);
+        for (int i = 0; i < cantidadMagos; i++) {
+            imprimirMensaje("");
+            imprimirMensaje("Selecciona el mago número " + (i + 1) + " por su nombre:");
+            input = scanner.nextLine();
+
+            while (input.isEmpty() || !opciones.contains(input)) {
+                imprimirMensaje("");
+                imprimirMensaje("Selección inválida. Por favor, elige un mago válido:");
+                input = scanner.nextLine();
+            }
+
+            String seleccion = input;
+            Mago magoSeleccionado = controlador.getModelo().getListaMagos().stream()
+                    .filter(m -> m.getNombre().equals(seleccion))
+                    .findFirst()
+                    .orElse(null);
+
+            if (magoSeleccionado != null) {
+                magosSeleccionados.add(magoSeleccionado);
+                imprimirMensaje("Has seleccionado a " + magoSeleccionado.getNombre() + " como tu mago.");
+            }
+        }
+
+        controlador.getModelo().setMagos(magosSeleccionados);
     }
 }

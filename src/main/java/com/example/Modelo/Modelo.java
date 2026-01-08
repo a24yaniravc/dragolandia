@@ -29,7 +29,7 @@ public class Modelo {
     private List<Dragon> listaDragones = new java.util.ArrayList<>();
 
     private Monstruo monstruo;
-    private Mago mago = null;
+    private List<Mago> magos = null;
     private Bosque bosque;
     private Dragon dragon;
     private Hechizo hechizo;
@@ -79,17 +79,17 @@ public class Modelo {
     }
 
     /**
-     * Establece el mago del juego.
+     * Establece los magos del juego.
      * 
-     * @param mago
+     * @param magos
      */
-    public void setMago(Mago mago) {
-        this.mago = mago;
+    public void setMagos(List<Mago> magos) {
+        this.magos = magos != null ? List.copyOf(magos) : null;
     }
 
     // GETTERS
-    public Mago getMago() {
-        return mago;
+    public List<Mago> getMagos() {
+        return magos;
     }
 
     public Bosque getBosque() {

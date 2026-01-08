@@ -48,12 +48,12 @@ public class Controlador {
     public void comenzarCombate() {
 
         // Validaciones básicas
-        if (modelo.getMago() == null || modelo.getBosque() == null) {
+        if (modelo.getMagos() == null || modelo.getBosque() == null) {
             vista.imprimirMensaje("Error: el juego no ha sido inicializado.");
             return;
         }
 
-        Mago mago = modelo.getMago();
+        Mago mago = modelo.getMagos().get(0);
         Bosque bosque = modelo.getBosque();
         Monstruo monstruo = bosque.getMonstruoJefe();
 

@@ -26,7 +26,7 @@ public class Mago {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Generación automática del ID
     private int id;
 
-        @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     private String nombre;
 
     @Column(nullable = false)
