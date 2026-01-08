@@ -166,4 +166,15 @@ public class Modelo {
     public void addDragonToLista(Dragon dragon) {
         this.listaDragones.add(dragon);
     }
+
+    /**
+     * Limpia todas las listas del modelo.
+     */
+    public void limpiarListas() {
+        listaMagos.clear();
+        listaDragones.clear();
+        listaBosques.clear();
+        listaMonstruos.clear();
+        listaHechizos.clear();
+    }
 }
