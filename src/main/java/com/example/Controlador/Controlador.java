@@ -1,8 +1,5 @@
 package com.example.Controlador;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.Controlador.GestorTablas.GestorBosque;
 import com.example.Controlador.GestorTablas.GestorDragon;
 import com.example.Controlador.GestorTablas.GestorHechizo;
