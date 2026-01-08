@@ -1,4 +1,4 @@
-package com.example.Controlador.ControladorTablas;
+package com.example.Controlador.GestorTablas;
 
 import java.util.Scanner;
 
@@ -14,9 +14,9 @@ import com.example.Vista.Vista;
 /**
  * Controlador para gestionar las operaciones CRUD de la entidad Mago.
  */
-public class ControladorMago {
+public class GestorMago {
     // Singleton
-    private static ControladorMago instancia;
+    private static GestorMago instancia;
 
     // Atributos
     private final Vista vista;
@@ -25,7 +25,7 @@ public class ControladorMago {
     /**
      * Constructor privado para el patrón Singleton.
      */
-    private ControladorMago() {
+    private GestorMago() {
         this.vista = new Vista();
     }
 
@@ -33,9 +33,9 @@ public class ControladorMago {
      * Obtiene la instancia única del controlador de Mago.
      * @return
      */
-    public static ControladorMago getInstancia() {
+    public static GestorMago getInstancia() {
         if (instancia == null) {
-            instancia = new ControladorMago();
+            instancia = new GestorMago();
         }
         return instancia;
     }

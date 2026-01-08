@@ -4,10 +4,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-public class SesionSingleton {
+public class HybernateUtil {
     private static final EntityManagerFactory gestorEntidades = Persistence.createEntityManagerFactory("dragolandiaServizo");
 
-    public static EntityManager getSesion() {
+    public EntityManager getSesion() {
         return gestorEntidades.createEntityManager();
     }
 

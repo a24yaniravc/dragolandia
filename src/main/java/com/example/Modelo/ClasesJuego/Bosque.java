@@ -80,6 +80,10 @@ public class Bosque {
         return monstruos;
     }
 
+    public Dragon getDragon() {
+        return dragon;
+    }
+
     // SETTERS
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -87,6 +91,10 @@ public class Bosque {
 
     public void setNivelPeligro(int nivelPeligro) {
         this.nivelPeligro = nivelPeligro;
+    }
+
+    public void setDragon(Dragon dragon) {
+        this.dragon = dragon;
     }
 
     /**

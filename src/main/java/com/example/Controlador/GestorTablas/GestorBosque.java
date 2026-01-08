@@ -1,4 +1,4 @@
-package com.example.Controlador.ControladorTablas;
+package com.example.Controlador.GestorTablas;
 
 import java.util.Scanner;
 
@@ -13,9 +13,9 @@ import com.example.Modelo.ClasesJuego.Bosque;
 /**
  * Controlador para gestionar las operaciones CRUD de la entidad Bosque.
  */
-public class ControladorBosque {
+public class GestorBosque {
     // Singleton
-    private static ControladorBosque instancia;
+    private static GestorBosque instancia;
 
     // Atributos
     private final Scanner sc = new Scanner(System.in);
@@ -23,15 +23,15 @@ public class ControladorBosque {
     /**
      * Constructor privado para el patrón Singleton.
      */
-    private ControladorBosque() {}
+    private GestorBosque() {}
 
     /**
      * Obtiene la instancia única del controlador de Bosque.
      * @return
      */
-    public static ControladorBosque getInstancia() {
+    public static GestorBosque getInstancia() {
         if (instancia == null) {
-            instancia = new ControladorBosque();
+            instancia = new GestorBosque();
         }
         return instancia;
     }

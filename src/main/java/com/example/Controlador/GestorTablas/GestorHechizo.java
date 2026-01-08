@@ -1,4 +1,4 @@
-package com.example.Controlador.ControladorTablas;
+package com.example.Controlador.GestorTablas;
 
 import java.util.Scanner;
 
@@ -13,9 +13,9 @@ import com.example.Modelo.ClasesJuego.Hechizo;
 /**
  * Controlador para gestionar las operaciones CRUD de la entidad Hechizo.
  */
-public class ControladorHechizo {
+public class GestorHechizo {
     // Singleton
-    private static ControladorHechizo instancia;
+    private static GestorHechizo instancia;
 
     // Atributos
     private final Scanner sc = new Scanner(System.in);
@@ -23,15 +23,15 @@ public class ControladorHechizo {
     /**
      * Constructor privado para el patrón Singleton.
      */
-    private ControladorHechizo() {}
+    private GestorHechizo() {}
 
     /**
      * Obtiene la instancia única del controlador de Hechizo.
      * @return
      */
-    public static ControladorHechizo getInstancia() {
+    public static GestorHechizo getInstancia() {
         if (instancia == null) {
-            instancia = new ControladorHechizo();
+            instancia = new GestorHechizo();
         }
         return instancia;
     }

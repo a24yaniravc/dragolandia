@@ -38,7 +38,7 @@ public class Vista {
         }
 
         imprimirMensaje("");
-        imprimirMensaje("¿Cuántos magos quieres seleccionar?");
+        imprimirMensaje("¿Cuántos magos quieres seleccionar? (min 2, max 4):");
         int cantidadMagos = 0;
         
         boolean validInput = false;
@@ -47,6 +47,14 @@ public class Vista {
             try {
                 cantidadMagos = scanner.nextInt();
                 scanner.nextLine(); // Consumir el salto de línea pendiente
+
+                while (cantidadMagos < 2 || cantidadMagos > 4) {
+                    imprimirMensaje("");
+                    imprimirMensaje("Cantidad inválida. Por favor, ingresa un número entre 2 y 4:");
+                    cantidadMagos = scanner.nextInt();
+                    scanner.nextLine(); // Consumir el salto de línea pendiente
+                }
+                
                 validInput = true;
             } catch (java.util.InputMismatchException e) {
                 scanner.nextLine(); // Limpiar el buffer

@@ -1,4 +1,4 @@
-package com.example.Controlador.ControladorTablas;
+package com.example.Controlador.GestorTablas;
 
 import java.util.List;
 import java.util.Scanner;
@@ -14,9 +14,9 @@ import com.example.Modelo.ClasesJuego.Dragon;
 /**
  * Controlador para gestionar las operaciones CRUD de la entidad Dragon.
  */
-public class ControladorDragon {
+public class GestorDragon {
     // Singleton
-    private static ControladorDragon instancia;
+    private static GestorDragon instancia;
     
     // Atributos
     private final Scanner sc = new Scanner(System.in);
@@ -24,15 +24,15 @@ public class ControladorDragon {
     /**
      * Constructor privado para el patrón Singleton.
      */
-    private ControladorDragon() {}
+    private GestorDragon() {}
 
     /**
      * Obtiene la instancia única del controlador de Dragón.
      * @return
      */
-    public static ControladorDragon getInstancia() {
+    public static GestorDragon getInstancia() {
         if (instancia == null) {
-            instancia = new ControladorDragon();
+            instancia = new GestorDragon();
         }
         return instancia;
     }
