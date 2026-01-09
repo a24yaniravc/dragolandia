@@ -95,6 +95,26 @@ public class GestorDragon {
     }
 
     /**
+     * Elimina todos los dragones de la base de datos.
+     */
+    public void borrarDatos() {
+        EntityManager em = ControladorSesion.getInstancia()
+                .getHybernateUtil().getSesion();
+        EntityTransaction tx = em.getTransaction();
+
+        try {
+            tx.begin();
+            em.createQuery("DELETE FROM Dragon").executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
      * Obtiene todos los dragones de la base de datos.
      * @return
      */

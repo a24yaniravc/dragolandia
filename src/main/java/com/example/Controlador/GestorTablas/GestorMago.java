@@ -95,6 +95,26 @@ public class GestorMago {
     }
 
     /**
+     * Borra todos los datos de la tabla Mago.
+     */
+    public void borrarDatos() {
+        EntityManager em = ControladorSesion.getInstancia()
+                .getHybernateUtil().getSesion();
+        EntityTransaction tx = em.getTransaction();
+
+        try {
+            tx.begin();
+            em.createQuery("DELETE FROM Mago").executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
      * Obtiene todos los magos de la base de datos.
      * @return
      */

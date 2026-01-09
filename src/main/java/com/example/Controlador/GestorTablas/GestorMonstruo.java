@@ -95,6 +95,26 @@ public class GestorMonstruo {
     }
 
     /**
+     * Elimina todos los datos de la tabla Monstruo.
+     */
+    public void borrarDatos() {
+        EntityManager em = ControladorSesion.getInstancia()
+                .getHybernateUtil().getSesion();
+        EntityTransaction tx = em.getTransaction();
+
+        try {
+            tx.begin();
+            em.createQuery("DELETE FROM Monstruo").executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
      * Obtiene todos los monstruos de la base de datos.
      * @return
      */

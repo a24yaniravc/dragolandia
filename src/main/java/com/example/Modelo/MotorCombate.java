@@ -1,8 +1,8 @@
-package com.example.Controlador;
+package com.example.Modelo;
 
 import java.util.List;
 
-import com.example.Modelo.Modelo;
+import com.example.Controlador.ControladorSesion;
 import com.example.Modelo.ClasesJuego.Bosque;
 import com.example.Modelo.ClasesJuego.Hechizo;
 import com.example.Modelo.ClasesJuego.Mago;
@@ -13,6 +13,11 @@ public class MotorCombate {
     private final Modelo modelo;
     private final Vista vista;
 
+    /**
+     * Constructor del Motor de Combate.
+     * @param modelo
+     * @param vista
+     */
     public MotorCombate(Modelo modelo, Vista vista) {
         this.modelo = modelo;
         this.vista = vista;
@@ -23,16 +28,17 @@ public class MotorCombate {
      */
     public void comenzarCombate() {
         // Validaciones iniciales
-        if (modelo.getListaMagos().isEmpty() || modelo.getBosque() == null) {
+        if (modelo.getMagos().isEmpty() || modelo.getBosque() == null) {
             vista.imprimirMensaje("Error: el juego no ha sido inicializado correctamente.");
         } else {
 
             // Preparación del combate
-            List<Mago> magos = modelo.getListaMagos();
+            List<Mago> magos = modelo.getMagos();
             Bosque bosque = modelo.getBosque();
-            List<Monstruo> monstruos = bosque.getMonstruos();
 
-            Monstruo monstruoJefe = bosque.getMonstruoJefe();
+            ControladorSesion.getInstancia().getHybernateUtil().getSesion();
+            List<Monstruo> monstruos = modelo.getMonstruos();
+            Monstruo monstruoJefe = modelo.getMonstruoJefe();
 
             // Validación del monstruo jefe
             if (monstruoJefe != null) {
@@ -52,7 +58,7 @@ public class MotorCombate {
                                         .reduce((a, b) -> a + ", " + b)
                                         .orElse("")
                                 +
-                                "\nVS\nEl monstruo Jefe " + monstruoJefe.getNombre());
+                                "\nVS\nEl monstruo Jefe " + monstruoJefe.getNombre() + " y sus lacayos!");
                 vista.imprimirMensaje("**********************************\n");
 
                 // Bucle principal del combate
@@ -61,7 +67,7 @@ public class MotorCombate {
                     vista.imprimirMensaje("Turno: " + turno);
 
                     // Recalcular monstruos vivos
-                    List<Monstruo> monstruosVivos = monstruos.stream()
+                    /*List<Monstruo> monstruosVivos = monstruos.stream()
                             .filter(m -> m.getVida() > 0)
                             .toList();
 
@@ -76,7 +82,7 @@ public class MotorCombate {
                         monstruoJefe = monstruosVivos.get(indexNuevoJefe);
                         vista.imprimirMensaje(
                                 "¡El nuevo monstruo jefe es " + monstruoJefe.getNombre() + "!");
-                    }
+                    }*/
 
                     // Turno de los magos
                     for (Mago mago : magos) {
@@ -88,6 +94,10 @@ public class MotorCombate {
                                 .get((int) (Math.random() * modelo.getListaHechizos().size()));
 
                         mago.lanzarHechizo(monstruos, hechizo);
+                        vista.imprimirMensaje(
+                                "El mago " + mago.getNombre() +
+                                        " lanza el hechizo " + hechizo.getNombre() +
+                                        " contra los monstruos.");
                     }
 
                     // Turno de los monstruos

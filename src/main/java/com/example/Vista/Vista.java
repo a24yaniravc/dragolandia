@@ -12,8 +12,8 @@ import com.example.Modelo.ClasesJuego.Mago;
 public class Vista {
     private final Scanner scanner;
 
-    public Vista(Scanner scanner) {
-        this.scanner = scanner;
+    public Vista() {
+        this.scanner = new Scanner(System.in);
     }
 
     public void imprimirMensaje(String mensaje) {

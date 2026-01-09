@@ -10,6 +10,18 @@ public class InicializadorDatos {
 
     private InicializadorDatos() {}
 
+    public static void borrarDatos() {
+        GestorBosque.getInstancia().borrarDatos();
+        GestorMago.getInstancia().borrarDatos();
+        GestorHechizo.getInstancia().borrarDatos();
+        GestorMonstruo.getInstancia().borrarDatos();
+        GestorDragon.getInstancia().borrarDatos();
+    }
+
+     /**
+      * Carga los datos iniciales en la base de datos.
+      */
+
     public static void cargarDatosIniciales() {
 
         // DRAGÓN

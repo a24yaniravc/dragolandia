@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.Controlador.ControladorSesion;
 import com.example.Modelo.ClasesJuego.Bosque;
+import com.example.Modelo.ClasesJuego.Monstruo;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -103,6 +104,38 @@ public class GestorBosque {
                 .getHybernateUtil().getSesion();
         try {
             return em.createQuery("FROM Bosque", Bosque.class)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Borra todos los bosques de la base de datos.
+     */
+    public void borrarDatos() {
+        EntityManager em = ControladorSesion.getInstancia()
+                .getHybernateUtil().getSesion();
+        EntityTransaction tx = em.getTransaction();
+
+        try {
+            tx.begin();
+            em.createQuery("DELETE FROM Bosque").executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Monstruo> obtenerMonstruosPorBosque(int bosqueId) {
+        EntityManager em = ControladorSesion.getInstancia()
+                .getHybernateUtil().getSesion();
+        try {
+            return em.createQuery("SELECT monstruo_id FROM Monstruo m WHERE m.bosque.id = :bosqueId", Monstruo.class)
+                    .setParameter("bosqueId", bosqueId)
                     .getResultList();
         } finally {
             em.close();

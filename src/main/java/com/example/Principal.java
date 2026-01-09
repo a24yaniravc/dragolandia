@@ -26,6 +26,7 @@ public final class Principal {
         }
 
         if (respuesta.equals("S")) {
+            InicializadorDatos.borrarDatos();
             InicializadorDatos.cargarDatosIniciales();
         }
 

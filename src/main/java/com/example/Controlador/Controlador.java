@@ -6,6 +6,7 @@ import com.example.Controlador.GestorTablas.GestorHechizo;
 import com.example.Controlador.GestorTablas.GestorMago;
 import com.example.Controlador.GestorTablas.GestorMonstruo;
 import com.example.Modelo.Modelo;
+import com.example.Modelo.MotorCombate;
 import com.example.Vista.Vista;
 
 /**
@@ -20,7 +21,7 @@ public class Controlador {
      * Constructor privado (Singleton).
      */
     private Controlador() {
-        this.vista = new Vista(new java.util.Scanner(System.in));
+        this.vista = new Vista();
         this.modelo = Modelo.getInstancia();
     }
 

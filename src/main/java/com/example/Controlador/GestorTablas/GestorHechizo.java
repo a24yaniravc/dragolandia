@@ -95,6 +95,26 @@ public class GestorHechizo {
     }
 
     /**
+     * Borra todos los datos de la tabla Hechizo.
+     */
+    public void borrarDatos() {
+        EntityManager em = ControladorSesion.getInstancia()
+                .getHybernateUtil().getSesion();
+        EntityTransaction tx = em.getTransaction();
+
+        try {
+            tx.begin();
+            em.createQuery("DELETE FROM Hechizo").executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
      * Obtiene todos los hechizos de la base de datos.
      * @return
      */

@@ -229,3 +229,9 @@ BOSQUE ||--|| DRAGON : "tiene"
 MAGO }o--o{ HECHIZO : "aprende"
 ```
 
+## Ampliación
+Mejoras o cambios posibles:
+- Permitir controlar a los magos, es decir, poder elegir que hechizos se lanzan cuando.
+- Añadir otras acciones además de atacar (curarse, bloquear).
+- Añadir posibilidades de fallo. Cuando se lanza un ataque, tiene una probabilidad de fallar y no hacer daño.
+- Añadir críticos. A veces el daño del ataque es doble.

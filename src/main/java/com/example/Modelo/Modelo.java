@@ -1,7 +1,6 @@
 package com.example.Modelo;
 
 import java.util.List;
-import java.util.Scanner;
 
 import com.example.Modelo.ClasesJuego.Bosque;
 import com.example.Modelo.ClasesJuego.Dragon;
@@ -26,8 +25,9 @@ public class Modelo {
     private List<Dragon> listaDragones = new java.util.ArrayList<>();
 
     // Entidades seleccionadas para el juego
-    private Monstruo monstruo;
+    private Monstruo monstruoJefe;
     private List<Mago> magos = new java.util.ArrayList<>();
+    private List<Monstruo> monstruos = new java.util.ArrayList<>();
     private Bosque bosque;
     private Dragon dragon;
     private Hechizo hechizo;
@@ -46,7 +46,7 @@ public class Modelo {
         this.listaDragones = new java.util.ArrayList<>();
 
         // Inicialización de Vista
-        this.view = new Vista(new Scanner(System.in));
+        this.view = new Vista();
     }
 
     /**
@@ -83,10 +83,11 @@ public class Modelo {
          if (!listaBosques.isEmpty() && !listaMonstruos.isEmpty() && view != null) {
             int indexBosque = (int) (Math.random() * listaBosques.size());
             this.bosque = listaBosques.get(indexBosque);
-            this.monstruo = bosque.getMonstruoJefe();
+            this.monstruoJefe = bosque.getMonstruoJefe();
 
             // Selección de magos usando la vista
             this.magos = view.seleccionMago(listaMagos);
+            this.monstruos = bosque.getMonstruos();
         } else {
             if (view != null) {
                 view.imprimirMensaje("Error: No se puede inicializar el juego. Listas vacías o vista no configurada.");
@@ -124,8 +125,16 @@ public class Modelo {
      * Obtiene el monstruo seleccionado para el juego.
      * @return
      */
-    public Monstruo getMonstruo() {
-        return monstruo;
+    public Monstruo getMonstruoJefe() {
+        return monstruoJefe;
+    }
+
+    /**
+     * Obtiene la lista de monstruos seleccionados para el juego.
+     * @return
+     */
+    public List<Monstruo> getMonstruos() {
+        return monstruos;
     }
 
     /**
@@ -136,26 +145,50 @@ public class Modelo {
         return dragon;
     }
 
+    /**
+     * Obtiene el hechizo seleccionado para el juego.
+     * @return
+     */
     public Hechizo getHechizo() {
         return hechizo;
     }
 
+    /**
+     * Obtiene la lista de monstruos disponibles en el juego.
+     * @return
+     */
     public List<Monstruo> getListaMonstruos() {
         return listaMonstruos;
     }
 
+    /**
+     * Obtiene la lista de magos disponibles en el juego.
+     * @return
+     */
     public List<Mago> getListaMagos() {
         return listaMagos;
     }
 
+    /**
+     * Obtiene la lista de bosques disponibles en el juego.
+     * @return
+     */
     public List<Bosque> getListaBosques() {
         return listaBosques;
     }
 
+    /**
+     * Obtiene la lista de hechizos disponibles en el juego.
+     * @return
+     */
     public List<Hechizo> getListaHechizos() {
         return listaHechizos;
     }
 
+    /**
+     * Obtiene la lista de dragones disponibles en el juego.
+     * @return
+     */
     public List<Dragon> getListaDragones() {
         return listaDragones;
     }
