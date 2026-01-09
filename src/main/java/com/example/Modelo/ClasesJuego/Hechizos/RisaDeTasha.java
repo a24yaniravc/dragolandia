@@ -15,21 +15,28 @@ public class RisaDeTasha extends Hechizo {
         super("Risa de Tasha");
     }
 
+    /**
+     * Efecto del hechizo Risa de Tasha: inflige daño a todos los monstruos.
+     * @return Mapa de monstruos afectados y su daño recibido.
+     */
     @Override
     public Map<Monstruo, Integer> efecto(List<Monstruo> monstruos) {
-        Map<Monstruo, Integer> daños = new HashMap<>();
+        Map<Monstruo, Integer> danhos = new HashMap<>();
         int danio = 15;
         
         for (Monstruo mons : monstruos) {
             int vidaAntes = mons.getVida();
             mons.setVida(Math.max(0, vidaAntes - danio));
             int danoReal = vidaAntes - mons.getVida();
-            daños.put(mons, danoReal);
+            danhos.put(mons, danoReal);
         }
         
-        return daños;
+        return danhos;
     }
 
+    /**
+     * Devuelve el daño base del hechizo Risa de Tasha.
+     */
     @Override
     public int getDanho() {
         return 15;

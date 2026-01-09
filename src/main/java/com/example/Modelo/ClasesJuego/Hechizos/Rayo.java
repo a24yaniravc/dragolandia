@@ -15,24 +15,33 @@ public class Rayo extends Hechizo {
         super("Rayo");
     }
 
+    /**
+     * Efecto del hechizo Rayo: inflige daño a un monstruo aleatorio.
+     * @return Mapa de monstruos afectados y su daño recibido.
+     */
     @Override
     public Map<Monstruo, Integer> efecto(List<Monstruo> monstruos) {
-        Map<Monstruo, Integer> daños = new HashMap<>();
+        Map<Monstruo, Integer> danhos = new HashMap<>();
         int danio = 25;
         
+        // Si no hay monstruos, no hacer nada
         if (monstruos.isEmpty()) {
-            return daños;
+            return danhos;
         }
         
+        // Infligir daño a un monstruo aleatorio
         Monstruo mons = monstruos.get((int) (Math.random() * monstruos.size()));
         int vidaAntes = mons.getVida();
         mons.setVida(Math.max(0, vidaAntes - danio));
         int danoReal = vidaAntes - mons.getVida();
-        daños.put(mons, danoReal);
+        danhos.put(mons, danoReal);
         
-        return daños;
+        return danhos;
     }
 
+    /**
+     * Devuelve el daño base del hechizo Rayo.
+     */
     @Override
     public int getDanho() {
         return 25;

@@ -15,17 +15,27 @@ public class AgujeroNegro extends Hechizo {
         super("Agujero Negro");
     }
 
+    /**
+     * Efecto del Agujero Negro (establece la vida de todos los monstruos a 0).
+     * @return Mapa de monstruos afectados y su daño recibido.
+     */
     @Override
     public Map<Monstruo, Integer> efecto(List<Monstruo> monstruos) {
-        Map<Monstruo, Integer> daños = new HashMap<>();
+        // Mapa a devolver
+        Map<Monstruo, Integer> danhos = new HashMap<>();
+        
         for (Monstruo mons : monstruos) {
             int vidaAntes = mons.getVida();
             mons.setVida(0);
-            daños.put(mons, vidaAntes);
+            danhos.put(mons, vidaAntes);
         }
-        return daños;
+        
+        return danhos;
     }
 
+    /**
+     * Devuelve el daño base del hechizo Agujero Negro.
+     */
     @Override
     public int getDanho() {
         return -1;
