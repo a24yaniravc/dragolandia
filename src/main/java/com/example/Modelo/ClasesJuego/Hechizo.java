@@ -10,6 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * Clase Hechizo que representa un hechizo en el juego.
+ */
 @Entity
 @Table(name = "hechizos")
 public class Hechizo implements Serializable {
@@ -21,16 +24,43 @@ public class Hechizo implements Serializable {
     @Column(nullable = false, unique = true)
     private String nombre;
 
+    /**
+     * Constructor por defecto
+     */
     public Hechizo() {}
 
+    /**
+     * Constructor de la clase Hechizo.
+     * @param nombre
+     */
     public Hechizo(String nombre) {
         this.nombre = nombre;
     }
 
+    // GETTERS Y SETTERS
+    /**
+     * Obtiene el id del hechizo.
+     * @return
+     */
     public int getId() { return id; }
+
+    /**
+     * Obtiene el nombre del hechizo.
+     * @return
+     */
     public String getNombre() { return nombre; }
+
+    /**
+     * Establece el nombre del hechizo.
+     * @param nombre
+     */
     public void setNombre(String nombre) { this.nombre = nombre; }
 
+    // MÉTODOS
+    /**
+     * Efecto del hechizo sobre una lista de monstruos.
+     * @param monstruos
+     */
     public void efecto(List<Monstruo> monstruos) {
         // implementación en subclases
     }
