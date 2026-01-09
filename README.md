@@ -195,10 +195,9 @@ Controlador ..> GestorBosque : usa
 Controlador --> Vista
 Controlador --> Modelo
 Modelo --> Vista
-Modelo --> Monstruo
 Modelo --> Mago
+Modelo --> Monstruo
 Modelo --> Bosque
-Vista --> Controlador
 
 ```
 
@@ -261,7 +260,7 @@ MAGO }o--o{ HECHIZO : "aprende"
 
 ## Ampliación
 Mejoras o cambios posibles:
-- Permitir controlar a los magos, es decir, poder elegir qué hechizos se lanzan cuándo.
+- Permitir controlar a los magos, es decir, poder elegir qué hechizos se lanzan cuándo y a qué.
 - Añadir otras acciones además de atacar (curarse, bloquear).
 - Añadir posibilidades de fallo. Cuando se lanza un ataque, tiene una probabilidad de fallar y no hacer daño.
 - Añadir críticos. A veces el daño del ataque es doble.
