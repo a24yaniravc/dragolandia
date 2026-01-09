@@ -5,11 +5,20 @@ import java.util.List;
 import com.example.Modelo.ClasesJuego.Hechizo;
 import com.example.Modelo.ClasesJuego.Monstruo;
 
+/**
+ * Clase que representa el hechizo Bola de Fuego.
+ */
 public class BolaDeFuego extends Hechizo {
+    /**
+     * Constructor de la clase BolaDeFuego.
+     */
     public BolaDeFuego() {
         super("Bola de Fuego");
     }
 
+    /**
+     * Efecto del hechizo Bola de Fuego.
+     */
     @Override
     public void efecto(List<Monstruo> monstruos) {
         // Daño fijo de la Bola de Fuego
@@ -24,5 +33,4 @@ public class BolaDeFuego extends Hechizo {
             mons.setVida(mons.getVida() - danio);
         }
     }
-    
 }

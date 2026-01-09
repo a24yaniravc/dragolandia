@@ -5,11 +5,20 @@ import java.util.List;
 import com.example.Modelo.ClasesJuego.Hechizo;
 import com.example.Modelo.ClasesJuego.Monstruo;
 
+/**
+ * Clase Rayo que representa un hechizo de tipo Rayo.
+ */
 public class Rayo extends Hechizo {
+    /**
+     * Constructor de la clase Rayo.
+     */
     public Rayo() {
         super("Rayo");
     }
 
+    /**
+     * Efecto del hechizo Rayo: inflige daño a un monstruo aleatorio.
+     */
     @Override
     public void efecto(List<Monstruo> monstruos) {
         // Daño fijo del Rayo
