@@ -2,7 +2,6 @@ package com.example.Modelo;
 
 import java.util.List;
 
-import com.example.Controlador.ControladorSesion;
 import com.example.Modelo.ClasesJuego.Bosque;
 import com.example.Modelo.ClasesJuego.Hechizo;
 import com.example.Modelo.ClasesJuego.Mago;
@@ -36,7 +35,6 @@ public class MotorCombate {
             List<Mago> magos = modelo.getMagos();
             Bosque bosque = modelo.getBosque();
 
-            ControladorSesion.getInstancia().getHybernateUtil().getSesion();
             List<Monstruo> monstruos = modelo.getMonstruos();
             Monstruo monstruoJefe = modelo.getMonstruoJefe();
 

@@ -6,10 +6,19 @@ import java.util.List;
 import com.example.Controlador.GestorTablas.*;
 import com.example.Modelo.ClasesJuego.*;
 
+/**
+ * Clase para inicializar los datos de la aplicación.
+ */
 public class InicializadorDatos {
 
+    /**
+     * Constructor privado para evitar instanciación.
+     */
     private InicializadorDatos() {}
 
+    /**
+     * Borra todos los datos existentes en la base de datos.
+     */
     public static void borrarDatos() {
         GestorBosque.getInstancia().borrarDatos();
         GestorMago.getInstancia().borrarDatos();
@@ -18,10 +27,9 @@ public class InicializadorDatos {
         GestorDragon.getInstancia().borrarDatos();
     }
 
-     /**
-      * Carga los datos iniciales en la base de datos.
-      */
-
+    /**
+     * Carga los datos iniciales en la base de datos.
+     */
     public static void cargarDatosIniciales() {
 
         // DRAGÓN

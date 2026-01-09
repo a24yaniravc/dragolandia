@@ -10,7 +10,6 @@ classDiagram
 direction TB
 
 class Principal {
-    +addCharacters()
 }
 
 class Monstruo {
@@ -86,50 +85,56 @@ class Controlador {
     +comenzarCombate()
     +getModelo():Modelo
     +getVista():Vista
+    +loadFromDatabase()
 }
 
-class ControladorBosque {
+class GestorBosque {
     -ControladorBosque instancia
     +ControladorBosque()
     +insertarBosque()
     +modificarBosque()
     +eliminarBosque()
+    +borrarDatos()
     +seleccionarTodosBosques()
 }
 
-class ControladorDragon {
+class GestorDragon {
     -CotroladorDragon instancia
     +ControladorDragon()
     +insertarDragon()
     +modificarDragon()
     +eliminarDragon()
+    +borrarDatos()
     +seleccionarTodosDragon()
 }
 
-class ControladorHechizo{
+class GestorHechizo{
     -CotroladorHechizo instancia
     +ControladorHechizo()
     +insertarHechizo()
     +modificarHechizo()
     +eliminarHechizo()
+    +borrarDatos()
     +seleccionarTodosHechizo()
 }
 
-class ControladorMago {
+class GestorMago {
     -CotroladorMago instancia
     +ControladorMago()
     +insertarMago()
     +modificarMago()
     +eliminarMago()
+    +borrarDatos()
     +seleccionarTodosMago()
 }
 
-class ControladorMonstruo {
+class GestorMonstruo {
     -CotroladorMonstruo instancia
     +ControladorMonstruo()
     +insertarMonstruo()
     +modificarMonstruo()
     +eliminarMonstruo()
+    +borrarDatos()
     +seleccionarTodosMonstruo()
 }
 
@@ -148,8 +153,33 @@ class Modelo {
     +addMonstruoToLista(m:Monstruo)
     +addBosqueToLista(b:Bosque)
     +getListaMagos():List~Mago~
-    +loadFromDatabase()
 }
+
+class HybernateUtil {
+    -EntityManagerFactory gestorEntidades
+    +getSesion()
+    +cerrarSesion()
+}
+
+class InicializadorDatos {
+    +borrarDatos()
+    +cargarDatosIniciales()
+}
+
+class MotorCombate {
+    -Modelo modelo
+    -Vista vista
+    +comenzarCombate()
+}
+
+InicializadorDatos --> HybernateUtil
+GestorMonstruo --> InicializadorDatos : usa 
+GestorMago --> InicializadorDatos : usa
+GestorDragon --> InicializadorDatos : usa
+GestorHechizo --> InicializadorDatos : usa
+GestorBosque --> InicializadorDatos : usa
+
+Controlador --> MotorCombate
 
 Monstruo --> Tipo
 Bosque o-- Monstruo : monstruoJefe
@@ -157,11 +187,11 @@ Bosque o-- "0..*" Monstruo : contiene
 Mago o-- "0..*" Hechizo : hechizos
 Bosque o-- Dragon
 Principal ..> Controlador : usa
-Controlador ..> ControladorMonstruo : usa
-Controlador ..> ControladorMago : usa
-Controlador ..> ControladorDragon : usa
-Controlador ..> ControladorHechizo : usa
-Controlador ..> ControladorBosque : usa
+Controlador ..> GestorMonstruo : usa
+Controlador ..> GestorMago : usa
+Controlador ..> GestorDragon : usa
+Controlador ..> GestorHechizo : usa
+Controlador ..> GestorBosque : usa
 Controlador --> Vista
 Controlador --> Modelo
 Modelo --> Vista
@@ -231,7 +261,7 @@ MAGO }o--o{ HECHIZO : "aprende"
 
 ## Ampliación
 Mejoras o cambios posibles:
-- Permitir controlar a los magos, es decir, poder elegir que hechizos se lanzan cuando.
+- Permitir controlar a los magos, es decir, poder elegir qué hechizos se lanzan cuándo.
 - Añadir otras acciones además de atacar (curarse, bloquear).
 - Añadir posibilidades de fallo. Cuando se lanza un ataque, tiene una probabilidad de fallar y no hacer daño.
 - Añadir críticos. A veces el daño del ataque es doble.
