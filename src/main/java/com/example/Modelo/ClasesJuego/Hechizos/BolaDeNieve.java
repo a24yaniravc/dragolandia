@@ -37,7 +37,7 @@ public class BolaDeNieve extends Hechizo {
     }
 
     /**
-     * Devuelve el daño base del hechizo Bola de Nieve.
+     * Devuelve el daño base del hechizo Bola de Nieve (-1 pq elimina toda la vida de un monstruo).
      */
     @Override
     public int getDanho() {

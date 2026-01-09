@@ -34,7 +34,7 @@ public class AgujeroNegro extends Hechizo {
     }
 
     /**
-     * Devuelve el daño base del hechizo Agujero Negro.
+     * Devuelve el daño base del hechizo Agujero Negro (-1 pq elimina toda la vida de varios monstruos).
      */
     @Override
     public int getDanho() {

@@ -168,6 +168,10 @@ public class Bosque {
         return "El jefe del bosque es " + monstruoJefe.getNombre() + " y su vida es " + monstruoJefe.getVida();
     }
 
+    /**
+     * Añade un monstruo a la lista de monstruos del bosque.
+     * @param monstruo
+     */
     public void addMonstruo(Monstruo monstruo) {
         this.monstruos.add(monstruo);
     }

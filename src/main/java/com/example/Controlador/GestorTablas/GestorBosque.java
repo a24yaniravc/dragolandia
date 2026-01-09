@@ -129,16 +129,4 @@ public class GestorBosque {
             em.close();
         }
     }
-
-    public List<Monstruo> obtenerMonstruosPorBosque(int bosqueId) {
-        EntityManager em = ControladorSesion.getInstancia()
-                .getHybernateUtil().getSesion();
-        try {
-            return em.createQuery("SELECT monstruo_id FROM Monstruo m WHERE m.bosque.id = :bosqueId", Monstruo.class)
-                    .setParameter("bosqueId", bosqueId)
-                    .getResultList();
-        } finally {
-            em.close();
-        }
-    }
 }
