@@ -26,6 +26,7 @@ public class MotorCombate {
 
     /**
      * Constructor de la clase MotorCombate.
+     * 
      * @param modelo
      * @param vista
      */
@@ -41,57 +42,56 @@ public class MotorCombate {
         // Verificar estado inicial
         if (!estadoInicialValido()) {
             vista.imprimirMensaje("Error: el juego no ha sido inicializado correctamente.");
-            return;
-        }
+        } else {
+            // Obtener listas iniciales
+            List<Mago> magos = modelo.getMagos();
+            List<Monstruo> monstruos = modelo.getMonstruos();
+            Bosque bosque = modelo.getBosque();
 
-        // Obtener listas iniciales
-        List<Mago> magos = modelo.getMagos();
-        List<Monstruo> monstruos = modelo.getMonstruos();
-        Bosque bosque = modelo.getBosque();
+            // Monstruo jefe inicial
+            Monstruo monstruoJefe = modelo.getMonstruoJefe();
 
-        // Monstruo jefe inicial
-        Monstruo monstruoJefe = modelo.getMonstruoJefe();
+            // Imprimir estado inicial
+            vista.imprimirInicioCombate(magos, bosque, monstruoJefe);
 
-        // Imprimir estado inicial
-        imprimirInicioCombate(magos, bosque, monstruoJefe);
+            int turno = 1;
 
-        int turno = 1;
+            // Bucle principal del combate
+            while (combateActivo) {
 
-        // Bucle principal del combate
-        while (combateActivo) {
+                vista.imprimirMensaje("----------------------------------\nTurno: " + turno);
 
-            vista.imprimirMensaje("----------------------------------\nTurno: " + turno);
+                // Obtener listas de combatientes vivos
+                List<Monstruo> monstruosVivos = obtenerMonstruosVivos(monstruos);
+                List<Mago> magosVivos = obtenerMagosVivos(magos);
 
-            // Obtener listas de combatientes vivos
-            List<Monstruo> monstruosVivos = obtenerMonstruosVivos(monstruos);
-            List<Mago> magosVivos = obtenerMagosVivos(magos);
+                // Comprobar condiciones de victoria
+                if (monstruosVivos.isEmpty()) {
+                    victoriaMagos(monstruoJefe);
+                    break;
+                }
 
-            // Comprobar condiciones de victoria
-            if (monstruosVivos.isEmpty()) {
-                victoriaMagos(monstruoJefe);
-                break;
+                if (magosVivos.isEmpty()) {
+                    victoriaMonstruos(monstruoJefe);
+                    break;
+                }
+
+                // Cambiar jefe si ha muerto
+                if (monstruoJefe.getVida() <= 0) {
+                    monstruoJefe = elegirNuevoJefe(monstruosVivos);
+                    modelo.setMonstruoJefe(monstruoJefe);
+                }
+
+                // TURNOS
+                turnoMagos(magosVivos, monstruosVivos);
+                turnoMonstruos(monstruosVivos, magosVivos, bosque);
+                turnoDragon(bosque, monstruoJefe);
+
+                // Imprimir estado al final del turno
+                imprimirEstado(magos, monstruos, monstruoJefe, bosque);
+
+                turno++;
             }
-
-            if (magosVivos.isEmpty()) {
-                victoriaMonstruos(monstruoJefe);
-                break;
-            }
-
-            // Cambiar jefe si ha muerto
-            if (monstruoJefe.getVida() <= 0) {
-                monstruoJefe = elegirNuevoJefe(monstruosVivos);
-                modelo.setMonstruoJefe(monstruoJefe);
-            }
-
-            // TURNOS
-            turnoMagos(magosVivos, monstruosVivos);
-            turnoMonstruos(monstruosVivos, magosVivos, bosque);
-            turnoDragon(bosque, monstruoJefe);
-
-            // Imprimir estado al final del turno
-            imprimirEstado(magos, monstruos, monstruoJefe, bosque);
-
-            turno++;
         }
     }
 
@@ -99,6 +99,7 @@ public class MotorCombate {
 
     /**
      * Verifica si el estado inicial del juego es válido para comenzar el combate.
+     * 
      * @return
      */
     private boolean estadoInicialValido() {
@@ -107,6 +108,7 @@ public class MotorCombate {
 
     /**
      * Obtiene la lista de monstruos vivos.
+     * 
      * @param monstruos
      * @return
      */
@@ -118,6 +120,7 @@ public class MotorCombate {
 
     /**
      * Obtiene la lista de magos vivos.
+     * 
      * @param magos
      * @return
      */
@@ -129,6 +132,7 @@ public class MotorCombate {
 
     /**
      * Elige un nuevo monstruo jefe aleatoriamente de la lista de monstruos vivos.
+     * 
      * @param monstruosVivos
      * @return
      */
@@ -145,17 +149,24 @@ public class MotorCombate {
      */
     private Hechizo obtenerInstanciaHechizo(Hechizo hechizoGenerico) {
         switch (hechizoGenerico.getNombre()) {
-            case "Agujero Negro": return new AgujeroNegro();
-            case "Bola de Fuego": return new BolaDeFuego();
-            case "Bola de Nieve": return new BolaDeNieve();
-            case "Rayo":          return new Rayo();
-            case "Risa de Tasha": return new RisaDeTasha();
-            default:              return hechizoGenerico;
+            case "Agujero Negro":
+                return new AgujeroNegro();
+            case "Bola de Fuego":
+                return new BolaDeFuego();
+            case "Bola de Nieve":
+                return new BolaDeNieve();
+            case "Rayo":
+                return new Rayo();
+            case "Risa de Tasha":
+                return new RisaDeTasha();
+            default:
+                return hechizoGenerico;
         }
     }
 
     /**
      * Turno de los magos.
+     * 
      * @param magos
      * @param monstruos
      */
@@ -163,10 +174,12 @@ public class MotorCombate {
         vista.imprimirMensaje("\n--- Turno de los magos ---");
 
         for (Mago mago : magos) {
-            if (mago.getVida() <= 0) continue;
+            if (mago.getVida() <= 0)
+                continue;
 
             List<Monstruo> objetivosValidos = obtenerMonstruosVivos(todosLosMonstruos);
-            if (objetivosValidos.isEmpty()) break;
+            if (objetivosValidos.isEmpty())
+                break;
 
             // Seleccion hechizo aleatorio
             Hechizo hechizoDato = modelo.getListaHechizos()
@@ -189,7 +202,8 @@ public class MotorCombate {
             // Efecto del hechizo
             Map<Monstruo, Integer> danhos = hechizoLogico.efecto(objetivosValidos);
 
-            // Si el mapa está vacío a pesar de haber objetivos, algo falla en la clase del hechizo
+            // Si el mapa está vacío a pesar de haber objetivos, algo falla en la clase del
+            // hechizo
             if (danhos.isEmpty()) {
                 vista.imprimirMensaje("DEBUG: El hechizo no hizo efecto.");
             }
@@ -197,10 +211,10 @@ public class MotorCombate {
             for (Map.Entry<Monstruo, Integer> entry : danhos.entrySet()) {
                 Monstruo m = entry.getKey();
                 int dano = entry.getValue();
-                
+
                 vista.imprimirMensaje("El hechizo " + hechizoLogico.getNombre() +
                         " inflige " + dano + " puntos de daño a " + m.getNombre() + ".");
-                
+
                 if (m.getVida() <= 0) {
                     vista.imprimirMensaje("¡El monstruo " + m.getNombre() + " ha sido derrotado!");
                 }
@@ -210,6 +224,7 @@ public class MotorCombate {
 
     /**
      * Turno de los monstruos.
+     * 
      * @param monstruos
      * @param magos
      * @param bosque
@@ -259,6 +274,7 @@ public class MotorCombate {
 
     /**
      * Turno del dragón.
+     * 
      * @param bosque
      * @param jefe
      */
@@ -277,32 +293,8 @@ public class MotorCombate {
     }
 
     /**
-     * Imprime el estado inicial del combate.
-     * @param magos
-     * @param bosque
-     * @param jefe
-     */
-    private void imprimirInicioCombate(List<Mago> magos, Bosque bosque, Monstruo jefe) {
-
-        String nombresMagos = magos.stream()
-                .map(Mago::getNombre)
-                .reduce((a, b) -> a + ", " + b)
-                .orElse("");
-
-        String mensaje = "\n**********************************\n" +
-                "¡Encuentro randomizado obtenido!\n" +
-                "**********************************\n\n**********************************\n" +
-                "Comienza el combate en el " + bosque.getNombre() + "\n" +
-                "Los magos " + nombresMagos + "\n" +
-                "VS\n" +
-                "El monstruo jefe " + jefe.getNombre() + " y sus lacayos\n" +
-                "**********************************";
-
-        vista.imprimirMensaje(mensaje);
-    }
-
-    /**
      * Imprime el estado al final del turno.
+     * 
      * @param magos
      * @param monstruos
      * @param jefe
@@ -334,6 +326,7 @@ public class MotorCombate {
 
     /**
      * Victoria de los magos.
+     * 
      * @param jefe
      */
     private void victoriaMagos(Monstruo jefe) {
@@ -345,6 +338,7 @@ public class MotorCombate {
 
     /**
      * Victoria de los monstruos.
+     * 
      * @param jefe
      */
     private void victoriaMonstruos(Monstruo jefe) {
