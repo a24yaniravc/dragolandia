@@ -142,4 +142,36 @@ public class Vista {
 
         System.out.println(mensaje);
     }
+
+        /**
+     * Imprime el estado al final del turno.
+     * 
+     * @param magos
+     * @param monstruos
+     * @param jefe
+     * @param bosque
+     */
+    public void imprimirEstado(List<Mago> magos, List<Monstruo> monstruos, Monstruo jefe, Bosque bosque) {
+
+        System.out.println("\n--- Estado al final del turno ---");
+
+        magos.forEach(m -> System.out.println(
+                "Mago: " + m.getNombre() + " - Vida: " + m.getVida()));
+
+        System.out.println(
+                "Monstruo Jefe: " + jefe.getNombre() + " - Vida: " + jefe.getVida());
+
+        monstruos.stream()
+                .filter(m -> m != jefe)
+                .forEach(m -> System.out.println(
+                        "Monstruo: " + m.getNombre() + " - Vida: " + m.getVida()));
+
+        if (bosque.getDragon() != null) {
+            System.out.println(
+                    "Dragón: " + bosque.getDragon().getNombre() +
+                            " - Resistencia: " + bosque.getDragon().getResistencia());
+        }
+
+        System.out.println("\n----------------------------------");
+    }
 }

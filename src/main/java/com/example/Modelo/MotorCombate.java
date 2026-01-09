@@ -88,7 +88,7 @@ public class MotorCombate {
                 turnoDragon(bosque, monstruoJefe);
 
                 // Imprimir estado al final del turno
-                imprimirEstado(magos, monstruos, monstruoJefe, bosque);
+                vista.imprimirEstado(magos, monstruos, monstruoJefe, bosque);
 
                 turno++;
             }
@@ -232,17 +232,21 @@ public class MotorCombate {
     private void turnoMonstruos(List<Monstruo> monstruos, List<Mago> magos, Bosque bosque) {
         vista.imprimirMensaje("\n--- Turno de los monstruos ---");
 
+        // Obtener magos vivos
         List<Mago> magosVivos = obtenerMagosVivos(magos);
         boolean dragonVivo = bosque.getDragon() != null && bosque.getDragon().getResistencia() > 0;
 
+        // Turno de cada monstruo
         for (Monstruo monstruo : monstruos) {
             if (monstruo.getVida() <= 0 || (magosVivos.isEmpty() && !dragonVivo))
                 continue;
 
+            // Decidir objetivo: mago o dragón
             boolean atacarDragon = dragonVivo && Math.random() < 0.3; // 30% de probabilidad de atacar al dragón
-            if (atacarDragon) {
+            if (atacarDragon) { // Atacar al dragón
                 int dano = monstruo.getFuerza();
                 bosque.getDragon().setResistencia(Math.max(0, bosque.getDragon().getResistencia() - dano));
+                
                 vista.imprimirMensaje(
                         "El monstruo " + monstruo.getNombre() +
                                 " ataca al dragón " + bosque.getDragon().getNombre() +
@@ -251,7 +255,7 @@ public class MotorCombate {
                     vista.imprimirMensaje("¡El dragón " + bosque.getDragon().getNombre() + " ha sido derrotado!");
                     dragonVivo = false;
                 }
-            } else {
+            } else { // Atacar a un mago
                 if (magosVivos.isEmpty())
                     continue;
 
@@ -290,38 +294,6 @@ public class MotorCombate {
                             " exhala fuego sobre el monstruo jefe " + jefe.getNombre() +
                             ", infligiendo " + bosque.getDragon().getIntensidadFuego() + " puntos de daño.");
         }
-    }
-
-    /**
-     * Imprime el estado al final del turno.
-     * 
-     * @param magos
-     * @param monstruos
-     * @param jefe
-     * @param bosque
-     */
-    private void imprimirEstado(List<Mago> magos, List<Monstruo> monstruos, Monstruo jefe, Bosque bosque) {
-
-        vista.imprimirMensaje("\n--- Estado al final del turno ---");
-
-        magos.forEach(m -> vista.imprimirMensaje(
-                "Mago: " + m.getNombre() + " - Vida: " + m.getVida()));
-
-        vista.imprimirMensaje(
-                "Monstruo Jefe: " + jefe.getNombre() + " - Vida: " + jefe.getVida());
-
-        monstruos.stream()
-                .filter(m -> m != jefe)
-                .forEach(m -> vista.imprimirMensaje(
-                        "Monstruo: " + m.getNombre() + " - Vida: " + m.getVida()));
-
-        if (bosque.getDragon() != null) {
-            vista.imprimirMensaje(
-                    "Dragón: " + bosque.getDragon().getNombre() +
-                            " - Resistencia: " + bosque.getDragon().getResistencia());
-        }
-
-        vista.imprimirMensaje("\n----------------------------------");
     }
 
     /**
