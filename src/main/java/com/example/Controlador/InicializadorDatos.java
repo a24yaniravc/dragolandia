@@ -102,9 +102,17 @@ public class InicializadorDatos {
         mago1.aprenderHechizo(rayo);
 
         mago2.aprenderHechizo(rayo);
+        mago2.aprenderHechizo(agujero);
+
         mago3.aprenderHechizo(risa);
+        mago3.aprenderHechizo(rayo);
+        
         mago4.aprenderHechizo(bolaFuego);
         mago5.aprenderHechizo(bolaNieve);
+
+        mago6.aprenderHechizo(rayo);
+        mago6.aprenderHechizo(bolaNieve);
+        mago6.aprenderHechizo(risa);
         mago6.aprenderHechizo(rayo);
 
         GestorMago gma = GestorMago.getInstancia();
