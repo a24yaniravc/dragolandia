@@ -339,6 +339,7 @@ public class MotorCombate {
     private void victoriaMagos(Monstruo jefe) {
         vista.imprimirMensaje(
                 "¡Los magos han derrotado al monstruo jefe " + jefe.getNombre() + "!");
+        vista.imprimirMensaje("¡Felicidades, has ganado el combate y brindado paz al bosque!");
         combateActivo = false;
     }
 
@@ -350,6 +351,7 @@ public class MotorCombate {
         vista.imprimirMensaje(
                 "¡El monstruo jefe " + jefe.getNombre() +
                         " ha derrotado a todos los magos!");
+        vista.imprimirMensaje("¡Los monstruos han tomado el control del bosque y sembrado el caos!");
         combateActivo = false;
     }
 }
