@@ -8,6 +8,11 @@ import com.example.Modelo.ClasesJuego.Bosque;
 import com.example.Modelo.ClasesJuego.Hechizo;
 import com.example.Modelo.ClasesJuego.Mago;
 import com.example.Modelo.ClasesJuego.Monstruo;
+import com.example.Modelo.ClasesJuego.Hechizos.AgujeroNegro;
+import com.example.Modelo.ClasesJuego.Hechizos.BolaDeFuego;
+import com.example.Modelo.ClasesJuego.Hechizos.BolaDeNieve;
+import com.example.Modelo.ClasesJuego.Hechizos.Rayo;
+import com.example.Modelo.ClasesJuego.Hechizos.RisaDeTasha;
 import com.example.Vista.Vista;
 
 /**
@@ -136,40 +141,66 @@ public class MotorCombate {
     }
 
     /**
+     * Convierte un Hechizo genérico (de la BBDD) en su subclase con lógica.
+     */
+    private Hechizo obtenerInstanciaHechizo(Hechizo hechizoGenerico) {
+        switch (hechizoGenerico.getNombre()) {
+            case "Agujero Negro": return new AgujeroNegro();
+            case "Bola de Fuego": return new BolaDeFuego();
+            case "Bola de Nieve": return new BolaDeNieve();
+            case "Rayo":          return new Rayo();
+            case "Risa de Tasha": return new RisaDeTasha();
+            default:              return hechizoGenerico;
+        }
+    }
+
+    /**
      * Turno de los magos.
      * @param magos
      * @param monstruos
      */
-    private void turnoMagos(List<Mago> magos, List<Monstruo> monstruos) {
+    private void turnoMagos(List<Mago> magos, List<Monstruo> todosLosMonstruos) {
         vista.imprimirMensaje("\n--- Turno de los magos ---");
 
         for (Mago mago : magos) {
-            if (mago.getVida() <= 0)
-                continue;
+            if (mago.getVida() <= 0) continue;
 
-            Hechizo hechizo = modelo.getListaHechizos()
+            List<Monstruo> objetivosValidos = obtenerMonstruosVivos(todosLosMonstruos);
+            if (objetivosValidos.isEmpty()) break;
+
+            // Seleccion hechizo aleatorio
+            Hechizo hechizoDato = modelo.getListaHechizos()
                     .get((int) (Math.random() * modelo.getListaHechizos().size()));
 
-            // Verificar si el mago conoce el hechizo (comparando por nombre)
             boolean conoce = mago.getConjuros().stream()
-                    .anyMatch(h -> h.getNombre().equals(hechizo.getNombre()));
+                    .anyMatch(h -> h.getNombre().equals(hechizoDato.getNombre()));
 
             if (!conoce) {
-                vista.imprimirMensaje("El mago " + mago.getNombre() + " intenta lanzar " + hechizo.getNombre()
+                vista.imprimirMensaje("El mago " + mago.getNombre() + " intenta lanzar " + hechizoDato.getNombre()
                         + ", ¡pero no lo conoce! El hechizo falla.");
                 continue;
             }
 
-            vista.imprimirMensaje("El mago " + mago.getNombre() + " lanza " + hechizo.getNombre() + ".");
+            // Clase lógica del hechizo
+            Hechizo hechizoLogico = obtenerInstanciaHechizo(hechizoDato);
 
-            Map<Monstruo, Integer> danhos = hechizo.efecto(monstruos);
+            vista.imprimirMensaje("El mago " + mago.getNombre() + " lanza " + hechizoLogico.getNombre() + ".");
+
+            // Efecto del hechizo
+            Map<Monstruo, Integer> danhos = hechizoLogico.efecto(objetivosValidos);
+
+            // Si el mapa está vacío a pesar de haber objetivos, algo falla en la clase del hechizo
+            if (danhos.isEmpty()) {
+                vista.imprimirMensaje("DEBUG: El hechizo no hizo efecto.");
+            }
 
             for (Map.Entry<Monstruo, Integer> entry : danhos.entrySet()) {
                 Monstruo m = entry.getKey();
                 int dano = entry.getValue();
-                vista.imprimirMensaje("El hechizo " + hechizo.getNombre() +
-                        " inflige " + dano + " puntos de daño a " + m.getNombre() +
-                        ". Vida restante: " + m.getVida());
+                
+                vista.imprimirMensaje("El hechizo " + hechizoLogico.getNombre() +
+                        " inflige " + dano + " puntos de daño a " + m.getNombre() + ".");
+                
                 if (m.getVida() <= 0) {
                     vista.imprimirMensaje("¡El monstruo " + m.getNombre() + " ha sido derrotado!");
                 }
