@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.example.Modelo.ClasesJuego.Bosque;
 import com.example.Modelo.ClasesJuego.Mago;
+import com.example.Modelo.ClasesJuego.Monstruo;
 
 /**
  * Clase Vista para manejar la presentación de mensajes.
@@ -114,5 +116,30 @@ public class Vista {
         }
 
         return seleccionado;
+    }
+
+    /**
+     * Imprime el estado inicial del combate.
+     * @param magos
+     * @param bosque
+     * @param jefe
+     */
+    public void imprimirInicioCombate(List<Mago> magos, Bosque bosque, Monstruo jefe) {
+
+        String nombresMagos = magos.stream()
+                .map(Mago::getNombre)
+                .reduce((a, b) -> a + ", " + b)
+                .orElse("");
+
+        String mensaje = "\n**********************************\n" +
+                "¡Encuentro randomizado obtenido!\n" +
+                "**********************************\n\n**********************************\n" +
+                "Comienza el combate en el " + bosque.getNombre() + "\n" +
+                "Los magos " + nombresMagos + "\n" +
+                "VS\n" +
+                "El monstruo jefe " + jefe.getNombre() + " y sus lacayos\n" +
+                "**********************************";
+
+        System.out.println(mensaje);
     }
 }
