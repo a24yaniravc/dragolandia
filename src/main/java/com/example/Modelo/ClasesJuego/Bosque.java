@@ -60,39 +60,75 @@ public class Bosque {
     }
 
     // GETTERS
+    /**
+     * Devuelve el id del bosque.
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Devuelve el nombre del bosque.
+     * @return
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Devuelve el nivel de peligro del bosque.
+     * @return
+     */
     public int getNivelPeligro() {
         return nivelPeligro;
     }
 
+    /**
+     * Devuelve el monstruo jefe del bosque.
+     * @return
+     */
     public Monstruo getMonstruoJefe() {
         return monstruoJefe;
     }
 
+    /**
+     * Devuelve la lista de monstruos del bosque.
+     * @return
+     */
     public List<Monstruo> getMonstruos() {
         return monstruos;
     }
 
+    /**
+     * Devuelve el dragón asociado al bosque.
+     * @return
+     */
     public Dragon getDragon() {
         return dragon;
     }
 
     // SETTERS
+    /**
+     * Establece el nombre del bosque.
+     * @param nombre
+     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    /**
+     * Establece el nivel de peligro del bosque.
+     * @param nivelPeligro
+     */
     public void setNivelPeligro(int nivelPeligro) {
         this.nivelPeligro = nivelPeligro;
     }
 
+    /**
+     * Establece el dragón asociado al bosque.
+     * @param dragon
+     */
     public void setDragon(Dragon dragon) {
         this.dragon = dragon;
     }
@@ -122,13 +158,6 @@ public class Bosque {
         }
     }
 
-    // TO STRING
-    @Override
-    public String toString() {
-        return "Bosque [id=" + id + ", nombre=" + nombre + ", nivelPeligro=" + nivelPeligro + ", monstruoJefe="
-                + monstruoJefe + "]";
-    }
-
     // MÉTODOS
 
     /**
@@ -150,4 +179,12 @@ public class Bosque {
     public void cambiarJefe(Monstruo monstruo) {
         setMonstruoJefe(monstruo);
     }
+
+    // TO STRING
+    @Override
+    public String toString() {
+        return "Bosque [id=" + id + ", nombre=" + nombre + ", nivelPeligro=" + nivelPeligro + ", monstruoJefe="
+                + monstruoJefe + "]";
+    }
+
 }

@@ -21,7 +21,10 @@ import jakarta.persistence.EntityTransaction;
  * Clase Controlador para manejar la lógica del juego.
  */
 public class Controlador {
+    // SINGLETON
     private static Controlador instancia;
+
+    // ATRIBUTOS
     private final Modelo modelo;
     private final Vista vista;
 
@@ -44,10 +47,18 @@ public class Controlador {
     }
 
     // GETTERS
+    /**
+     * Devuelve el modelo.
+     * @return
+     */
     public Modelo getModelo() {
         return modelo;
     }
 
+    /**
+     * Devuelve la vista.
+     * @return
+     */
     public Vista getVista() {
         return vista;
     }
@@ -58,7 +69,7 @@ public class Controlador {
      */
     public void loadFromDatabase() {
         try {
-            modelo.limpiarListas();
+            modelo.limpiarListas(); // Limpiar listas antes de cargar nuevos datos
 
             modelo.getListaMagos().addAll(GestorMago.getInstancia().obtenerTodos());
             modelo.getListaDragones().addAll(GestorDragon.getInstancia().obtenerTodos());
@@ -82,6 +93,7 @@ public class Controlador {
 
         EntityTransaction tx = em.getTransaction();
 
+        // Seleccionar un bosque aleatorio
         try {
             tx.begin();
 
@@ -90,7 +102,7 @@ public class Controlador {
                     .getResultList();
 
             if (bosques.isEmpty()) {
-                throw new IllegalStateException("No hay bosques en la BD");
+                throw new IllegalStateException("No hay bosques en la BD"); // Chequeo de seguridad
             }
 
             Bosque bosque = bosques.get(
@@ -108,6 +120,9 @@ public class Controlador {
         }
     }
 
+    /**
+     * Comienza el combate.
+     */
     public void comenzarCombate() {
         MotorCombate motor = new MotorCombate(modelo, vista);
 

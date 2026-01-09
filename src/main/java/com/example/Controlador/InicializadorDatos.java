@@ -94,6 +94,7 @@ public class InicializadorDatos {
         Mago mago5 = new Mago("Ling Wei", 95, 28);
         Mago mago6 = new Mago("Frieren", 250, 60);
 
+        // Asignar hechizos a magos
         mago1.aprenderHechizo(bolaFuego);
         mago1.aprenderHechizo(agujero);
         mago1.aprenderHechizo(bolaNieve);

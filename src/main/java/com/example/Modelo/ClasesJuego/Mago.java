@@ -45,11 +45,18 @@ public class Mago {
     
     private List<Hechizo> conjuros = new ArrayList<>();
 
-    // Constructor vacío requerido por Hibernate
+    /**
+     * Constructor vacío requerido por Hibernate
+     */
     public Mago() {
     }
 
-    // Constructor con parámetros
+    /**
+     * Constructor con parámetros
+     * @param nombre
+     * @param vida
+     * @param nivelMagia
+     */
     public Mago(String nombre, int vida, int nivelMagia) {
         this.nombre = nombre;
 
@@ -64,28 +71,51 @@ public class Mago {
     }
 
     // GETTERS
-
+    /**
+     * Devuelve el ID del mago.
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Devuelve el nombre del mago.
+     * @return
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Devuelve la vida del mago.
+     * @return
+     */
     public int getVida() {
         return vida;
     }
 
+    /**
+     * Devuelve el nivel de magia del mago.
+     * @return
+     */
     public int getNivelMagia() {
         return nivelMagia;
     }
 
+    /**
+     * Devuelve la lista de conjuros del mago.
+     * @return
+     */
     public List<Hechizo> getConjuros() {
         return conjuros;
     }
 
     // SETTERS
+    /**
+     * Establece el nombre del mago.
+     * @param nombre
+     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -102,10 +132,18 @@ public class Mago {
         }
     }
 
+    /**
+     * Establece el nivel de magia del mago.
+     * @param nivelMagia
+     */
     public void setNivelMagia(int nivelMagia) {
         this.nivelMagia = nivelMagia;
     }
 
+    /**
+     * Establece la lista de conjuros del mago.
+     * @param conjuros
+     */
     public void setConjuros(List<Hechizo> conjuros) {
         this.conjuros = conjuros;
     }

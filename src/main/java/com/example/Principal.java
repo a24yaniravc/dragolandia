@@ -10,12 +10,12 @@ import com.example.Controlador.InicializadorDatos;
  * Clase principal para iniciar la aplicación.
  */
 public final class Principal {
-
+    // ATRIBUTOS
     private static final Controlador controlador = Controlador.getInstancia();
     private static final Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-
+        // Preguntar al usuario si desea cargar los datos iniciales
         controlador.getVista()
                 .imprimirMensaje("¿Desea añadir los personajes a la base de datos? (S/N)");
         String respuesta = sc.nextLine().trim().toUpperCase();
@@ -30,11 +30,12 @@ public final class Principal {
             InicializadorDatos.cargarDatosIniciales();
         }
 
+        // Cargar datos desde la base de datos y comenzar el juego
         controlador.loadFromDatabase();
         controlador.getModelo().inicializarJuego();
         controlador.comenzarCombate();
 
-        HybernateUtil.cerrarSesion();
+        HybernateUtil.cerrarSesion(); // Cerrar la sesión de Hibernate al finalizar
         sc.close();
     }
 }

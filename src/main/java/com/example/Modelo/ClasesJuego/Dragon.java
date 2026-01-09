@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
  * Clase Dragon que representa un dragón en el juego.
  */
 public class Dragon {
+    // ATRIBUTOS
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Generación automática del ID
 
@@ -48,31 +49,59 @@ public class Dragon {
     }
 
     // GETTERS
+    /**
+     * Devuelve el ID del dragón.
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Devuelve el nombre del dragón.
+     * @return
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Devuelve la intensidad del fuego del dragón.
+     * @return
+     */
     public int getIntensidadFuego() {
         return intensidadFuego;
     }
 
+    /**
+     * Devuelve la resistencia del dragón.
+     * @return
+     */
     public int getResistencia() {
         return resistencia;
     }
 
+    /**
+     * Establece el nombre del dragón.
+     * @param nombre
+     */
     // SETTERS
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    /**
+     * Establece la intensidad del fuego del dragón.
+     * @param intensidadFuego
+     */
     public void setIntensidadFuego(int intensidadFuego) {
         this.intensidadFuego = intensidadFuego;
     }
 
+    /**
+     * Establece la resistencia del dragón.
+     * @param resistencia
+     */
     public void setResistencia(int resistencia) {
         this.resistencia = resistencia;
     }

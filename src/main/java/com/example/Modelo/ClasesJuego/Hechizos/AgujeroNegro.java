@@ -1,6 +1,8 @@
 package com.example.Modelo.ClasesJuego.Hechizos;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.example.Modelo.ClasesJuego.Hechizo;
 import com.example.Modelo.ClasesJuego.Monstruo;
@@ -9,26 +11,21 @@ import com.example.Modelo.ClasesJuego.Monstruo;
  * Clase AgujeroNegro que representa el hechizo Agujero Negro.
  */
 public class AgujeroNegro extends Hechizo {
-    /**
-     * Constructor de la clase AgujeroNegro.
-     */
     public AgujeroNegro() {
         super("Agujero Negro");
     }
 
-    /**
-     * Efecto del hechizo Agujero Negro: elimina a todos los monstruos del combate.
-     */
     @Override
-    public void efecto(List<Monstruo> monstruos) {
+    public Map<Monstruo, Integer> efecto(List<Monstruo> monstruos) {
+        Map<Monstruo, Integer> daños = new HashMap<>();
         for (Monstruo mons : monstruos) {
+            int vidaAntes = mons.getVida();
             mons.setVida(0);
+            daños.put(mons, vidaAntes);
         }
+        return daños;
     }
 
-    /**
-     * Devuelve el daño del hechizo. -1 indica efecto especial (instakill).
-     */
     @Override
     public int getDanho() {
         return -1;

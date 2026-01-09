@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
  * Clase Monstruo que representa un monstruo en el juego.
  */
 public class Monstruo {
+    // ATRIBUTOS
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Generación automática del ID
     private int id;
@@ -27,7 +28,7 @@ public class Monstruo {
     @Column(nullable = false)
     private int fuerza;
     
-    public enum Tipo { ogro, troll, espectro }
+    public enum Tipo { ogro, troll, espectro } // Tipos de monstruos
     private Tipo tipo;
 
     // CONSTRUCTORES
@@ -65,27 +66,51 @@ public class Monstruo {
     
 
     // GETTERS
+    /**
+     * Devuelve el ID del monstruo.
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Devuelve el nombre del monstruo.
+     * @return
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Devuelve la vida del monstruo.
+     * @return
+     */
     public int getVida() {
         return vida;
     }
 
+    /**
+     * Devuelve la fuerza del monstruo.
+     * @return
+     */
     public int getFuerza() {
         return fuerza;
     }
 
+    /**
+     * Devuelve el tipo de monstruo.
+     * @return
+     */
     public String getTipo() {
         return tipo.name();
     }
 
     // SETTERS
+    /**
+     * Establece el nombre del monstruo.
+     * @param nombre
+     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -115,6 +140,10 @@ public class Monstruo {
         
     }
 
+    /**
+     * Establece la fuerza del monstruo.
+     * @param fuerza
+     */
     public void setFuerza(int fuerza) {
         this.fuerza = fuerza;
     }
@@ -134,5 +163,4 @@ public class Monstruo {
         return "Monstruo [id=" + id + ", nombre=" + nombre + ", vida=" + vida + ", tipo=" + tipo + ", fuerza=" + fuerza
                 + "]";
     }
-
 }

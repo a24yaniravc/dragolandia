@@ -94,7 +94,6 @@ public class Modelo {
     }
 }
 
-
     /**
      * Establece los magos del juego.
      * 

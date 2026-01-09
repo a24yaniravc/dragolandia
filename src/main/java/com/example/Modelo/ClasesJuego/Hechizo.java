@@ -2,6 +2,7 @@ package com.example.Modelo.ClasesJuego;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,7 +17,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "hechizos")
 public class Hechizo implements Serializable {
-
+    // ATRIBUTOS
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -65,12 +66,17 @@ public class Hechizo implements Serializable {
 
     // MÉTODOS
     /**
-     * Efecto del hechizo sobre una lista de monstruos.
+     * Aplica el efecto del hechizo sobre los monstruos.
+     * Devuelve un Map donde la clave es el monstruo afectado
+     * y el valor es el daño infligido.
+     * 
      * @param monstruos
+     * @return
      */
-    public void efecto(List<Monstruo> monstruos) {
-        // implementación en subclases
+    public Map<Monstruo, Integer> efecto(List<Monstruo> monstruos){
+        return Map.of();
     }
+
 
     // IMPRESCINDIBLE para contains()
     /**

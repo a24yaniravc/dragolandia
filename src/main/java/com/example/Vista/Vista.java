@@ -10,12 +10,20 @@ import com.example.Modelo.ClasesJuego.Mago;
  * Clase Vista para manejar la presentación de mensajes.
  */
 public class Vista {
+    // ATRIBUTOS
     private final Scanner scanner;
 
+    /**
+     * Constructor de la clase Vista.
+     */
     public Vista() {
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Imprime un mensaje en la consola.
+     * @param mensaje
+     */
     public void imprimirMensaje(String mensaje) {
         System.out.println(mensaje);
     }
@@ -53,8 +61,11 @@ public class Vista {
         return seleccionados;
     }
 
-    // ---------------- Métodos privados de ayuda ----------------
-
+    // MÉTODOS PRIVADOS
+    /**
+     * Pide al usuario la cantidad de magos a seleccionar.
+     * @return
+     */
     private int pedirCantidadMagos() {
         int cantidad = 0;
         boolean valido = false;
@@ -79,6 +90,13 @@ public class Vista {
         return cantidad;
     }
 
+    /**
+     * Pide al usuario que seleccione un mago por su nombre.
+     * @param mensaje
+     * @param listaMagos
+     * @param nombres
+     * @return
+     */
     private Mago pedirMagoPorNombre(String mensaje, List<Mago> listaMagos, List<String> nombres) {
         String input = "";
         Mago seleccionado = null;
