@@ -1,6 +1,7 @@
 package com.example.Modelo;
 
 import java.util.List;
+import java.util.Scanner;
 
 import com.example.Modelo.ClasesJuego.Bosque;
 import com.example.Modelo.ClasesJuego.Dragon;
@@ -24,8 +25,9 @@ public class Modelo {
     private List<Hechizo> listaHechizos = new java.util.ArrayList<>();
     private List<Dragon> listaDragones = new java.util.ArrayList<>();
 
+    // Entidades seleccionadas para el juego
     private Monstruo monstruo;
-    private List<Mago> magos = null;
+    private List<Mago> magos = new java.util.ArrayList<>();
     private Bosque bosque;
     private Dragon dragon;
     private Hechizo hechizo;
@@ -36,7 +38,15 @@ public class Modelo {
      * Constructor de la clase Modelo.
      */
     public Modelo() {
-        inicializarJuego();
+        // Inicialización de listas
+        this.listaMonstruos = new java.util.ArrayList<>();
+        this.listaMagos = new java.util.ArrayList<>();
+        this.listaBosques = new java.util.ArrayList<>();
+        this.listaHechizos = new java.util.ArrayList<>();
+        this.listaDragones = new java.util.ArrayList<>();
+
+        // Inicialización de Vista
+        this.view = new Vista(new Scanner(System.in));
     }
 
     /**
@@ -94,18 +104,34 @@ public class Modelo {
     }
 
     // GETTERS
+    /**
+     * Obtiene los magos seleccionados para el juego.
+     * @return
+     */
     public List<Mago> getMagos() {
         return magos;
     }
 
+    /**
+     * Obtiene el bosque seleccionado para el juego.
+     * @return
+     */
     public Bosque getBosque() {
         return bosque;
     }
 
+    /**
+     * Obtiene el monstruo seleccionado para el juego.
+     * @return
+     */
     public Monstruo getMonstruo() {
         return monstruo;
     }
 
+    /**
+     * Obtiene el dragón seleccionado para el juego.
+     * @return
+     */
     public Dragon getDragon() {
         return dragon;
     }

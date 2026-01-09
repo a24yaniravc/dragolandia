@@ -23,12 +23,12 @@ public class MotorCombate {
      */
     public void comenzarCombate() {
         // Validaciones iniciales
-        if (modelo.getMagos().isEmpty() || modelo.getBosque() == null) {
+        if (modelo.getListaMagos().isEmpty() || modelo.getBosque() == null) {
             vista.imprimirMensaje("Error: el juego no ha sido inicializado correctamente.");
         } else {
 
             // Preparación del combate
-            List<Mago> magos = modelo.getMagos();
+            List<Mago> magos = modelo.getListaMagos();
             Bosque bosque = modelo.getBosque();
             List<Monstruo> monstruos = bosque.getMonstruos();
 

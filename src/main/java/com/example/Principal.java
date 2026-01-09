@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.example.Controlador.Controlador;
 import com.example.Controlador.HybernateUtil;
+import com.example.Controlador.InicializadorDatos;
 
 /**
  * Clase principal para iniciar la aplicación.
@@ -17,6 +18,16 @@ public final class Principal {
 
         controlador.getVista()
                 .imprimirMensaje("¿Desea añadir los personajes a la base de datos? (S/N)");
+        String respuesta = sc.nextLine().trim().toUpperCase();
+
+        while (!respuesta.equals("S") && !respuesta.equals("N")) {
+            controlador.getVista().imprimirMensaje("Entrada no válida. Por favor, ingrese 'S' o 'N'.");
+            respuesta = sc.nextLine().toUpperCase();
+        }
+
+        if (respuesta.equals("S")) {
+            InicializadorDatos.cargarDatosIniciales();
+        }
 
         controlador.loadFromDatabase();
         controlador.getModelo().inicializarJuego();
