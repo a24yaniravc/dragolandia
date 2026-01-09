@@ -67,6 +67,7 @@ public class Modelo {
 
     /**
      * Establece la vista asociada al modelo.
+     * 
      * @param view
      */
     public void setVista(Vista view) {
@@ -74,26 +75,25 @@ public class Modelo {
     }
 
     /**
-     * Inicializa el juego seleccionando aleatoriamente un bosque y un monstruo,
-     * 
-     * @param nombreMago
+     * Inicializa el juego seleccionando el bosque, los magos y los monstruos.
      */
     public final void inicializarJuego() {
-        // Selección aleatoria de las entidades para el juego
-         if (!listaBosques.isEmpty() && !listaMonstruos.isEmpty() && view != null) {
-            int indexBosque = (int) (Math.random() * listaBosques.size());
-            this.bosque = listaBosques.get(indexBosque);
-            this.monstruoJefe = bosque.getMonstruoJefe();
+    if (bosque != null && view != null) {
 
-            // Selección de magos usando la vista
-            this.magos = view.seleccionMago(listaMagos);
-            this.monstruos = bosque.getMonstruos();
-        } else {
-            if (view != null) {
-                view.imprimirMensaje("Error: No se puede inicializar el juego. Listas vacías o vista no configurada.");
-            }
-        }
+        this.monstruoJefe = bosque.getMonstruoJefe();
+
+        this.magos = view.seleccionMago(listaMagos);
+
+        // ya es una lista normal
+        this.monstruos = bosque.getMonstruos();
+
+    } else {
+        view.imprimirMensaje(
+            "Error: No se puede inicializar el juego."
+        );
     }
+}
+
 
     /**
      * Establece los magos del juego.
@@ -107,6 +107,7 @@ public class Modelo {
     // GETTERS
     /**
      * Obtiene los magos seleccionados para el juego.
+     * 
      * @return
      */
     public List<Mago> getMagos() {
@@ -115,6 +116,7 @@ public class Modelo {
 
     /**
      * Obtiene el bosque seleccionado para el juego.
+     * 
      * @return
      */
     public Bosque getBosque() {
@@ -123,6 +125,7 @@ public class Modelo {
 
     /**
      * Obtiene el monstruo seleccionado para el juego.
+     * 
      * @return
      */
     public Monstruo getMonstruoJefe() {
@@ -131,6 +134,7 @@ public class Modelo {
 
     /**
      * Obtiene la lista de monstruos seleccionados para el juego.
+     * 
      * @return
      */
     public List<Monstruo> getMonstruos() {
@@ -139,6 +143,7 @@ public class Modelo {
 
     /**
      * Obtiene el dragón seleccionado para el juego.
+     * 
      * @return
      */
     public Dragon getDragon() {
@@ -147,6 +152,7 @@ public class Modelo {
 
     /**
      * Obtiene el hechizo seleccionado para el juego.
+     * 
      * @return
      */
     public Hechizo getHechizo() {
@@ -155,6 +161,7 @@ public class Modelo {
 
     /**
      * Obtiene la lista de monstruos disponibles en el juego.
+     * 
      * @return
      */
     public List<Monstruo> getListaMonstruos() {
@@ -163,14 +170,21 @@ public class Modelo {
 
     /**
      * Obtiene la lista de magos disponibles en el juego.
+     * 
      * @return
      */
     public List<Mago> getListaMagos() {
         return listaMagos;
     }
 
+    // SETTERS
+    public void setBosque(Bosque bosque) {
+        this.bosque = bosque;
+    }
+
     /**
      * Obtiene la lista de bosques disponibles en el juego.
+     * 
      * @return
      */
     public List<Bosque> getListaBosques() {
@@ -179,6 +193,7 @@ public class Modelo {
 
     /**
      * Obtiene la lista de hechizos disponibles en el juego.
+     * 
      * @return
      */
     public List<Hechizo> getListaHechizos() {
@@ -187,15 +202,42 @@ public class Modelo {
 
     /**
      * Obtiene la lista de dragones disponibles en el juego.
+     * 
      * @return
      */
     public List<Dragon> getListaDragones() {
         return listaDragones;
     }
 
+    // SETTERS
+    /**
+     * Establece el dragón seleccionado para el juego.
+     * @param dragon
+     */
+    public void setDragon(Dragon dragon) {
+        this.dragon = dragon;
+    }
+
+    /**
+     * Establece el hechizo seleccionado para el juego.
+     * @param hechizo
+     */
+    public void setHechizo(Hechizo hechizo) {
+        this.hechizo = hechizo;
+    }
+
+    /**
+     * Establece el monstruo seleccionado para el juego.
+     * @param monstruoJefe
+     */
+    public void setMonstruoJefe(Monstruo monstruoJefe) {
+        this.monstruoJefe = monstruoJefe;
+    }
+
     // MÉTODOS
     /**
      * Añade un hechizo a la lista de hechizos del juego.
+     * 
      * @param mago
      */
     public void addMagoToLista(Mago mago) {
@@ -222,6 +264,7 @@ public class Modelo {
 
     /**
      * Añade un hechizo a la lista de hechizos del juego.
+     * 
      * @param hechizo
      */
     public void addHechizoToLista(Hechizo hechizo) {
@@ -230,6 +273,7 @@ public class Modelo {
 
     /**
      * Añade un dragón a la lista de dragones del juego.
+     * 
      * @param dragon
      */
     public void addDragonToLista(Dragon dragon) {

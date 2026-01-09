@@ -12,183 +12,164 @@ public class MotorCombate {
     private final Modelo modelo;
     private final Vista vista;
 
-    /**
-     * Constructor del Motor de Combate.
-     * @param modelo
-     * @param vista
-     */
     public MotorCombate(Modelo modelo, Vista vista) {
         this.modelo = modelo;
         this.vista = vista;
     }
 
-     /**
-     * Inicia el combate entre el mago y el monstruo jefe del bosque.
-     */
     public void comenzarCombate() {
-        // Validaciones iniciales
-        if (modelo.getMagos().isEmpty() || modelo.getBosque() == null) {
+
+        if (!estadoInicialValido()) {
             vista.imprimirMensaje("Error: el juego no ha sido inicializado correctamente.");
-        } else {
+            return;
+        }
 
-            // Preparación del combate
-            List<Mago> magos = modelo.getMagos();
-            Bosque bosque = modelo.getBosque();
+        List<Mago> magos = modelo.getMagos();
+        List<Monstruo> monstruos = modelo.getMonstruos();
+        Bosque bosque = modelo.getBosque();
 
-            List<Monstruo> monstruos = modelo.getMonstruos();
-            Monstruo monstruoJefe = modelo.getMonstruoJefe();
+        Monstruo monstruoJefe = modelo.getMonstruoJefe();
 
-            // Validación del monstruo jefe
-            if (monstruoJefe != null) {
-                int turno = 1;
-                boolean combateTerminado = false;
+        imprimirInicioCombate(magos, bosque, monstruoJefe);
 
-                vista.imprimirMensaje("");
-                vista.imprimirMensaje("**********************************");
-                vista.imprimirMensaje("¡Encuentro randomizado obtenido!");
-                vista.imprimirMensaje("**********************************");
+        int turno = 1;
 
-                vista.imprimirMensaje("\n**********************************");
-                vista.imprimirMensaje(
-                        "Comienza el combate en el " + bosque.getNombre() +
-                                "\nLos magos " + magos.stream()
-                                        .map(Mago::getNombre)
-                                        .reduce((a, b) -> a + ", " + b)
-                                        .orElse("")
-                                +
-                                "\nVS\nEl monstruo Jefe " + monstruoJefe.getNombre() + " y sus lacayos!");
-                vista.imprimirMensaje("**********************************\n");
+        while (true) {
 
-                // Bucle principal del combate
-                while (!combateTerminado) {
+            vista.imprimirMensaje("----------------------------------\nTurno: " + turno);
 
-                    vista.imprimirMensaje("Turno: " + turno);
+            List<Monstruo> monstruosVivos = obtenerMonstruosVivos(monstruos);
+            List<Mago> magosVivos = obtenerMagosVivos(magos);
 
-                    // Recalcular monstruos vivos
-                    /*List<Monstruo> monstruosVivos = monstruos.stream()
-                            .filter(m -> m.getVida() > 0)
-                            .toList();
+            if (monstruosVivos.isEmpty()) {
+                victoriaMagos(monstruoJefe);
+                break;
+            }
 
-                    if (monstruosVivos.isEmpty()) {
-                        vista.imprimirMensaje("¡Todos los monstruos han sido derrotados!");
-                        break;
-                    }
+            if (magosVivos.isEmpty()) {
+                victoriaMonstruos(monstruoJefe);
+                break;
+            }
 
-                    // Si el jefe ha muerto, elegir otro
-                    if (monstruoJefe.getVida() <= 0) {
-                        int indexNuevoJefe = (int) (Math.random() * monstruosVivos.size());
-                        monstruoJefe = monstruosVivos.get(indexNuevoJefe);
-                        vista.imprimirMensaje(
-                                "¡El nuevo monstruo jefe es " + monstruoJefe.getNombre() + "!");
-                    }*/
+            // Cambiar jefe si ha muerto
+            if (monstruoJefe.getVida() <= 0) {
+                monstruoJefe = elegirNuevoJefe(monstruosVivos);
+                modelo.setMonstruoJefe(monstruoJefe);
+            }
 
-                    // Turno de los magos
-                    for (Mago mago : magos) {
-                        if (mago.getVida() <= 0 || monstruoJefe.getVida() <= 0) {
-                            continue;
-                        }
+            turnoMagos(magosVivos, monstruosVivos);
+            turnoMonstruos(monstruosVivos, magosVivos);
+            turnoDragon(bosque, monstruoJefe);
 
-                        Hechizo hechizo = modelo.getListaHechizos()
-                                .get((int) (Math.random() * modelo.getListaHechizos().size()));
+            imprimirEstado(magos, monstruos, monstruoJefe, bosque);
 
-                        mago.lanzarHechizo(monstruos, hechizo);
-                        vista.imprimirMensaje(
-                                "El mago " + mago.getNombre() +
-                                        " lanza el hechizo " + hechizo.getNombre() +
-                                        " contra los monstruos.");
-                    }
+            turno++;
+        }
+    }
 
-                    // Turno de los monstruos
-                    for (Monstruo monstruo : monstruos) {
-                        if (monstruo.getVida() > 0) {
+    /* ===================== MÉTODOS AUXILIARES ===================== */
 
-                            List<Mago> magosVivos = magos.stream()
-                                    .filter(m -> m.getVida() > 0)
-                                    .toList();
+    private boolean estadoInicialValido() {
+        return modelo.getBosque() != null && !modelo.getMagos().isEmpty();
+    }
 
-                            if (magosVivos.isEmpty()) {
-                                combateTerminado = true;
-                                break;
-                            }
+    private List<Monstruo> obtenerMonstruosVivos(List<Monstruo> monstruos) {
+        return monstruos.stream().filter(m -> m.getVida() > 0).toList();
+    }
 
-                            Mago magoAtacado = magosVivos
-                                    .get((int) (Math.random() * magosVivos.size()));
+    private List<Mago> obtenerMagosVivos(List<Mago> magos) {
+        return magos.stream().filter(m -> m.getVida() > 0).toList();
+    }
 
-                            monstruo.atacar(magoAtacado);
+    private Monstruo elegirNuevoJefe(List<Monstruo> monstruosVivos) {
+        Monstruo nuevoJefe = monstruosVivos
+                .get((int) (Math.random() * monstruosVivos.size()));
 
-                            if (magoAtacado.getVida() <= 0) {
-                                vista.imprimirMensaje(
-                                        "El mago " + magoAtacado.getNombre() + " ha sido derrotado.");
-                            }
-                        }
-                    }
+        vista.imprimirMensaje("¡El nuevo monstruo jefe es " + nuevoJefe.getNombre() + "!");
+        return nuevoJefe;
+    }
 
-                    // Turno del dragón (si existe)
-                    if (bosque.getDragon() != null && bosque.getDragon().getResistencia() > 0) {
-                        bosque.getDragon().exhalar(monstruoJefe);
-                    }
+    private void turnoMagos(List<Mago> magos, List<Monstruo> monstruos) {
+        for (Mago mago : magos) {
+            Hechizo hechizo = modelo.getListaHechizos()
+                    .get((int) (Math.random() * modelo.getListaHechizos().size()));
 
-                    // Mostrar estado de los magos
-                    for (Mago mago : magos) {
-                        if (mago.getVida() <= 0) {
-                            vista.imprimirMensaje(
-                                    "Mago: " + mago.getNombre() + " ha sido derrotado.");
-                        } else {
-                            vista.imprimirMensaje(
-                                    "Mago: " + mago.getNombre() + " - Vida: " + mago.getVida());
-                        }
-                    }
+            mago.lanzarHechizo(monstruos, hechizo);
 
-                    // Estado del monstruo jefe
-                    vista.imprimirMensaje(
-                            "Monstruo Jefe: " + monstruoJefe.getNombre() +
-                                    " - Vida: " + monstruoJefe.getVida());
+            vista.imprimirMensaje(
+                    "El mago " + mago.getNombre() +
+                            " lanza " + hechizo.getNombre());
+        }
+    }
 
-                    // Estado del resto de monstruos
-                    for (Monstruo monstruo : monstruos) {
-                        if (monstruo != monstruoJefe) {
-                            if (monstruo.getVida() <= 0) {
-                                vista.imprimirMensaje(
-                                        "Monstruo: " + monstruo.getNombre() + " ha sido derrotado.");
-                            } else {
-                                vista.imprimirMensaje(
-                                        "Monstruo: " + monstruo.getNombre() +
-                                                " - Vida: " + monstruo.getVida());
-                            }
-                        }
-                    }
+    private void turnoMonstruos(List<Monstruo> monstruos, List<Mago> magos) {
+        for (Monstruo monstruo : monstruos) {
+            Mago objetivo = magos.get((int) (Math.random() * magos.size()));
+            monstruo.atacar(objetivo);
 
-                    // Estado del dragón
-                    if (bosque.getDragon() != null) {
-                        if (bosque.getDragon().getResistencia() <= 0) {
-                            vista.imprimirMensaje(
-                                    "El dragón " + bosque.getDragon().getNombre() + " ha sido derrotado.");
-                        } else {
-                            vista.imprimirMensaje(
-                                    "Dragón: " + bosque.getDragon().getNombre() +
-                                            " - Resistencia: " + bosque.getDragon().getResistencia());
-                        }
-                    }
-
-                    vista.imprimirMensaje("----------------------------------");
-                    turno++;
-
-                    // Condiciones de fin
-                    if (monstruos.stream().allMatch(m -> m.getVida() <= 0)) {
-                        vista.imprimirMensaje(
-                                "¡Los magos han derrotado al monstruo jefe " +
-                                        monstruoJefe.getNombre() + " y a sus lacayos!");
-                        combateTerminado = true;
-                    } else if (magos.stream().allMatch(m -> m.getVida() <= 0)) {
-                        vista.imprimirMensaje(
-                                "¡El monstruo jefe " + monstruoJefe.getNombre() +
-                                        " ha derrotado a todos los magos!");
-                        combateTerminado = true;
-                    }
-                }
-            } else {
-                vista.imprimirMensaje("Error: el bosque no tiene monstruo jefe.");
+            if (objetivo.getVida() <= 0) {
+                vista.imprimirMensaje("El mago " + objetivo.getNombre() + " ha sido derrotado.");
             }
         }
+    }
+
+    private void turnoDragon(Bosque bosque, Monstruo jefe) {
+        if (bosque.getDragon() != null && bosque.getDragon().getResistencia() > 0) {
+            bosque.getDragon().exhalar(jefe);
+        }
+    }
+
+    private void imprimirInicioCombate(List<Mago> magos, Bosque bosque, Monstruo jefe) {
+
+        String nombresMagos = magos.stream()
+                .map(Mago::getNombre)
+                .reduce((a, b) -> a + ", " + b)
+                .orElse("");
+
+        String mensaje = "\n**********************************\n" +
+                "¡Encuentro randomizado obtenido!\n" +
+                "**********************************\n\n**********************************\n" +
+                "Comienza el combate en el " + bosque.getNombre() + "\n" +
+                "Los magos " + nombresMagos + "\n" +
+                "VS\n" +
+                "El monstruo jefe " + jefe.getNombre() + " y sus lacayos\n" +
+                "**********************************\n";
+
+        vista.imprimirMensaje(mensaje);
+    }
+
+    private void imprimirEstado(List<Mago> magos, List<Monstruo> monstruos, Monstruo jefe, Bosque bosque) {
+
+        vista.imprimirMensaje("\n--- Estado al final del turno ---");
+
+        magos.forEach(m -> vista.imprimirMensaje(
+                "Mago: " + m.getNombre() + " - Vida: " + m.getVida()));
+
+        vista.imprimirMensaje(
+                "Monstruo Jefe: " + jefe.getNombre() + " - Vida: " + jefe.getVida());
+
+        monstruos.stream()
+                .filter(m -> m != jefe)
+                .forEach(m -> vista.imprimirMensaje(
+                        "Monstruo: " + m.getNombre() + " - Vida: " + m.getVida()));
+
+        if (bosque.getDragon() != null) {
+            vista.imprimirMensaje(
+                    "Dragón: " + bosque.getDragon().getNombre() +
+                            " - Resistencia: " + bosque.getDragon().getResistencia());
+        }
+
+        vista.imprimirMensaje("----------------------------------");
+    }
+
+    private void victoriaMagos(Monstruo jefe) {
+        vista.imprimirMensaje(
+                "¡Los magos han derrotado al monstruo jefe " + jefe.getNombre() + "!");
+    }
+
+    private void victoriaMonstruos(Monstruo jefe) {
+        vista.imprimirMensaje(
+                "¡El monstruo jefe " + jefe.getNombre() +
+                        " ha derrotado a todos los magos!");
     }
 }
