@@ -66,6 +66,11 @@ public class Hechizo implements Serializable {
     }
 
     // IMPRESCINDIBLE para contains()
+    /**
+     * Compara este hechizo con otro objeto.
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -74,11 +79,19 @@ public class Hechizo implements Serializable {
         return nombre.equals(hechizo.nombre);
     }
 
+    /**
+     * Genera el código hash del hechizo.
+     * @return
+     */
     @Override
     public int hashCode() {
         return nombre.hashCode();
     }
 
+    /**
+     * Representación en cadena del hechizo.
+     * @return
+     */
     @Override
     public String toString() {
         return nombre;
