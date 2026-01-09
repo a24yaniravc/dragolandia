@@ -28,7 +28,14 @@ public class Rayo extends Hechizo {
         int random = (int) (Math.random() * monstruos.size());
     
         Monstruo mons = monstruos.get(random);
-        mons.setVida(mons.getVida() - danio);
+        mons.setVida(Math.max(0, mons.getVida() - danio));
     }
-    
+
+    /**
+     * Devuelve el daño del hechizo por monstruo.
+     */
+    @Override
+    public int getDanho() {
+        return 25;
+    }
 }

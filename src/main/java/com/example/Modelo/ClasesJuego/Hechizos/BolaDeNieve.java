@@ -15,7 +15,7 @@ public class BolaDeNieve extends Hechizo {
     public BolaDeNieve() {
         super("Bola de Nieve");
     }
- 
+
     /**
      * Efecto del hechizo Bola de Nieve: elimina instantáneamente a un monstruo aleatorio.
      */
@@ -24,7 +24,15 @@ public class BolaDeNieve extends Hechizo {
         // Victima aleatoria
         int random = (int) (Math.random() * monstruos.size());
     
-        com.example.Modelo.ClasesJuego.Monstruo mons = monstruos.get(random);
-        mons.setVida(mons.getVida() - mons.getVida()); // INSTAKILL
+        Monstruo mons = monstruos.get(random);
+        mons.setVida(0); // INSTAKILL
+    }
+
+    /**
+     * Devuelve el daño del hechizo. -1 indica efecto especial (instakill).
+     */
+    @Override
+    public int getDanho() {
+        return -1;
     }
 }

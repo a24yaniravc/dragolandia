@@ -30,7 +30,15 @@ public class BolaDeFuego extends Hechizo {
         // Victimas aleatorias
         for (int i = 0; i < afectados; i++) {
             Monstruo mons = monstruos.get((int) (Math.random() * monstruos.size()));
-            mons.setVida(mons.getVida() - danio);
+            mons.setVida(Math.max(0, mons.getVida() - danio));
         }
+    }
+
+    /**
+     * Devuelve el daño del hechizo por monstruo.
+     */
+    @Override
+    public int getDanho() {
+        return 50;
     }
 }

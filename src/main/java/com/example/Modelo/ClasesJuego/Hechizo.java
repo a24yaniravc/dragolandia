@@ -51,6 +51,13 @@ public class Hechizo implements Serializable {
     public String getNombre() { return nombre; }
 
     /**
+     * Devuelve el daño que hace este hechizo por monstruo.
+     */
+    public int getDanho() {
+        return 0;
+    }
+
+    /**
      * Establece el nombre del hechizo.
      * @param nombre
      */

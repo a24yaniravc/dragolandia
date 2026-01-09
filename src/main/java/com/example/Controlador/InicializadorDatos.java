@@ -32,9 +32,14 @@ public class InicializadorDatos {
      */
     public static void cargarDatosIniciales() {
 
-        // DRAGÓN
+        // DRAGONES
         Dragon dragon = new Dragon("Draco", 200, 50);
+        Dragon dragon2 = new Dragon("Smaug", 300, 80);
+        Dragon dragon3 = new Dragon("Toothless", 150, 40);
+        
         GestorDragon.getInstancia().insertarDragon(dragon);
+        GestorDragon.getInstancia().insertarDragon(dragon2);
+        GestorDragon.getInstancia().insertarDragon(dragon3);
 
         // MONSTRUOS
         Monstruo m1 = new Monstruo("Casper", 150, "espectro", 25);
@@ -54,10 +59,10 @@ public class InicializadorDatos {
 
         // BOSQUES
         Bosque b1 = new Bosque("Bosque maldito", 1,
-                new ArrayList<>(List.of(m5, m2, m3)), m1, null);
+                new ArrayList<>(List.of(m5, m2, m3)), m1, dragon2);
 
         Bosque b2 = new Bosque("Selva oscura", 2,
-                new ArrayList<>(List.of(m4, m6)), m2, null);
+                new ArrayList<>(List.of(m4, m6)), m2, dragon3);
 
         Bosque b3 = new Bosque("Pantano tenebroso", 5,
                 new ArrayList<>(List.of(m1, m5, m6, m2)), m3, dragon);
@@ -82,7 +87,7 @@ public class InicializadorDatos {
         gh.insertarHechizo(agujero);
 
         // MAGOS
-        Mago mago1 = new Mago("Patosaurio", 500, 100);
+        Mago mago1 = new Mago("Patosaurio", 4000, 100);
         Mago mago2 = new Mago("Fenixdor", 120, 40);
         Mago mago3 = new Mago("Lunargenta", 90, 25);
         Mago mago4 = new Mago("Gandalf", 110, 35);

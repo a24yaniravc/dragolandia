@@ -25,4 +25,12 @@ public class AgujeroNegro extends Hechizo {
             mons.setVida(0);
         }
     }
+
+    /**
+     * Devuelve el daño del hechizo. -1 indica efecto especial (instakill).
+     */
+    @Override
+    public int getDanho() {
+        return -1;
+    }
 }
