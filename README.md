@@ -249,7 +249,7 @@ MAGO }o--o{ HECHIZO : "aprende"
 ```
 
 ## Fichero Pom
-
+El fichero Pom contiene las dependencias Hibernate, MySQL y Jakarta necesarias para la Base de Datos. Tambien incluye junit con jacoco para la creación de tests y javax para el uso de funcionalidades SQL además de otras funcionalidades avanzadas.
 
 ## Ampliación
 Mejoras o cambios posibles:
