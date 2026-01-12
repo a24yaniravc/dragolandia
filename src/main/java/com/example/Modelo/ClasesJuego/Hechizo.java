@@ -1,4 +1,4 @@
-package com.example.Modelo.ClasesJuego;
+package com.example.modelo.clasesJuego;
 
 import java.io.Serializable;
 import java.util.List;

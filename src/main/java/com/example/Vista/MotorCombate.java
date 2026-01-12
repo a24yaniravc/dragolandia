@@ -1,19 +1,19 @@
-package com.example.Modelo;
+package com.example.vista;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.example.Modelo.ClasesJuego.Bosque;
-import com.example.Modelo.ClasesJuego.Hechizo;
-import com.example.Modelo.ClasesJuego.Mago;
-import com.example.Modelo.ClasesJuego.Monstruo;
-import com.example.Modelo.ClasesJuego.Hechizos.AgujeroNegro;
-import com.example.Modelo.ClasesJuego.Hechizos.BolaDeFuego;
-import com.example.Modelo.ClasesJuego.Hechizos.BolaDeNieve;
-import com.example.Modelo.ClasesJuego.Hechizos.Rayo;
-import com.example.Modelo.ClasesJuego.Hechizos.RisaDeTasha;
-import com.example.Vista.Vista;
+import com.example.modelo.Modelo;
+import com.example.modelo.clasesJuego.Bosque;
+import com.example.modelo.clasesJuego.Hechizo;
+import com.example.modelo.clasesJuego.Mago;
+import com.example.modelo.clasesJuego.Monstruo;
+import com.example.modelo.clasesJuego.Hechizos.AgujeroNegro;
+import com.example.modelo.clasesJuego.Hechizos.BolaDeFuego;
+import com.example.modelo.clasesJuego.Hechizos.BolaDeNieve;
+import com.example.modelo.clasesJuego.Hechizos.Rayo;
+import com.example.modelo.clasesJuego.Hechizos.RisaDeTasha;
 
 /**
  * Clase MotorCombate que gestiona el flujo del combate entre magos y monstruos.

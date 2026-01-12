@@ -1,9 +1,9 @@
-package com.example.Controlador.GestorTablas;
+package com.example.controlador.gestorTablas;
 
 import java.util.List;
 
-import com.example.Controlador.ControladorSesion;
-import com.example.Modelo.ClasesJuego.Mago;
+import com.example.controlador.ControladorSesion;
+import com.example.modelo.clasesJuego.Mago;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;

@@ -1,18 +1,18 @@
-package com.example.Controlador;
+package com.example.controlador;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.Controlador.GestorTablas.GestorBosque;
-import com.example.Controlador.GestorTablas.GestorDragon;
-import com.example.Controlador.GestorTablas.GestorHechizo;
-import com.example.Controlador.GestorTablas.GestorMago;
-import com.example.Controlador.GestorTablas.GestorMonstruo;
-import com.example.Modelo.Modelo;
-import com.example.Modelo.MotorCombate;
-import com.example.Modelo.ClasesJuego.Bosque;
-import com.example.Modelo.ClasesJuego.Monstruo;
-import com.example.Vista.Vista;
+import com.example.controlador.gestorTablas.GestorBosque;
+import com.example.controlador.gestorTablas.GestorDragon;
+import com.example.controlador.gestorTablas.GestorHechizo;
+import com.example.controlador.gestorTablas.GestorMago;
+import com.example.controlador.gestorTablas.GestorMonstruo;
+import com.example.modelo.Modelo;
+import com.example.modelo.clasesJuego.Bosque;
+import com.example.modelo.clasesJuego.Monstruo;
+import com.example.vista.MotorCombate;
+import com.example.vista.Vista;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;

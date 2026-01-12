@@ -1,4 +1,4 @@
-package com.example.Modelo.ClasesJuego;
+package com.example.modelo.clasesJuego;
 import java.util.ArrayList;
 import java.util.List;
 

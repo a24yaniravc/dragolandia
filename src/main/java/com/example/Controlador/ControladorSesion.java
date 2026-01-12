@@ -1,4 +1,4 @@
-package com.example.Controlador;
+package com.example.controlador;
 
 /**
  * Clase ControladorSesion para manejar la sesión de Hibernate.

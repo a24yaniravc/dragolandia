@@ -242,21 +242,14 @@ HECHIZO {
     string nombre
 }
 
-MAGOS_HECHIZOS {
-    int mago_id FK
-    int hechizo_id FK
-}
-
-BOSQUE_MONSTRUO {
-    int bosque_id FK
-    int monstruo_id FK
-}
-
 BOSQUE ||--|| MONSTRUO : "tiene jefe"
 BOSQUE ||--o{ MONSTRUO : "contiene"
 BOSQUE ||--|| DRAGON : "tiene"
 MAGO }o--o{ HECHIZO : "aprende"
 ```
+
+## Fichero Pom
+
 
 ## Ampliación
 Mejoras o cambios posibles:

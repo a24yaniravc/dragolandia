@@ -1,11 +1,11 @@
-package com.example.Modelo.ClasesJuego.Hechizos;
+package com.example.modelo.clasesJuego.Hechizos;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.example.Modelo.ClasesJuego.Hechizo;
-import com.example.Modelo.ClasesJuego.Monstruo;
+import com.example.modelo.clasesJuego.Hechizo;
+import com.example.modelo.clasesJuego.Monstruo;
 
 /**
  * Clase AgujeroNegro que representa el hechizo Agujero Negro.

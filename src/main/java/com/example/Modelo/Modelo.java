@@ -1,13 +1,13 @@
-package com.example.Modelo;
+package com.example.modelo;
 
 import java.util.List;
 
-import com.example.Modelo.ClasesJuego.Bosque;
-import com.example.Modelo.ClasesJuego.Dragon;
-import com.example.Modelo.ClasesJuego.Hechizo;
-import com.example.Modelo.ClasesJuego.Mago;
-import com.example.Modelo.ClasesJuego.Monstruo;
-import com.example.Vista.Vista;
+import com.example.modelo.clasesJuego.Bosque;
+import com.example.modelo.clasesJuego.Dragon;
+import com.example.modelo.clasesJuego.Hechizo;
+import com.example.modelo.clasesJuego.Mago;
+import com.example.modelo.clasesJuego.Monstruo;
+import com.example.vista.Vista;
 
 /**
  * Clase Modelo que representa el modelo del juego.

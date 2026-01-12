@@ -2,9 +2,9 @@ package com.example;
 
 import java.util.Scanner;
 
-import com.example.Controlador.Controlador;
-import com.example.Controlador.HybernateUtil;
-import com.example.Controlador.InicializadorDatos;
+import com.example.controlador.Controlador;
+import com.example.controlador.HybernateUtil;
+import com.example.controlador.InicializadorDatos;
 
 /**
  * Clase principal para iniciar la aplicación.

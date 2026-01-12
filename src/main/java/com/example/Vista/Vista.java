@@ -1,12 +1,12 @@
-package com.example.Vista;
+package com.example.vista;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.example.Modelo.ClasesJuego.Bosque;
-import com.example.Modelo.ClasesJuego.Mago;
-import com.example.Modelo.ClasesJuego.Monstruo;
+import com.example.modelo.clasesJuego.Bosque;
+import com.example.modelo.clasesJuego.Mago;
+import com.example.modelo.clasesJuego.Monstruo;
 
 /**
  * Clase Vista para manejar la presentación de mensajes.

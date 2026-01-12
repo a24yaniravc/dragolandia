@@ -1,4 +1,4 @@
-package com.example.Modelo.ClasesJuego.Hechizos;
+package com.example.modelo.clasesJuego.Hechizos;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.example.Modelo.ClasesJuego.Hechizo;
-import com.example.Modelo.ClasesJuego.Monstruo;
+import com.example.modelo.clasesJuego.Hechizo;
+import com.example.modelo.clasesJuego.Monstruo;
 
 /**
  * Clase que representa el hechizo Bola de Fuego.

@@ -1,10 +1,10 @@
-package com.example.Controlador;
+package com.example.controlador;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.Controlador.GestorTablas.*;
-import com.example.Modelo.ClasesJuego.*;
+import com.example.controlador.gestorTablas.*;
+import com.example.modelo.clasesJuego.*;
 
 /**
  * Clase para inicializar los datos de la aplicación.

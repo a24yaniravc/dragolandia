@@ -1,4 +1,4 @@
-package com.example.Modelo.ClasesJuego;
+package com.example.modelo.clasesJuego;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
