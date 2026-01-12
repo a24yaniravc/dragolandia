@@ -9,11 +9,11 @@ import com.example.modelo.clasesJuego.Bosque;
 import com.example.modelo.clasesJuego.Hechizo;
 import com.example.modelo.clasesJuego.Mago;
 import com.example.modelo.clasesJuego.Monstruo;
-import com.example.modelo.clasesJuego.Hechizos.AgujeroNegro;
-import com.example.modelo.clasesJuego.Hechizos.BolaDeFuego;
-import com.example.modelo.clasesJuego.Hechizos.BolaDeNieve;
-import com.example.modelo.clasesJuego.Hechizos.Rayo;
-import com.example.modelo.clasesJuego.Hechizos.RisaDeTasha;
+import com.example.modelo.clasesJuego.hechizos.AgujeroNegro;
+import com.example.modelo.clasesJuego.hechizos.BolaDeFuego;
+import com.example.modelo.clasesJuego.hechizos.BolaDeNieve;
+import com.example.modelo.clasesJuego.hechizos.Rayo;
+import com.example.modelo.clasesJuego.hechizos.RisaDeTasha;
 
 /**
  * Clase MotorCombate que gestiona el flujo del combate entre magos y monstruos.

@@ -1,4 +1,4 @@
-package com.example.modelo.clasesJuego.Hechizos;
+package com.example.modelo.clasesJuego.hechizos;
 
 import java.util.HashMap;
 import java.util.List;
