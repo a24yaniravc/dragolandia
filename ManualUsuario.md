@@ -10,6 +10,7 @@ Este documento trata de explicar cómo utilizar este programa. Además de guiar 
 3. Partida
 
 ## 1. Introducción
+Esta aplicación consiste en un juego automatizado que enfrenta a magos y dragones contra monstruos. Los magos y dragones pretenden mantener la paz en el bosque, mientras que los monstruos pretenden apoderarse de él. 
 
 ## 2. Funcionalidades
 Este apartado mostrará las funcionalidades de la aplicación.
