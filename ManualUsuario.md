@@ -64,10 +64,10 @@ El último turno es del dragón, que siempre atacará al monstruo jefe. Este dra
 
 Finalmente, se mostrará el estado actual del juego. Aquí, se verá la vida de los participantes.
 
-![Estado](image.png)
+![Estado](img/image-8.png)
 
 A medida que avanza la partida, se irán imprimiendo los diversos turnos junto con los ataques y datos que los conforman. Solo cuando todos los monstruos hayan muerto o nuestros héroes caigan derrotados que termina la partida.
 
 Saber el ganador será sencillo pues un texto indicandolo será lo último en imprimirse.
 
-![Victoria de los magos](image-1.png)
+![Victoria de los magos](img/image-9.png)
