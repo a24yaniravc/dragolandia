@@ -5,8 +5,9 @@ Este documento trata de explicar cómo utilizar este programa. Además de guiar 
 Índice del manual de usuario
 1. Introducción
 2. Funcionalidades
-   1. Selección de Magos
-   2. Juego automático
+   1. Inicio
+   2. Selección de Magos
+   3. Juego automático
 3. Partida
 
 ## 1. Introducción
