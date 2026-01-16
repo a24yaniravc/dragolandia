@@ -252,8 +252,10 @@ MAGO }o--o{ HECHIZO : "aprende"
 El fichero Pom contiene las dependencias Hibernate, MySQL y Jakarta necesarias para la Base de Datos. Tambien incluye junit con jacoco para la creación de tests y javax para el uso de funcionalidades SQL además de otras funcionalidades avanzadas.
 
 ## Manual de usuario
+Manual que explica el funcionamiento de la aplicación: [Ir al manual](ManualUsuario.md)
 
-[Ir al manual](ManualUsuario.md)
+## Tablas creadas en la BD
+Imágenes de la BD creada al ejecutar la inserción de datos: [Ir a tablas](VivelCouso_Yanira_AD-UD3-AT-06-1.pdf)
 
 ## Ampliación
 Mejoras o cambios posibles:
